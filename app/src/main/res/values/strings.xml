@@ -17,6 +17,8 @@
     <string name="escoamento">Escoamento seção bruta</string>
     <string name="ruptura">Ruptura seção líquida</string>
     <string name="verificar">Verificar</string>
+    <string name="warning_preencher">Preencha todos os dados solicitados!</string>
+    <string name="warning_selecionar">Nenhum perfil selecionado.</string>
     <string name="sc_website">steelcheck.net</string>
     <string name="sc_criador1">Luiz H. A. Neiva\nMestre em Engenharia Civil.\n\nDoutorando em Engenharia Civil, na área de concentração de construção metálica, pela Universidade Federal de Ouro Preto. Possui mestrado em Engenharia Civil, na área de concentração de construção metálica, pela Universidade Federal de Ouro Preto (2017) e graduação em Engenharia Civil pela Universidade Federal da Bahia (UFBA), com período sanduíche pela Universidade de Coimbra (09/2012 - 07/2013).</string>
     <string name="sc_criador2">Guilherme F. Rocha\n\nGraduando em Ciência da Computação pela Universidade Federal de Ouro Preto.</string>

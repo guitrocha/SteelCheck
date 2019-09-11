@@ -248,11 +248,11 @@ public class VTracaoActivity extends AppCompatActivity
                                     || Lx_box.getText().toString().isEmpty() || Ly_box.getText().toString().isEmpty()
                                     || tipo_analise.getCheckedRadioButtonId() == -1)
                             {
-                                Toast.makeText(VTracaoActivity.this, "Preencha todos os dados solicitados!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(VTracaoActivity.this, R.string.warning_preencher, Toast.LENGTH_SHORT).show();
                             }
                             else if(perfil_selected_pos == 0)
                             {
-                                Toast.makeText(VTracaoActivity.this, "Nenhum perfil selecionado.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(VTracaoActivity.this, R.string.warning_selecionar, Toast.LENGTH_SHORT).show();
                             }
                             else
                             {   DatabaseAccess database = DatabaseAccess.getInstance(getApplicationContext());
