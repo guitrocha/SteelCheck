@@ -1,0 +1,120 @@
+<resources>
+    <string name="app_name">Steel Check</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="verificacao_sc">Verificação</string>
+    <string name="dimensionamento_sc">Dimensionamento</string>
+    <string name="verificacao_menu">Verificação de Perfis Metálicos</string>
+    <string name="dimens_menu">Dimensionamento de Perfis Metálicos</string>
+    <string name="tracao_sc">TRAÇÃO</string>
+    <string name="ntsd">Nt,Sd (kN):</string>
+    <string name="fy">ƒy (MPa):</string>
+    <string name="lx">Lx (cm):</string>
+    <string name="ly">Ly (cm):</string>
+    <string name="escoamento">Escoamento seção bruta</string>
+    <string name="ruptura">Ruptura seção líquida</string>
+    <string name="verificar">Verificar</string>
+    <string name="sc_website">steelcheck.net</string>
+    <string name="sc_criador1">Luiz H. A. Neiva\nMestre em Engenharia Civil.\n\nDoutorando em Engenharia Civil, na área de concentração de construção metálica, pela Universidade Federal de Ouro Preto. Possui mestrado em Engenharia Civil, na área de concentração de construção metálica, pela Universidade Federal de Ouro Preto (2017) e graduação em Engenharia Civil pela Universidade Federal da Bahia (UFBA), com período sanduíche pela Universidade de Coimbra (09/2012 - 07/2013).</string>
+    <string name="sc_criador2">Guilherme F. Rocha\n\nGraduando em Ciência da Computação pela Universidade Federal de Ouro Preto.</string>
+
+
+    <string-array name="secao_perfil">
+        <item>Escolha seção</item>
+        <item>Laminado W</item>
+    </string-array>
+    <string-array name="laminado_perfis">
+        <item>Escolha perfil</item>
+        <item>W 150 x 13.0</item>
+        <item>W 150 x 18.0</item>
+        <item>W 150 x 22.5 (H)</item>
+        <item>W 150 x 24.0</item>
+        <item>W 150 x 29.8 (H)</item>
+        <item>W 150 x 37.1 (H)</item>
+        <item>W 200 x 15.0</item>
+        <item>W 200 x 19.3</item>
+        <item>W 200 x 22.5</item>
+        <item>W 200 x 26.6</item>
+        <item>W 200 x 31.3</item>
+        <item>W 200 x 35.9 (H)</item>
+        <item>W 200 x 41.7 (H)</item>
+        <item>W 200 x 46.1 (H)</item>
+        <item>W 200 x 52.0 (H)</item>
+        <item>HP 200 x 53.0 (H)</item>
+        <item>W 200 x 59.0 (H)</item>
+        <item>W 200 x 71.0 (H)</item>
+        <item>W 200 x 86.0 (H)</item>
+        <item>W 250 x 17.9</item>
+        <item>W 250 x 22.3</item>
+        <item>W 250 x 25.3</item>
+        <item>W 250 x 28.4</item>
+        <item>W 250 x 32.7</item>
+        <item>W 250 x 38.5</item>
+        <item>W 250 x 44.8</item>
+        <item>HP 250 x 62.0 (H)</item>
+        <item>W 250 x 73.0 (H)</item>
+        <item>W 250 x 80.0 (H)</item>
+        <item>HP 250 x 85.0 (H)</item>
+        <item>W 250 x 89.0 (H)</item>
+        <item>W 250 x 101.0 (H)</item>
+        <item>W 250 x 115.0 (H)</item>
+        <item>W 310 x 21.0</item>
+        <item>W 310 x 23.8</item>
+        <item>W 310 x 28.3</item>
+        <item>W 310 x 32.7</item>
+        <item>W 310 x 38.7</item>
+        <item>W 310 x 44.5</item>
+        <item>W 310 x 52.0</item>
+        <item>HP 310 x 79.0 (H)</item>
+        <item>HP 310 x 93.0 (H)</item>
+        <item>W 310 x 97.0 (H)</item>
+        <item>W 310 x 107.0 (H)</item>
+        <item>HP 310 x 110.0 (H)</item>
+        <item>W 310 x 117.0 (H)</item>
+        <item>HP 310 x 125.0 (H)</item>
+        <item>W 360 x 32.9</item>
+        <item>W 360 x 39.0</item>
+        <item>W 360 x 44.0</item>
+        <item>W 360 x 51.0</item>
+        <item>W 360 x 57.8</item>
+        <item>W 360 x 64.0</item>
+        <item>W 360 x 72.0</item>
+        <item>W 360 x 79.0</item>
+        <item>W 360 x 91.0 (H)</item>
+        <item>W 360 x 101.0 (H)</item>
+        <item>W 360 x 110.0 (H)</item>
+        <item>W 360 x 122.0 (H)</item>
+        <item>W 410 x 38.8</item>
+        <item>W 410 x 46.1</item>
+        <item>W 410 x 53.0</item>
+        <item>W 410 x 60.0</item>
+        <item>W 410 x 67.0</item>
+        <item>W 410 x 75.0</item>
+        <item>W 410 x 85.0</item>
+        <item>W 460 x 52.0</item>
+        <item>W 460 x 60.0</item>
+        <item>W 460 x 68.0</item>
+        <item>W 460 x 74.0</item>
+        <item>W 460 x 82.0</item>
+        <item>W 460 x 89.0</item>
+        <item>W 460 x 97.0</item>
+        <item>W 460 x 106.0</item>
+        <item>W 530 x 66.0</item>
+        <item>W 530 x 72.0</item>
+        <item>W 530 x 74.0</item>
+        <item>W 530 x 82.0</item>
+        <item>W 530 x 85.0</item>
+        <item>W 530 x 92.0</item>
+        <item>W 530 x 101.0</item>
+        <item>W 530 x 109.0</item>
+        <item>W 610 x 101.0</item>
+        <item>W 610 x 113.0</item>
+        <item>W 610 x 125.0</item>
+        <item>W 610 x 140.0</item>
+        <item>W 610 x 155.0</item>
+        <item>W 610 x 174.0</item>
+    </string-array>
+</resources>

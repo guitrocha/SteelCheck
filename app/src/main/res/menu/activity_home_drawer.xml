@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:title="Home" />
+        <item
+            android:id="@+id/nav_sobre"
+            android:title="Sobre" />
+        <item
+            android:id="@+id/nav_contato"
+            android:title="Contato" />
+    </group>
+
+    <item android:title="@string/verificacao_menu">
+        <menu>
+            <item
+                android:id="@+id/nav_tracaoV"
+                android:icon="@drawable/dot"
+                android:title="Tração" />
+            <item
+                android:id="@+id/nav_compressaoV"
+                android:icon="@drawable/dot"
+                android:title="Compressão" />
+            <item
+                android:id="@+id/nav_flexaoV"
+                android:icon="@drawable/dot"
+                android:title="Flexão" />
+            <item
+                android:id="@+id/nav_flexocompressaoV"
+                android:icon="@drawable/dot"
+                android:title="Flexocompressão" />
+        </menu>
+    </item>
+
+    <item android:title="@string/dimens_menu">
+        <menu>
+            <item
+                android:id="@+id/nav_tracaoD"
+                android:icon="@drawable/dot"
+                android:title="Tração" />
+            <item
+                android:id="@+id/nav_compressaoD"
+                android:icon="@drawable/dot"
+                android:title="Compressão" />
+            <item
+                android:id="@+id/nav_flexaoD"
+                android:icon="@drawable/dot"
+                android:title="Flexão" />
+            <item
+                android:id="@+id/nav_flexocompressaoD"
+                android:icon="@drawable/dot"
+                android:title="Flexocompressão" />
+        </menu>
+    </item>
+
+
+</menu>
