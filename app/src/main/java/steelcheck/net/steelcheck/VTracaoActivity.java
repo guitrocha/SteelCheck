@@ -12,6 +12,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -37,6 +38,7 @@ public class VTracaoActivity extends AppCompatActivity
     private Spinner secao_perfil;
     private String perfil_selected_str;
     private int perfil_selected_pos = 0;
+    private int radio_selected = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -177,10 +179,12 @@ public class VTracaoActivity extends AppCompatActivity
 
                         //text1
                     TextView Ntsd = new TextView(VTracaoActivity.this);
-                    Ntsd.setText(R.string.ntsd);
+                    Ntsd.setText(Html.fromHtml("N<sub><small>t,Sd</small></sub> (kN):"));
                     linear_scroll.addView(Ntsd);
                     Ntsd.setTextSize(17);
-                        //box1
+                    Ntsd.setPadding(0,10,0,10);
+
+                    //box1
                     final EditText Ntsd_box = new EditText(VTracaoActivity.this);
                     Ntsd_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
                     linear_scroll.addView(Ntsd_box);
@@ -188,9 +192,10 @@ public class VTracaoActivity extends AppCompatActivity
                     Ntsd_box.canScrollHorizontally(1);
                         //text2
                     TextView fy = new TextView(VTracaoActivity.this);
-                    fy.setText(R.string.fy);
+                    fy.setText(Html.fromHtml("f<sub><small>y</small></sub> (MPa):"));
                     linear_scroll.addView(fy);
                     fy.setTextSize(17);
+                    fy.setPadding(0,10,0,10);
                         //box2
                     final EditText fy_box = new EditText(VTracaoActivity.this);
                     fy_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
@@ -199,9 +204,10 @@ public class VTracaoActivity extends AppCompatActivity
                     fy_box.canScrollHorizontally(1);
                         //text3
                     TextView Lx = new TextView(VTracaoActivity.this);
-                    Lx.setText(R.string.lx);
+                    Lx.setText(Html.fromHtml("L<sub><small>x</small></sub> (cm):"));
                     linear_scroll.addView(Lx);
                     Lx.setTextSize(17);
+                    Lx.setPadding(0,10,0,10);
                         //box3
                     final EditText Lx_box = new EditText(VTracaoActivity.this);
                     Lx_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
@@ -210,9 +216,10 @@ public class VTracaoActivity extends AppCompatActivity
                     Lx_box.canScrollHorizontally(1);
                         //text4
                     TextView Ly = new TextView(VTracaoActivity.this);
-                    Ly.setText(R.string.ly);
+                    Ly.setText(Html.fromHtml("L<sub><small>y</small></sub> (cm):"));
                     linear_scroll.addView(Ly);
                     Ly.setTextSize(17);
+                    Ly.setPadding(0,10,0,10);
                         //box4
                     final EditText Ly_box = new EditText(VTracaoActivity.this);
                     Ly_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
@@ -231,8 +238,79 @@ public class VTracaoActivity extends AppCompatActivity
                     escoamento.setText(R.string.escoamento);
                     ruptura.setText(R.string.ruptura);
                     tipo_analise.setPadding(0,50,0,30);
-
                     linear_scroll.addView(tipo_analise);
+
+                        //layout auxiliar para componentes gerados a partir do radiogroup
+                    final LinearLayout linear_aux_radio = new LinearLayout(VTracaoActivity.this);
+                    linear_aux_radio.setOrientation(LinearLayout.VERTICAL);
+                    linear_scroll.addView(linear_aux_radio);
+
+                    //text An
+                    final TextView An = new TextView(VTracaoActivity.this);
+                    An.setText(Html.fromHtml("A<sub><small>n</small></sub> (cm<sup><small>2</small></sup>):"));
+
+                    An.setTextSize(17);
+                    An.setPadding(0,10,0,10);
+                    //box An
+                    final EditText An_box = new EditText(VTracaoActivity.this);
+                    An_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+
+                    An_box.setPadding(100,10,100,10);
+                    An_box.canScrollHorizontally(1);
+                    //text ct
+                    final TextView Ct = new TextView(VTracaoActivity.this);
+                    Ct.setText(Html.fromHtml("C<sub><small>t</small></sub> :"));
+
+                    Ct.setTextSize(17);
+                    Ct.setPadding(0,10,0,10);
+                    //box ct
+                    final EditText Ct_box = new EditText(VTracaoActivity.this);
+                    Ct_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+
+                    Ct_box.setPadding(100,10,100,10);
+                    Ct_box.canScrollHorizontally(1);
+                    //text fu
+                    final TextView fu = new TextView(VTracaoActivity.this);
+                    fu.setText(Html.fromHtml("f<sub><small>u</small></sub> (MPa):"));
+
+                    fu.setTextSize(17);
+                    fu.setPadding(0,10,0,10);
+                    //box ct
+                    final EditText fu_box = new EditText(VTracaoActivity.this);
+                    fu_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+
+                    fu_box.setPadding(100,10,100,10);
+                    fu_box.canScrollHorizontally(1);
+
+                    tipo_analise.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(RadioGroup group, int checkedId) {
+                            RadioButton button = (RadioButton) group.findViewById(checkedId);
+                            String resposta = button.getText().toString();
+                            linear_aux_radio.removeAllViews();
+                            if (resposta.equals("Escoamento seção bruta"))
+                            {   TextView escoa = new TextView(VTracaoActivity.this);
+                                escoa.setText(Html.fromHtml("A<sub><small>n</small></sub> = A<sub><small>g</small></sub>"));
+                                linear_aux_radio.addView(escoa);
+                                escoa.setTextSize(17);
+                                escoa.setPadding(0,10,0,40);
+                                radio_selected = 1;
+
+                            }
+                            else if (resposta.equals("Ruptura seção líquida"))
+                            {
+                                linear_aux_radio.addView(An);
+                                linear_aux_radio.addView(An_box);
+                                linear_aux_radio.addView(Ct);
+                                linear_aux_radio.addView(Ct_box);
+                                linear_aux_radio.addView(fu);
+                                linear_aux_radio.addView(fu_box);
+                                radio_selected = 2;
+                            }
+                        }
+                    });
+
+
 
                     // final
 
@@ -246,13 +324,18 @@ public class VTracaoActivity extends AppCompatActivity
 
                             if(Ntsd_box.getText().toString().isEmpty() || fy_box.getText().toString().isEmpty()
                                     || Lx_box.getText().toString().isEmpty() || Ly_box.getText().toString().isEmpty()
-                                    || tipo_analise.getCheckedRadioButtonId() == -1)
+                                    || tipo_analise.getCheckedRadioButtonId() == -1 )
                             {
                                 Toast.makeText(VTracaoActivity.this, R.string.warning_preencher, Toast.LENGTH_SHORT).show();
                             }
                             else if(perfil_selected_pos == 0)
                             {
                                 Toast.makeText(VTracaoActivity.this, R.string.warning_selecionar, Toast.LENGTH_SHORT).show();
+                            }
+                            else if((radio_selected == 2) &&
+                                    (An_box.getText().toString().isEmpty() || Ct_box.getText().toString().isEmpty() || fu_box.getText().toString().isEmpty()))
+                            {
+                                Toast.makeText(VTracaoActivity.this, R.string.warning_preencher, Toast.LENGTH_SHORT).show();
                             }
                             else
                             {   DatabaseAccess database = DatabaseAccess.getInstance(getApplicationContext());
@@ -288,4 +371,6 @@ public class VTracaoActivity extends AppCompatActivity
 
         }
     }
+
+
 }
