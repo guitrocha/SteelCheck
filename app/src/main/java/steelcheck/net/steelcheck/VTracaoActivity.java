@@ -321,9 +321,16 @@ public class VTracaoActivity extends AppCompatActivity
                     botao_verificar.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            String Ntsd_value = Ntsd_box.getText().toString();
+                            String fy_value = fy_box.getText().toString();
+                            String Lx_value = Lx_box.getText().toString();
+                            String Ly_value = Ly_box.getText().toString();
+                            String An_value = An_box.getText().toString();
+                            String Ct_value = Ct_box.getText().toString();
+                            String fu_value = fu_box.getText().toString();
 
-                            if(Ntsd_box.getText().toString().isEmpty() || fy_box.getText().toString().isEmpty()
-                                    || Lx_box.getText().toString().isEmpty() || Ly_box.getText().toString().isEmpty()
+                            if(Ntsd_value.isEmpty() || fy_value.isEmpty()
+                                    || Lx_value.isEmpty() || Ly_value.isEmpty()
                                     || tipo_analise.getCheckedRadioButtonId() == -1 )
                             {
                                 Toast.makeText(VTracaoActivity.this, R.string.warning_preencher, Toast.LENGTH_SHORT).show();
@@ -333,15 +340,27 @@ public class VTracaoActivity extends AppCompatActivity
                                 Toast.makeText(VTracaoActivity.this, R.string.warning_selecionar, Toast.LENGTH_SHORT).show();
                             }
                             else if((radio_selected == 2) &&
-                                    (An_box.getText().toString().isEmpty() || Ct_box.getText().toString().isEmpty() || fu_box.getText().toString().isEmpty()))
+                                    (An_value.isEmpty() || Ct_value.isEmpty() || fu_value.isEmpty()))
                             {
                                 Toast.makeText(VTracaoActivity.this, R.string.warning_preencher, Toast.LENGTH_SHORT).show();
                             }
                             else
-                            {   DatabaseAccess database = DatabaseAccess.getInstance(getApplicationContext());
-                                database.open();
-                                System.out.println(database.get_zx(perfil_selected_pos));
-                                Toast.makeText(VTracaoActivity.this, database.get_perfil(perfil_selected_pos), Toast.LENGTH_SHORT).show();
+                            {
+                                Intent intent = new Intent(new Intent(VTracaoActivity.this,OutputVTracaoActivity.class));
+                                //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                //intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                intent.putExtra("perfil",perfil_selected_pos);
+                                intent.putExtra("ntsd", Double.parseDouble(Ntsd_value));
+                                intent.putExtra("fy", Double.parseDouble(fy_value));
+                                intent.putExtra("lx", Double.parseDouble(Lx_value));
+                                intent.putExtra("ly", Double.parseDouble(Ly_value));
+                                intent.putExtra("radio", radio_selected);
+                                if(radio_selected == 2) {
+                                    intent.putExtra("an", Double.parseDouble(An_value));
+                                    intent.putExtra("ct", Double.parseDouble(Ct_value));
+                                    intent.putExtra("fu", Double.parseDouble(fu_value));
+                                }
+                                startActivity(intent);
 
 
                             }

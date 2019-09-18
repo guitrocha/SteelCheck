@@ -21,11 +21,14 @@
         <activity
             android:name=".VTracaoActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".SobreActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".OutputVTracaoActivity"
+            android:label="Verificação de Tração"></activity>
     </application>
 
 </manifest>
