@@ -305,6 +305,7 @@ public class VTracaoActivity extends AppCompatActivity
                                 linear_aux_radio.addView(Ct_box);
                                 linear_aux_radio.addView(fu);
                                 linear_aux_radio.addView(fu_box);
+                                Ct_box.setHint("0 < Ct <= 1.0");
                                 radio_selected = 2;
                             }
                         }
@@ -346,6 +347,7 @@ public class VTracaoActivity extends AppCompatActivity
                             }
                             else
                             {
+
                                 Intent intent = new Intent(new Intent(VTracaoActivity.this,OutputVTracaoActivity.class));
                                 //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 //intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -356,12 +358,23 @@ public class VTracaoActivity extends AppCompatActivity
                                 intent.putExtra("ly", Double.parseDouble(Ly_value));
                                 intent.putExtra("radio", radio_selected);
                                 if(radio_selected == 2) {
-                                    intent.putExtra("an", Double.parseDouble(An_value));
-                                    intent.putExtra("ct", Double.parseDouble(Ct_value));
-                                    intent.putExtra("fu", Double.parseDouble(fu_value));
+                                    DatabaseAccess database = DatabaseAccess.getInstance(getApplicationContext());
+                                    database.open();
+                                    Double ct = Double.parseDouble(Ct_value), an = Double.parseDouble(An_value);
+                                    Double area_bruta = database.get_area(perfil_selected_pos);
+                                    if(ct <= 0.0 || ct > 1.0)
+                                        Toast.makeText(VTracaoActivity.this, "O valor de Ct deve ser: 0<Ct<=1.0", Toast.LENGTH_LONG).show();
+                                    else if(an > area_bruta)
+                                        Toast.makeText(VTracaoActivity.this, "O valor de An para o perfil " + perfil_selected_str + " deve ser menor ou igual a " + area_bruta, Toast.LENGTH_LONG).show();
+                                    else {
+                                        intent.putExtra("an", an);
+                                        intent.putExtra("ct", ct);
+                                        intent.putExtra("fu", Double.parseDouble(fu_value));
+
+                                    }
+                                    database.close();
                                 }
                                 startActivity(intent);
-
 
                             }
                         }

@@ -28,7 +28,9 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".OutputVTracaoActivity"
-            android:label="Verificação de Tração"></activity>
+            android:label="Verificação de Tração"
+            android:theme="@style/SteelCheckMain" />
+
     </application>
 
 </manifest>

@@ -11,7 +11,7 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="steelcheck.net.steelcheck.HomeActivity"
     tools:showIn="@layout/app_bar_vtracao"
-    android:background="#cfcfcf"
+    android:background="@color/colorBackgroundDefault"
     android:gravity="center">
 
     <TextView
@@ -41,8 +41,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/scrollView"
-        android:layout_below="@+id/textView"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="50dp">
 
         <LinearLayout
             android:orientation="vertical"
