@@ -370,11 +370,14 @@ public class VTracaoActivity extends AppCompatActivity
                                         intent.putExtra("an", an);
                                         intent.putExtra("ct", ct);
                                         intent.putExtra("fu", Double.parseDouble(fu_value));
-
+                                        startActivity(intent);
                                     }
                                     database.close();
+
                                 }
-                                startActivity(intent);
+                                else
+                                    startActivity(intent);
+
 
                             }
                         }

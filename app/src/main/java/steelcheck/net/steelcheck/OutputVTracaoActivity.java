@@ -1,9 +1,16 @@
 package steelcheck.net.steelcheck;
 
+import android.graphics.Typeface;
 import android.icu.text.DecimalFormat;
 import android.icu.text.NumberFormat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutCompat;
+import android.text.Html;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -14,6 +21,7 @@ public class OutputVTracaoActivity extends AppCompatActivity {
     private final double gama_a2 = 1.35;
 
     private LinearLayout scroll_results;
+    private int plus_controler = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,7 +29,6 @@ public class OutputVTracaoActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         DatabaseAccess database = DatabaseAccess.getInstance(getApplicationContext());
         database.open();
-        scroll_results = (LinearLayout) findViewById(R.id.scroll_results_id);
 
 
         if(extras != null)
@@ -42,14 +49,10 @@ public class OutputVTracaoActivity extends AppCompatActivity {
                 double esbeltez = Esbeltez_Final(esbeltez_x, esbeltez_y);
                 double coef_uti = Coeficiente_Utilização(NTSD, NTRD);
 
-                System.out.println("\nntrd = " + NTRD + "\n\nesb x = " + esbeltez_x +"\nesb y = " + esbeltez_y +
-                        "\nesb = " + esbeltez + "\n\ncoef ut = " + coef_uti);
 
-                double valor = coef_uti;
-                        valor = Double.valueOf(String.format(Locale.US, "%.3f", valor));
-                System.out.println("\nvalor conv = " + valor);
-
-
+                Show_Results_Escoamento(database.get_perfil(perfil_selected_pos), fy,
+                        database.get_area(perfil_selected_pos), NTSD,
+                        esbeltez_x, esbeltez_y, esbeltez, NTRD, coef_uti);
 
             }
             else if(radio == 2)
@@ -65,10 +68,10 @@ public class OutputVTracaoActivity extends AppCompatActivity {
                 double esbeltez = Esbeltez_Final(esbeltez_x, esbeltez_y);
                 double coef_uti = Coeficiente_Utilização(NTSD, NTRD);
 
-                System.out.println("\nntrd_sb = " + NTRD_sb + "\nntrd_sl = " + NTRD_sl + "\nntrd = " + NTRD + "\n\nesb x = " + esbeltez_x +"\nesb y = " + esbeltez_y +
-                        "\nesb = " + esbeltez + "\n\ncoef ut = " + coef_uti);
-
-
+                Show_Results_Ruptura(database.get_perfil(perfil_selected_pos), fy,
+                        database.get_area(perfil_selected_pos), An, fu, Ct, NTSD,
+                        esbeltez_x, esbeltez_y, esbeltez,
+                        NTRD_sb, NTRD_sl, NTRD, coef_uti);
 
 
             }
@@ -117,4 +120,375 @@ public class OutputVTracaoActivity extends AppCompatActivity {
     private boolean Esbeltez_MenorIgual_300(double esbeltez)
     {   return esbeltez <= 300;
     }
+
+    //CRIACAO LAYOUT
+    private void Show_Results_Escoamento(final String perfil, final double fy, final double ag, final double ntsd,
+                                         final double esbeltez_x, final double esbeltez_y, final double esbeltez,
+                                         final double ntrd, final double coef)
+    {   //getting linear layout scroll view
+        scroll_results = (LinearLayout) findViewById(R.id.scroll_results_id);
+        final int tam_grande = 25, tam_pequeno = 18;
+
+        //1 - PERFIL
+        TextView TV_perfil = new TextView(OutputVTracaoActivity.this);
+        TV_perfil.setText("PERFIL " + perfil);
+        TV_perfil.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
+        TV_perfil.setTextSize(tam_grande);
+        scroll_results.addView(TV_perfil);
+
+        TextView TV_elasticidade = new TextView(OutputVTracaoActivity.this);
+        TV_elasticidade.setText(Html.fromHtml("E<small><sub>aco</sub></small> = 200 GPa"));
+        TV_elasticidade.setTextSize(tam_pequeno);
+        TV_elasticidade.setPadding(0,15,0,15);
+        scroll_results.addView(TV_elasticidade);
+
+        TextView TV_fy = new TextView(OutputVTracaoActivity.this);
+        TV_fy.setText(Html.fromHtml("f<small><sub>y</sub></small> = " + casasDecimais(fy,2) + " MPa"));
+        TV_fy.setTextSize(tam_pequeno);
+        TV_fy.setPadding(0,15,0,15);
+        scroll_results.addView(TV_fy);
+
+        TextView TV_ag = new TextView(OutputVTracaoActivity.this);
+        TV_ag.setText(Html.fromHtml("A<small><sub>g</sub></small> = " + ag + " cm²"));
+        TV_ag.setTextSize(tam_pequeno);
+        TV_ag.setPadding(0,15,0,15);
+        scroll_results.addView(TV_ag);
+
+        TextView TV_ntsd = new TextView(OutputVTracaoActivity.this);
+        TV_ntsd.setText(Html.fromHtml("N<small><sub>t,Sd</sub></small> = " + casasDecimais(ntsd,2) + " kN"));
+        TV_ntsd.setTextSize(tam_pequeno);
+        TV_ntsd.setPadding(0,15,0,100);
+        scroll_results.addView(TV_ntsd);
+
+        //2 - ESBELTEZ
+        TextView TV_esbeltez = new TextView(OutputVTracaoActivity.this);
+        TV_esbeltez.setText("ESBELTEZ");
+        TV_esbeltez.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
+        TV_esbeltez.setTextSize(tam_grande);
+        scroll_results.addView(TV_esbeltez);
+
+        ImageButton plus = new ImageButton(OutputVTracaoActivity.this);
+        plus.setBackgroundResource(R.drawable.plus);
+        plus.setLayoutParams(new LinearLayout.LayoutParams(LinearLayoutCompat.LayoutParams.WRAP_CONTENT, LinearLayoutCompat.LayoutParams.WRAP_CONTENT));
+        scroll_results.addView(plus);
+
+        final LinearLayout plus_content = new LinearLayout(OutputVTracaoActivity.this);
+        plus_content.setOrientation(LinearLayout.HORIZONTAL);
+        scroll_results.addView(plus_content);
+
+        plus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                plus_esbeletez(v,esbeltez_x,esbeltez_y,tam_pequeno,plus_content);
+            }
+        });
+
+        TextView TV_lambda = new TextView(OutputVTracaoActivity.this);
+        TV_lambda.setText(Html.fromHtml("λ = " + casasDecimais(esbeltez,2) ));
+        TV_lambda.setTextSize(tam_pequeno);
+        TV_lambda.setPadding(0,15,0,100);
+        scroll_results.addView(TV_lambda);
+
+        //3 - ESCOAMENTO
+        TextView TV_escoa = new TextView(OutputVTracaoActivity.this);
+        TV_escoa.setText("ESCOAMENTO DA SEÇÃO BRUTA");
+        TV_escoa.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
+        TV_escoa.setTextSize(tam_grande);
+        scroll_results.addView(TV_escoa);
+
+        TextView TV_ntrd = new TextView(OutputVTracaoActivity.this);
+        TV_ntrd.setText(Html.fromHtml("N<small><sub>t,Rd</sub></small> = " + casasDecimais(ntrd,2) + " kN"));
+        TV_ntrd.setTextSize(tam_pequeno);
+        TV_ntrd.setPadding(0,15,0,100);
+        scroll_results.addView(TV_ntrd);
+
+        //4 - TRACAO NORMAL
+        TextView TV_tracao = new TextView(OutputVTracaoActivity.this);
+        TV_tracao.setText("TRAÇÃO NORMAL RESISTENTE DE CÁLCULO");
+        TV_tracao.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
+        TV_tracao.setTextSize(tam_grande);
+        scroll_results.addView(TV_tracao);
+
+        TextView TV_tracNTRD = new TextView(OutputVTracaoActivity.this);
+        TV_tracNTRD.setText(Html.fromHtml("N<small><sub>t,Rd</sub></small> = " + casasDecimais(ntrd,2) + " kN"));
+        TV_tracNTRD.setTextSize(tam_pequeno);
+        TV_tracNTRD.setPadding(0,15,0,100);
+        scroll_results.addView(TV_tracNTRD);
+
+        //5 - COEFICIENTE
+        TextView TV_coef = new TextView(OutputVTracaoActivity.this);
+        TV_coef.setText("COEFICIENTE DE UTILIZAÇÃO");
+        TV_coef.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
+        TV_coef.setTextSize(tam_grande);
+        scroll_results.addView(TV_coef);
+
+        TextView TV_coefvalor = new TextView(OutputVTracaoActivity.this);
+        TV_coefvalor.setText(Html.fromHtml("N<small><sub>t,Sd</sub></small> / N<small><sub>t,Rd</sub></small>= " + casasDecimais(coef,3) + " kN"));
+        TV_coefvalor.setTextSize(tam_pequeno);
+        TV_coefvalor.setPadding(0,15,0,100);
+        scroll_results.addView(TV_coefvalor);
+
+        //6 - VERIFICACAO
+        TextView TV_verif = new TextView(OutputVTracaoActivity.this);
+        TV_verif.setText("VERIFICAÇÕES");
+        TV_verif.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
+        TV_verif.setTextSize(tam_grande);
+        scroll_results.addView(TV_verif);
+
+        if(NTRD_MaiorIgual_NTSD(ntrd,ntsd))
+        {
+            TextView TV_nt = new TextView(OutputVTracaoActivity.this);
+            TV_nt.setText(Html.fromHtml("N<small><sub>t,Rd</sub></small> maior que N<small><sub>t,Sd</sub></small>: OK! "));
+            TV_nt.setTextSize(tam_pequeno);
+            TV_nt.setPadding(0,15,0,100);
+            TV_nt.setTextColor(getResources().getColor(R.color.color_ok));
+            scroll_results.addView(TV_nt);
+        }
+        else
+        {
+            TextView TV_nt = new TextView(OutputVTracaoActivity.this);
+            TV_nt.setText(Html.fromHtml("N<small><sub>t,Rd</sub></small> menor que N<small><sub>t,Sd</sub></small>: NÃO OK! "));
+            TV_nt.setTextSize(tam_pequeno);
+            TV_nt.setPadding(0,15,0,100);
+            TV_nt.setTextColor(getResources().getColor(R.color.color_Nok));
+            scroll_results.addView(TV_nt);
+        }
+        if(Esbeltez_MenorIgual_300(esbeltez))
+        {
+            TextView TV_esb = new TextView(OutputVTracaoActivity.this);
+            TV_esb.setText("Esbeltez menor que 300: OK!");
+            TV_esb.setTextSize(tam_pequeno);
+            TV_esb.setPadding(0,15,0,100);
+            TV_esb.setTextColor(getResources().getColor(R.color.color_ok));
+            scroll_results.addView(TV_esb);
+        }
+        else
+        {
+            TextView TV_esb = new TextView(OutputVTracaoActivity.this);
+            TV_esb.setText("Esbeltez maior que 300: NÃO OK!");
+            TV_esb.setTextSize(tam_pequeno);
+            TV_esb.setPadding(0,15,0,100);
+            TV_esb.setTextColor(getResources().getColor(R.color.color_Nok));
+            scroll_results.addView(TV_esb);
+        }
+
+    }
+    private void Show_Results_Ruptura(final String perfil,final double fy,final double ag,final double an,final double fu,final double ct,final double ntsd,
+                                      final double esbeltez_x, final double esbeltez_y,final double esbeltez,
+                                      final double ntrd_sb,final double ntrd_sl,final double ntrd,final double coef)
+    {   //getting linear layout scroll view
+        scroll_results = (LinearLayout) findViewById(R.id.scroll_results_id);
+        final int tam_grande = 25, tam_pequeno = 18;
+
+        //1 - PERFIL
+        TextView TV_perfil = new TextView(OutputVTracaoActivity.this);
+        TV_perfil.setText("PERFIL " + perfil);
+        TV_perfil.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
+        TV_perfil.setTextSize(tam_grande);
+        scroll_results.addView(TV_perfil);
+
+        TextView TV_elasticidade = new TextView(OutputVTracaoActivity.this);
+        TV_elasticidade.setText(Html.fromHtml("E<small><sub>aco</sub></small> = 200 GPa"));
+        TV_elasticidade.setTextSize(tam_pequeno);
+        TV_elasticidade.setPadding(0,15,0,15);
+        scroll_results.addView(TV_elasticidade);
+
+        TextView TV_fy = new TextView(OutputVTracaoActivity.this);
+        TV_fy.setText(Html.fromHtml("f<small><sub>y</sub></small> = " + casasDecimais(fy,2) + " MPa"));
+        TV_fy.setTextSize(tam_pequeno);
+        TV_fy.setPadding(0,15,0,15);
+        scroll_results.addView(TV_fy);
+
+        TextView TV_ag = new TextView(OutputVTracaoActivity.this);
+        TV_ag.setText(Html.fromHtml("A<small><sub>g</sub></small> = " + ag + " cm²"));
+        TV_ag.setTextSize(tam_pequeno);
+        TV_ag.setPadding(0,15,0,60);
+        scroll_results.addView(TV_ag);
+
+        TextView TV_an = new TextView(OutputVTracaoActivity.this);
+        TV_an.setText(Html.fromHtml("A<small><sub>n</sub></small> = " + casasDecimais(an,2) + " cm²"));
+        TV_an.setTextSize(tam_pequeno);
+        TV_an.setPadding(0,15,0,15);
+        scroll_results.addView(TV_an);
+
+        TextView TV_fu = new TextView(OutputVTracaoActivity.this);
+        TV_fu.setText(Html.fromHtml("f<small><sub>u</sub></small> = " + casasDecimais(fu,2) + " MPa"));
+        TV_fu.setTextSize(tam_pequeno);
+        TV_fu.setPadding(0,15,0,15);
+        scroll_results.addView(TV_fu);
+
+        TextView TV_ct = new TextView(OutputVTracaoActivity.this);
+        TV_ct.setText(Html.fromHtml("C<small><sub>t</sub></small> = " + casasDecimais(ct,2)));
+        TV_ct.setTextSize(tam_pequeno);
+        TV_ct.setPadding(0,15,0,60);
+        scroll_results.addView(TV_ct);
+
+        TextView TV_ntsd = new TextView(OutputVTracaoActivity.this);
+        TV_ntsd.setText(Html.fromHtml("N<small><sub>t,Sd</sub></small> = " + casasDecimais(ntsd,2) + " kN"));
+        TV_ntsd.setTextSize(tam_pequeno);
+        TV_ntsd.setPadding(0,15,0,100);
+        scroll_results.addView(TV_ntsd);
+
+        //2 - ESBELTEZ
+        TextView TV_esbeltez = new TextView(OutputVTracaoActivity.this);
+        TV_esbeltez.setText("ESBELTEZ");
+        TV_esbeltez.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
+        TV_esbeltez.setTextSize(tam_grande);
+        scroll_results.addView(TV_esbeltez);
+
+        ImageButton plus = new ImageButton(OutputVTracaoActivity.this);
+        plus.setBackgroundResource(R.drawable.plus);
+        plus.setLayoutParams(new LinearLayout.LayoutParams(LinearLayoutCompat.LayoutParams.WRAP_CONTENT, LinearLayoutCompat.LayoutParams.WRAP_CONTENT));
+        scroll_results.addView(plus);
+
+        final LinearLayout plus_content = new LinearLayout(OutputVTracaoActivity.this);
+        plus_content.setOrientation(LinearLayout.HORIZONTAL);
+        scroll_results.addView(plus_content);
+
+        plus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                plus_esbeletez(v,esbeltez_x,esbeltez_y,tam_pequeno,plus_content);
+            }
+        });
+
+        TextView TV_lambda = new TextView(OutputVTracaoActivity.this);
+        TV_lambda.setText(Html.fromHtml("λ = " + casasDecimais(esbeltez,2) ));
+        TV_lambda.setTextSize(tam_pequeno);
+        TV_lambda.setPadding(0,15,0,100);
+        scroll_results.addView(TV_lambda);
+
+        //3 - ESCOAMENTO
+        TextView TV_escoa = new TextView(OutputVTracaoActivity.this);
+        TV_escoa.setText("ESCOAMENTO DA SEÇÃO BRUTA");
+        TV_escoa.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
+        TV_escoa.setTextSize(tam_grande);
+        scroll_results.addView(TV_escoa);
+
+        TextView TV_sb = new TextView(OutputVTracaoActivity.this);
+        TV_sb.setText(Html.fromHtml("N<small><sub>t,Rd</sub></small> = " + casasDecimais(ntrd_sb,2) + " kN"));
+        TV_sb.setTextSize(tam_pequeno);
+        TV_sb.setPadding(0,15,0,100);
+        scroll_results.addView(TV_sb);
+
+        //4 - RUPTURA
+        TextView TV_rup = new TextView(OutputVTracaoActivity.this);
+        TV_rup.setText("RUPTURA DA SEÇÃO LÍQUIDA");
+        TV_rup.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
+        TV_rup.setTextSize(tam_grande);
+        scroll_results.addView(TV_rup);
+
+        TextView TV_sl = new TextView(OutputVTracaoActivity.this);
+        TV_sl.setText(Html.fromHtml("N<small><sub>t,Rd</sub></small> = " + casasDecimais(ntrd_sl,2) + " kN"));
+        TV_sl.setTextSize(tam_pequeno);
+        TV_sl.setPadding(0,15,0,100);
+        scroll_results.addView(TV_sl);
+
+        //5 - TRACAO NORMAL
+        TextView TV_tracao = new TextView(OutputVTracaoActivity.this);
+        TV_tracao.setText("TRAÇÃO NORMAL RESISTENTE DE CÁLCULO");
+        TV_tracao.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
+        TV_tracao.setTextSize(tam_grande);
+        scroll_results.addView(TV_tracao);
+
+        TextView TV_tracNTRD = new TextView(OutputVTracaoActivity.this);
+        TV_tracNTRD.setText(Html.fromHtml("N<small><sub>t,Rd</sub></small> = " + casasDecimais(ntrd,2) + " kN"));
+        TV_tracNTRD.setTextSize(tam_pequeno);
+        TV_tracNTRD.setPadding(0,15,0,100);
+        scroll_results.addView(TV_tracNTRD);
+
+        //6 - COEFICIENTE
+        TextView TV_coef = new TextView(OutputVTracaoActivity.this);
+        TV_coef.setText("COEFICIENTE DE UTILIZAÇÃO");
+        TV_coef.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
+        TV_coef.setTextSize(tam_grande);
+        scroll_results.addView(TV_coef);
+
+        TextView TV_coefvalor = new TextView(OutputVTracaoActivity.this);
+        TV_coefvalor.setText(Html.fromHtml("N<small><sub>t,Sd</sub></small> / N<small><sub>t,Rd</sub></small>= " + casasDecimais(coef,3) + " kN"));
+        TV_coefvalor.setTextSize(tam_pequeno);
+        TV_coefvalor.setPadding(0,15,0,100);
+        scroll_results.addView(TV_coefvalor);
+
+        //6 - VERIFICACAO
+        TextView TV_verif = new TextView(OutputVTracaoActivity.this);
+        TV_verif.setText("VERIFICAÇÕES");
+        TV_verif.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
+        TV_verif.setTextSize(tam_grande);
+        scroll_results.addView(TV_verif);
+
+        if(NTRD_MaiorIgual_NTSD(ntrd,ntsd))
+        {
+            TextView TV_nt = new TextView(OutputVTracaoActivity.this);
+            TV_nt.setText(Html.fromHtml("N<small><sub>t,Rd</sub></small> maior que N<small><sub>t,Sd</sub></small>: OK! "));
+            TV_nt.setTextSize(tam_pequeno);
+            TV_nt.setPadding(0,15,0,100);
+            TV_nt.setTextColor(getResources().getColor(R.color.color_ok));
+            scroll_results.addView(TV_nt);
+        }
+        else
+        {
+            TextView TV_nt = new TextView(OutputVTracaoActivity.this);
+            TV_nt.setText(Html.fromHtml("N<small><sub>t,Rd</sub></small> menor que N<small><sub>t,Sd</sub></small>: NÃO OK! "));
+            TV_nt.setTextSize(tam_pequeno);
+            TV_nt.setPadding(0,15,0,100);
+            TV_nt.setTextColor(getResources().getColor(R.color.color_Nok));
+            scroll_results.addView(TV_nt);
+        }
+        if(Esbeltez_MenorIgual_300(esbeltez))
+        {
+            TextView TV_esb = new TextView(OutputVTracaoActivity.this);
+            TV_esb.setText("Esbeltez menor que 300: OK!");
+            TV_esb.setTextSize(tam_pequeno);
+            TV_esb.setPadding(0,15,0,100);
+            TV_esb.setTextColor(getResources().getColor(R.color.color_ok));
+            scroll_results.addView(TV_esb);
+        }
+        else
+        {
+            TextView TV_esb = new TextView(OutputVTracaoActivity.this);
+            TV_esb.setText("Esbeltez maior que 300: NÃO OK!");
+            TV_esb.setTextSize(tam_pequeno);
+            TV_esb.setPadding(0,15,0,100);
+            TV_esb.setTextColor(getResources().getColor(R.color.color_Nok));
+            scroll_results.addView(TV_esb);
+        }
+
+    }
+    //ARREDONDAMENTOS
+    double casasDecimais(double original, int quant)
+    {   double valor = original;
+        String formato = "%." + quant + "f";
+        valor = Double.valueOf(String.format(Locale.US, formato, valor));
+        return valor;
+    }
+
+    //PLUS
+    void plus_esbeletez(View v, double esbeltez_x, double esbeltez_y, int tam, LinearLayout plus_content)
+    {
+        if(plus_controler == 0)
+        {
+            TextView TV_lambda_x = new TextView(OutputVTracaoActivity.this);
+            TV_lambda_x.setText(Html.fromHtml("λ<small><sub>x</sub></small> = " + casasDecimais(esbeltez_x,2) ));
+            TV_lambda_x.setTextSize(tam);
+            TV_lambda_x.setPadding(0,15,0,100);
+            plus_content.addView(TV_lambda_x);
+
+            TextView TV_lambda_y = new TextView(OutputVTracaoActivity.this);
+            TV_lambda_y.setText(Html.fromHtml("λ<small><sub>y</sub></small> = " + casasDecimais(esbeltez_y,2) ));
+            TV_lambda_y.setTextSize(tam);
+            TV_lambda_y.setPadding(60,15,0,100);
+            plus_content.addView(TV_lambda_y);
+
+            v.setBackgroundResource(R.drawable.minus);
+            plus_controler = 1;
+        }
+        else
+        {
+            plus_content.removeAllViews();
+            v.setBackgroundResource(R.drawable.plus);
+            plus_controler = 0;
+        }
+    }
+
 }
