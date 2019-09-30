@@ -1,15 +1,14 @@
 package steelcheck.net.steelcheck;
 
+import android.graphics.Color;
 import android.graphics.Typeface;
-import android.icu.text.DecimalFormat;
-import android.icu.text.NumberFormat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.text.Html;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -23,9 +22,23 @@ public class OutputVTracaoActivity extends AppCompatActivity {
     private LinearLayout scroll_results;
     private int plus_controler = 0;
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // app icon in action bar clicked; goto parent activity.
+                this.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_output_vtracao);
+        Window window = getWindow();
+        window.setStatusBarColor(Color.BLACK); // api21+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); //back button
         Bundle extras = getIntent().getExtras();
         DatabaseAccess database = DatabaseAccess.getInstance(getApplicationContext());
         database.open();
