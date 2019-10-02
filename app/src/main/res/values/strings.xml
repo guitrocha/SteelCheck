@@ -10,6 +10,7 @@
     <string name="verificacao_menu">Verificação de Perfis Metálicos</string>
     <string name="dimens_menu">Dimensionamento de Perfis Metálicos</string>
     <string name="tracao_sc">TRAÇÃO</string>
+    <string name="compressao_sc">COMPRESSÃO</string>
     <string name="ntsd">Nt,Sd (kN):</string>
     <string name="fy">ƒy (MPa):</string>
     <string name="lx">Lx (cm):</string>
@@ -27,6 +28,11 @@
     <string-array name="secao_perfil">
         <item>Escolha seção</item>
         <item>Laminado W</item>
+    </string-array>
+    <string-array name="secao_comp">
+        <item>Escolha seção</item>
+        <item>Laminado W</item>
+        <item>Soldado Customizado</item>
     </string-array>
     <string-array name="laminado_perfis">
         <item>Escolha perfil</item>
@@ -118,5 +124,61 @@
         <item>W 610 x 140.0</item>
         <item>W 610 x 155.0</item>
         <item>W 610 x 174.0</item>
+    </string-array>
+    <string-array name="d_comp">
+        <item>100</item>
+        <item>150</item>
+        <item>200</item>
+        <item>250</item>
+        <item>300</item>
+        <item>350</item>
+        <item>400</item>
+        <item>450</item>
+        <item>500</item>
+        <item>550</item>
+        <item>600</item>
+        <item>650</item>
+        <item>700</item>
+        <item>750</item>
+        <item>800</item>
+        <item>850</item>
+        <item>900</item>
+        <item>950</item>
+        <item>1000</item>
+    </string-array>
+    <string-array name="tw_comp">
+        <item>4.75</item>
+        <item>6.35</item>
+        <item>8.00</item>
+        <item>9.50</item>
+        <item>12.5</item>
+        <item>16.0</item>
+        <item>19.0</item>
+    </string-array>
+    <string-array name="bf_comp">
+        <item>100</item>
+        <item>150</item>
+        <item>175</item>
+        <item>200</item>
+        <item>250</item>
+        <item>300</item>
+        <item>350</item>
+        <item>400</item>
+        <item>450</item>
+        <item>500</item>
+        <item>550</item>
+        <item>600</item>
+        <item>650</item>
+        <item>700</item>
+    </string-array>
+    <string-array name="tf_comp">
+        <item>4.75</item>
+        <item>6.35</item>
+        <item>8.00</item>
+        <item>9.50</item>
+        <item>12.5</item>
+        <item>16.0</item>
+        <item>19.0</item>
+        <item>25.0</item>
     </string-array>
 </resources>

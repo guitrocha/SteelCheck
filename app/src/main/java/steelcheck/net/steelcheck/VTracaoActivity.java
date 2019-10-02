@@ -1,9 +1,7 @@
 package steelcheck.net.steelcheck;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
@@ -14,12 +12,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.InputType;
-import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -121,7 +117,10 @@ public class VTracaoActivity extends AppCompatActivity
         } else if (id == R.id.nav_tracaoV) {
             // keep activity
         } else if (id == R.id.nav_compressaoV) {
-
+            Intent intent = new Intent(new Intent(VTracaoActivity.this,VCompressaoActivity.class));
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivity(intent);
         } else if (id == R.id.nav_flexaoV) {
 
         } else if (id == R.id.nav_flexocompressaoV) {
@@ -158,7 +157,7 @@ public class VTracaoActivity extends AppCompatActivity
 
             linear_scroll = (LinearLayout) findViewById(R.id.linear_scroll_id);
             System.out.println(id);
-
+            linear_scroll.removeAllViews();
             switch (position) {
                 case 0: //escolha seção
                     linear_scroll.removeAllViews();
@@ -173,7 +172,7 @@ public class VTracaoActivity extends AppCompatActivity
                     final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(VTracaoActivity.this, R.array.laminado_perfis, android.R.layout.simple_spinner_item);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinner_desig.setAdapter(adapter);
-                    spinner_desig.setOnItemSelectedListener(new DesigSpinnerClass());
+                    spinner_desig.setOnItemSelectedListener(new PerfilSpinnerClass());
                     spinner_desig.setPadding(50,50,50,50);
                     linear_scroll.addView(spinner_desig);
 
@@ -388,11 +387,11 @@ public class VTracaoActivity extends AppCompatActivity
         }
 
         public void onNothingSelected(AdapterView<?> parent) {
-
+            System.out.println("Nothing selected on Spinner Section");
         }
     }
 
-    class DesigSpinnerClass implements AdapterView.OnItemSelectedListener {
+    class PerfilSpinnerClass implements AdapterView.OnItemSelectedListener {
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
             //linear_scroll = (LinearLayout) findViewById(R.id.linear_scroll_id);

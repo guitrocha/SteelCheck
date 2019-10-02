@@ -30,6 +30,14 @@
             android:name=".OutputVTracaoActivity"
             android:label="Verificação de Tração"
             android:theme="@style/SteelCheckMain" />
+        <activity
+            android:name=".VCompressaoActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".OutputVCompressaoActivity"
+            android:label="Verificação de Compressão"
+            android:theme="@style/SteelCheckMain" />
 
     </application>
 

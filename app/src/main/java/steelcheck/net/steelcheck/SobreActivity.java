@@ -98,7 +98,10 @@ public class SobreActivity extends AppCompatActivity
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(intent);
         } else if (id == R.id.nav_compressaoV) {
-
+            Intent intent = new Intent(SobreActivity.this,VCompressaoActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivity(intent);
         } else if (id == R.id.nav_flexaoV) {
 
         } else if (id == R.id.nav_flexocompressaoV) {
