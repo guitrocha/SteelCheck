@@ -24,7 +24,7 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/scroll_results_id"></LinearLayout>
+            android:id="@+id/scroll_results_idcomp"></LinearLayout>
     </ScrollView>
 
 </RelativeLayout>

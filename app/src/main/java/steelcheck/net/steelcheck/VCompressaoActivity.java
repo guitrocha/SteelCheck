@@ -420,8 +420,16 @@ public class VCompressaoActivity extends AppCompatActivity
                             Intent intent = new Intent(new Intent(VCompressaoActivity.this,OutputVCompressaoActivity.class));
                             //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             //intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                            intent.putExtra("secao",position);
                             if(position == 1)
                                 intent.putExtra("perfil",perfil_selected_pos);
+                            else if(position == 2)
+                            {
+                                intent.putExtra("d",d_selected);
+                                intent.putExtra("tw",tw_selected);
+                                intent.putExtra("bf",bf_selected);
+                                intent.putExtra("tf",tf_selected);
+                            }
                             intent.putExtra("ncsd", Double.parseDouble(Ncsd_value));
                             intent.putExtra("fy", Double.parseDouble(fy_value));
                             intent.putExtra("kx", Double.parseDouble(kx_value));
