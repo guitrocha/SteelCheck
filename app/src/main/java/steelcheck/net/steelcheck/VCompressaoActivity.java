@@ -33,6 +33,10 @@ public class VCompressaoActivity extends AppCompatActivity
     private LinearLayout linear_scroll;
     private String perfil_selected_str;
     private int perfil_selected_pos = 0;
+    private double d_selected;
+    private double tw_selected;
+    private double bf_selected;
+    private double tf_selected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,6 +158,7 @@ public class VCompressaoActivity extends AppCompatActivity
         public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {
 
             linear_scroll = (LinearLayout) findViewById(R.id.linear_scroll_idcomp);
+            linear_scroll.setGravity(Gravity.CENTER);
             System.out.println(id);
             linear_scroll.removeAllViews();
 
@@ -173,18 +178,102 @@ public class VCompressaoActivity extends AppCompatActivity
                     linear_scroll.setGravity(Gravity.CENTER);
 
                     //perfil spinner
-                    Spinner spinner_desig = new Spinner(VCompressaoActivity.this);
+                    Spinner spinner_perfil = new Spinner(VCompressaoActivity.this);
                     final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(VCompressaoActivity.this, R.array.laminado_perfis, android.R.layout.simple_spinner_item);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    spinner_desig.setAdapter(adapter);
-                    spinner_desig.setOnItemSelectedListener(new PerfilSpinnerClass());
-                    spinner_desig.setPadding(50,50,50,50);
-                    linear_scroll.addView(spinner_desig);
+                    spinner_perfil.setAdapter(adapter);
+                    spinner_perfil.setOnItemSelectedListener(new PerfilSpinnerClass());
+                    spinner_perfil.setPadding(50,50,50,50);
+                    linear_scroll.addView(spinner_perfil);
 
                 }
                 else if(position == 2)
                 {
 
+                    //d
+                    LinearLayout d_layout = new LinearLayout(VCompressaoActivity.this);
+                    d_layout.setOrientation(LinearLayout.HORIZONTAL);
+                    d_layout.setGravity(Gravity.CENTER);
+
+                    TextView d = new TextView(VCompressaoActivity.this);
+                    d.setText(Html.fromHtml("d  (mm):"));
+                    d_layout.addView(d);
+                    d.setTextSize(17);
+                    d.setPadding(0,10,0,10);
+
+                    Spinner spinner_d = new Spinner(VCompressaoActivity.this);
+                    final ArrayAdapter<CharSequence> adapter_d = ArrayAdapter.createFromResource(VCompressaoActivity.this, R.array.d_comp, android.R.layout.simple_spinner_item);
+                    adapter_d.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinner_d.setAdapter(adapter_d);
+                    spinner_d.setOnItemSelectedListener(new dSpinnerClass());
+                    spinner_d.setLayoutParams(new LinearLayout.LayoutParams(300,130));
+                    d_layout.addView(spinner_d);
+
+                    linear_scroll.addView(d_layout);
+
+                    //tw
+                    LinearLayout tw_layout = new LinearLayout(VCompressaoActivity.this);
+                    tw_layout.setOrientation(LinearLayout.HORIZONTAL);
+                    tw_layout.setGravity(Gravity.CENTER);
+
+                    TextView tw = new TextView(VCompressaoActivity.this);
+                    tw.setText(Html.fromHtml("t<sub><small>w</small></sub> (mm):"));
+                    tw_layout.addView(tw);
+                    tw.setTextSize(17);
+                    tw.setPadding(0,10,0,10);
+
+                    Spinner spinner_tw = new Spinner(VCompressaoActivity.this);
+                    final ArrayAdapter<CharSequence> adapter_tw = ArrayAdapter.createFromResource(VCompressaoActivity.this, R.array.tw_comp, android.R.layout.simple_spinner_item);
+                    adapter_tw.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinner_tw.setAdapter(adapter_tw);
+                    spinner_tw.setOnItemSelectedListener(new twSpinnerClass());
+                    spinner_tw.setLayoutParams(new LinearLayout.LayoutParams(300,130));
+                    tw_layout.addView(spinner_tw);
+
+                    linear_scroll.addView(tw_layout);
+
+                    //bf
+                    LinearLayout bf_layout = new LinearLayout(VCompressaoActivity.this);
+                    bf_layout.setOrientation(LinearLayout.HORIZONTAL);
+                    bf_layout.setGravity(Gravity.CENTER);
+
+                    TextView bf = new TextView(VCompressaoActivity.this);
+                    bf.setText(Html.fromHtml("b<sub><small>f</small></sub> (mm):"));
+                    bf_layout.addView(bf);
+                    bf.setTextSize(17);
+                    bf.setPadding(0,10,0,10);
+
+                    Spinner spinner_bf = new Spinner(VCompressaoActivity.this);
+                    final ArrayAdapter<CharSequence> adapter_bf = ArrayAdapter.createFromResource(VCompressaoActivity.this, R.array.bf_comp, android.R.layout.simple_spinner_item);
+                    adapter_bf.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinner_bf.setAdapter(adapter_bf);
+                    spinner_bf.setOnItemSelectedListener(new bfSpinnerClass());
+                    spinner_bf.setLayoutParams(new LinearLayout.LayoutParams(300,130));
+                    bf_layout.addView(spinner_bf);
+
+                    linear_scroll.addView(bf_layout);
+
+                    //tf
+                    LinearLayout tf_layout = new LinearLayout(VCompressaoActivity.this);
+                    tf_layout.setOrientation(LinearLayout.HORIZONTAL);
+                    tf_layout.setGravity(Gravity.CENTER);
+
+                    TextView tf = new TextView(VCompressaoActivity.this);
+                    tf.setText(Html.fromHtml("t<sub><small>f</small></sub> (mm):"));
+                    tf_layout.addView(tf);
+                    tf.setTextSize(17);
+                    tf.setPadding(0,10,0,10);
+
+                    Spinner spinner_tf = new Spinner(VCompressaoActivity.this);
+                    final ArrayAdapter<CharSequence> adapter_tf = ArrayAdapter.createFromResource(VCompressaoActivity.this, R.array.tf_comp, android.R.layout.simple_spinner_item);
+                    adapter_tf.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinner_tf.setAdapter(adapter_tf);
+                    spinner_tf.setOnItemSelectedListener(new tfSpinnerClass());
+                    spinner_tf.setLayoutParams(new LinearLayout.LayoutParams(300,130));
+                    tf_layout.addView(spinner_tf);
+
+
+                    linear_scroll.addView(tf_layout);
                 }
 
                 //text1
@@ -192,7 +281,7 @@ public class VCompressaoActivity extends AppCompatActivity
                 Ncsd.setText(Html.fromHtml("N<sub><small>c,Sd</small></sub> (kN):"));
                 linear_scroll.addView(Ncsd);
                 Ncsd.setTextSize(17);
-                Ncsd.setPadding(0,10,0,10);
+                Ncsd.setPadding(0,100,0,10);
 
                 //box1
                 final EditText Ncsd_box = new EditText(VCompressaoActivity.this);
@@ -369,6 +458,56 @@ public class VCompressaoActivity extends AppCompatActivity
             System.out.println("Nothing selected on Spinner Profile");
         }
     }
+    class dSpinnerClass implements AdapterView.OnItemSelectedListener {
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
+            String d = parent.getAdapter().getItem(position).toString();
+            d_selected = Double.parseDouble(d);
+            System.out.println(d_selected);
 
+        }
+
+        public void onNothingSelected(AdapterView<?> parent) {
+            System.out.println("Nothing selected on Spinner d");
+        }
+    }
+    class twSpinnerClass implements AdapterView.OnItemSelectedListener {
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+            String tw = parent.getAdapter().getItem(position).toString();
+            tw_selected = Double.parseDouble(tw);
+            System.out.println(tw_selected);
+
+        }
+
+        public void onNothingSelected(AdapterView<?> parent) {
+            System.out.println("Nothing selected on Spinner tw");
+        }
+    }
+    class bfSpinnerClass implements AdapterView.OnItemSelectedListener {
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+            String bf = parent.getAdapter().getItem(position).toString();
+            bf_selected = Double.parseDouble(bf);
+            System.out.println(bf_selected);
+
+        }
+
+        public void onNothingSelected(AdapterView<?> parent) {
+            System.out.println("Nothing selected on Spinner bf");
+        }
+    }
+    class tfSpinnerClass implements AdapterView.OnItemSelectedListener {
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+            String tf = parent.getAdapter().getItem(position).toString();
+            tf_selected = Double.parseDouble(tf);
+            System.out.println(tf_selected);
+
+        }
+
+        public void onNothingSelected(AdapterView<?> parent) {
+            System.out.println("Nothing selected on Spinner tf");
+        }
+    }
 }
