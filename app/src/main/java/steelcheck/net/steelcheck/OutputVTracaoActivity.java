@@ -236,7 +236,7 @@ public class OutputVTracaoActivity extends AppCompatActivity {
         scroll_results.addView(TV_coef);
 
         TextView TV_coefvalor = new TextView(OutputVTracaoActivity.this);
-        TV_coefvalor.setText(Html.fromHtml("N<small><sub>t,Sd</sub></small> / N<small><sub>t,Rd</sub></small>= " + casasDecimais(coef,3) + " kN"));
+        TV_coefvalor.setText(Html.fromHtml("N<small><sub>t,Sd</sub></small> / N<small><sub>t,Rd</sub></small> = " + casasDecimais(coef,3) + " kN"));
         TV_coefvalor.setTextSize(tam_pequeno);
         TV_coefvalor.setPadding(0,15,0,100);
         scroll_results.addView(TV_coefvalor);
@@ -418,7 +418,7 @@ public class OutputVTracaoActivity extends AppCompatActivity {
         scroll_results.addView(TV_coef);
 
         TextView TV_coefvalor = new TextView(OutputVTracaoActivity.this);
-        TV_coefvalor.setText(Html.fromHtml("N<small><sub>t,Sd</sub></small> / N<small><sub>t,Rd</sub></small>= " + casasDecimais(coef,3) + " kN"));
+        TV_coefvalor.setText(Html.fromHtml("N<small><sub>t,Sd</sub></small> / N<small><sub>t,Rd</sub></small> = " + casasDecimais(coef,3) + " kN"));
         TV_coefvalor.setTextSize(tam_pequeno);
         TV_coefvalor.setPadding(0,15,0,100);
         scroll_results.addView(TV_coefvalor);
@@ -469,7 +469,7 @@ public class OutputVTracaoActivity extends AppCompatActivity {
 
     }
     //ARREDONDAMENTOS
-    double casasDecimais(double original, int quant)
+    private double casasDecimais(double original, int quant)
     {   double valor = original;
         String formato = "%." + quant + "f";
         valor = Double.valueOf(String.format(Locale.US, formato, valor));
@@ -477,7 +477,7 @@ public class OutputVTracaoActivity extends AppCompatActivity {
     }
 
     //PLUS
-    void plus_esbeletez(View v, double esbeltez_x, double esbeltez_y, int tam, LinearLayout plus_content)
+    private void plus_esbeletez(View v, double esbeltez_x, double esbeltez_y, int tam, LinearLayout plus_content)
     {
         if(plus_controler == 0)
         {

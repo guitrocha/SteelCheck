@@ -18,6 +18,8 @@ import java.util.Locale;
 public class OutputVCompressaoActivity extends AppCompatActivity {
     private final double gama_a1 = 1.10;
     private final double gama_a2 = 1.35;
+    private final double E_aco = 20000.0; // kN/cm²
+    private final double G = 7700.0; // kN/cm²
 
     private LinearLayout scroll_results;
     private int plus_controler = 0;
@@ -58,11 +60,25 @@ public class OutputVCompressaoActivity extends AppCompatActivity {
             if(secao == 1)
             {
                 int perfil_selected_pos = extras.getInt("perfil");
+                double qa = Qa(fy,database.get_mesa(perfil_selected_pos),database.get_tw(perfil_selected_pos),database.get_area(perfil_selected_pos),database.get_dlinha(perfil_selected_pos));
+                double qs = Qs(fy,database.get_aba(perfil_selected_pos));
+                double q = Q(qa,qs);
+                double nex = Nex(database.get_ix(perfil_selected_pos),kx,lx);
+                double ney = Ney(database.get_iy(perfil_selected_pos),ky,ly);
+                double nez = Nez(database.get_rx(perfil_selected_pos),database.get_ry(perfil_selected_pos),database.get_cw(perfil_selected_pos),kz,lz,database.get_j(perfil_selected_pos));
+                double ne = Ne(nex,ney,nez);
+                double esbx = esbeltez_x(kx,lx,database.get_rx(perfil_selected_pos));
+                double esby = esbeltez_y(ky,ly,database.get_ry(perfil_selected_pos));
+                double esb = esbeltez_final(esbx,esby);
+                double esbzero = esbeltez_zero(q,database.get_area(perfil_selected_pos),fy,ne);
+                double X = X(esbzero);
+                double NCRD = NCRD(X,q,database.get_area(perfil_selected_pos),fy);
+                double coef = Coeficiente_Utilização(NCSD,NCRD);
                 Show_Results_LaminadoW(database.get_perfil(perfil_selected_pos),fy,database.get_zx(perfil_selected_pos),
                         database.get_iy(perfil_selected_pos),database.get_j(perfil_selected_pos),database.get_cw(perfil_selected_pos),
                         database.get_wx(perfil_selected_pos),database.get_mesa(perfil_selected_pos),database.get_aba(perfil_selected_pos),
                         database.get_rx(perfil_selected_pos),database.get_ry(perfil_selected_pos),database.get_area(perfil_selected_pos),
-                        NCSD,kx,ky,kz,lx,ly,lz);
+                        NCSD,kx,ky,kz,lx,ly,lz,qa,qs,q,esbx,esby,esb,nex,ney,nez,ne,esbzero,X,NCRD,coef);
             }
             else if(secao == 2)
             {
@@ -83,10 +99,185 @@ public class OutputVCompressaoActivity extends AppCompatActivity {
     }
 
     //CALCULOS DE VERIFICACAO
+        //flambagem local
+    private double esbeltez_limite_AA(double fy) // b/t lim
+    {
+        return (1.49) * (Math.sqrt(E_aco/(fy/10)));
+    }
+    private double esbeltez_de_placa_AA(double mesa) // recebe do banco de dados
+    {
+        return mesa;
+    }
+    private boolean esb_lim_MAIORIGUAL_placa(double lim, double placa)
+    {
+        return lim >= placa;
+    }
+    private double bef(double tw, double fy, double mesa)
+    {
+        return (1.92)*(tw)*(Math.sqrt(E_aco/(fy/10)))*( (1)-((0.34/mesa)*(Math.sqrt(E_aco/(fy/10)))) );
+    }
+    private double Aef(double ag, double dlinha, double bef, double tw)
+    {
+        return (ag) - (((dlinha-bef)*tw)/100); //mm para cm dlinha e bef divide 100
+    }
+    private double Qa_sem_flambagem()
+    {
+        return 1.0;
+    }
+    private double Qa_com_flambagem(double aef, double ag)
+    {
+        return aef / ag;
+    }
+    private double Qa(double fy,double mesa,double tw,double ag,double dlinha)
+    {
+        double e_lim = esbeltez_limite_AA(fy);
+        System.out.println(e_lim);
+        double e_placa = esbeltez_de_placa_AA(mesa);
+        System.out.println(e_placa);
+        if(esb_lim_MAIORIGUAL_placa(e_lim,e_placa))
+            return Qa_sem_flambagem();
+        else
+        {
+            double valor_bef = bef(tw,fy,mesa);
+            double valor_aef = Aef(ag,dlinha,valor_bef,tw);
+            return Qa_com_flambagem(valor_aef,ag);
+        }
+    }
 
+    private double esbeltez_limite1_AL(double fy) // b/t lim
+    {
+        return (0.56) * (Math.sqrt(E_aco/(fy/10)));
+    }
+    private double esbeltez_limite2_AL(double fy)
+    {
+        return (1.03) * (Math.sqrt(E_aco/(fy/10)));
+    }
+    private double esbeltez_de_placa_AL(double aba) // banco de dados
+    {
+        return aba;
+    }
+    private boolean lim1_MENOR_placa_MENORIGUAL_lim2(double lim1, double placa, double lim2)
+    {
+        return (lim1 < placa) && (placa <= lim2);
+    }
+    private boolean placa_MAIOR_lim2(double placa, double lim2)
+    {
+        return placa > lim2;
+    }
+    private double Qs_sem_flambagem()
+    {
+        return 1.0;
+    }
+    private double Qs_com_flambagem_1(double aba, double fy)
+    {
+        return 1.415 - (0.74*aba*(Math.sqrt((fy/10)/E_aco)));
+    }
+    private double Qs_com_flambagem_2(double aba, double fy)
+    {
+        return (0.69*E_aco)/((fy/10)*(Math.pow(aba,2)));
+    }
+    private double Qs(double fy, double aba)
+    {
+        double e_lim1 = esbeltez_limite1_AL(fy);
+        double e_lim2 = esbeltez_limite2_AL(fy);
+        double e_placa = esbeltez_de_placa_AL(aba);
+        if(e_lim1 >= e_placa)
+        {
+            System.out.println("c1");
+            return Qs_sem_flambagem();
+        }
+        else if(lim1_MENOR_placa_MENORIGUAL_lim2(e_lim1,e_placa,e_lim2))
+        {
+            System.out.println("c2");
+            return Qs_com_flambagem_1(e_placa,fy);
+        }
+        else //if(placa_MAIOR_lim2(e_placa,e_lim2))
+        {
+            System.out.println("c3");
+            return Qs_com_flambagem_2(e_placa,fy);
+        }
+    }
+    private double Q(double qa, double qs)
+    {
+        return qa*qs;
+    }
 
-    //ARREDONDAMENTOS
-    double casasDecimais(double original, int quant)
+        //flambagem global
+
+    private double esbeltez_x(double kx, double lx, double rx)
+    {
+        return (kx*lx)/rx;
+    }
+    private double esbeltez_y(double ky, double ly, double ry)
+    {
+        return (ky*ly)/ry;
+    }
+    private double esbeltez_final(double e_x, double e_y)
+    {   if(e_x > e_y)
+            return e_x;
+        return e_y;
+    }
+    private double Nex(double ix, double kx, double lx)
+    {
+        return ( Math.pow(Math.PI,2) * E_aco * ix ) / ( Math.pow(kx*lx,2) );
+    }
+    private double Ney(double iy, double ky, double ly)
+    {
+        return ( Math.pow(Math.PI,2) * E_aco * iy ) / ( Math.pow(ky*ly,2) );
+    }
+    private double Nez(double rx, double ry, double cw, double kz, double lz, double j)
+    {
+        double r0_quadrado = (Math.pow(rx,2)+Math.pow(ry,2));
+        return ( 1/r0_quadrado ) * ( ( ( Math.pow(Math.PI,2)*E_aco*cw )/( Math.pow(kz*lz,2) ) ) + ( G*j ) );
+    }
+    private double Ne(double nex, double ney, double nez)
+    {
+        double menor = nex;
+        if(ney < menor)
+            menor = ney;
+        if(nez < menor)
+            menor = nez;
+        return menor;
+    }
+    private double esbeltez_zero(double Q, double ag, double fy, double Ne) //força critica de flambagem global
+    {
+        return Math.sqrt((Q*ag*(fy/10))/Ne);
+    }
+    private double X_1(double esb_zero)
+    {
+        return Math.pow(0.658,Math.pow(esb_zero,2));
+    }
+    private double X_2(double esb_zero)
+    {
+        return 0.877/Math.pow(esb_zero,2);
+    }
+    private double X(double esb_zero)
+    {
+        if(esb_zero <= 1.5)
+            return X_1(esb_zero);
+        return X_2(esb_zero);
+    }
+
+        //normal resistente e coef
+    private double NCRD(double X, double Q, double ag, double fy)
+    {
+        return ( X*Q*ag*(fy/10) )/( gama_a1 );
+    }
+    private double Coeficiente_Utilização(double NCSD, double NCRD)
+    {   return ( NCSD / NCRD );
+    }
+
+        //verificacoes
+    boolean NCRD_MaiorIgual_NCSD(double NCRD, double NCSD)
+    {
+        return NCRD >= NCSD;
+    }
+    boolean ESBELTEZ_MenorIgual_200(double esbeltez)
+    {
+        return esbeltez <= 200;
+    }
+    //ARREDONDAMENTOS E CONVERSOES
+    private double casasDecimais(double original, int quant)
     {   double valor = original;
         String formato = "%." + quant + "f";
         valor = Double.valueOf(String.format(Locale.US, formato, valor));
@@ -95,8 +286,10 @@ public class OutputVCompressaoActivity extends AppCompatActivity {
 
     //CRIACAO LAYOUT
 
-    void Show_Results_LaminadoW(String perfil, double fy, double zx, double iy, double j, double cw, double wx, double mesa, double aba,
-                                double rx, double ry, double ag, double ncsd, double kx, double ky, double kz, double lx, double ly, double lz)
+    private void Show_Results_LaminadoW(String perfil, double fy, double zx, double iy, double j, double cw, double wx, double mesa, double aba,
+                                double rx, double ry, double ag, double ncsd, double kx, double ky, double kz, double lx, double ly, double lz,
+                                double qa, double qs, double q, double esbx, double esby, double esb, double nex, double ney, double nez, double ne,
+                                        double esbzero, double X, double ncrd, double coef )
     {
         scroll_results = (LinearLayout) findViewById(R.id.scroll_results_idcomp);
         final int tam_grande = 25, tam_pequeno = 18;
@@ -110,7 +303,7 @@ public class OutputVCompressaoActivity extends AppCompatActivity {
         TextView TV_elasticidade = new TextView(OutputVCompressaoActivity.this);
         TV_elasticidade.setText(Html.fromHtml("E<small><sub>aco</sub></small> = 200000 MPa"));
         TV_elasticidade.setTextSize(tam_pequeno);
-        TV_elasticidade.setPadding(0,15,0,15);
+        TV_elasticidade.setPadding(0,50,0,15);
         scroll_results.addView(TV_elasticidade);
 
         TextView TV_fy = new TextView(OutputVCompressaoActivity.this);
@@ -218,10 +411,164 @@ public class OutputVCompressaoActivity extends AppCompatActivity {
         TextView TV_lz = new TextView(OutputVCompressaoActivity.this);
         TV_lz.setText(Html.fromHtml("L<small><sub>z</sub></small> = " + casasDecimais(lz,2) + " cm"));
         TV_lz.setTextSize(tam_pequeno);
-        TV_lz.setPadding(0,15,0,15);
+        TV_lz.setPadding(0,15,0,100);
         scroll_results.addView(TV_lz);
+
+        TextView TV_flamblocal = new TextView(OutputVCompressaoActivity.this);
+        TV_flamblocal.setText("FLAMBAGEM LOCAL");
+        TV_flamblocal.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
+        TV_flamblocal.setTextSize(tam_grande);
+        scroll_results.addView(TV_flamblocal);
+
+        TextView TV_Qa = new TextView(OutputVCompressaoActivity.this);
+        TV_Qa.setText(Html.fromHtml("Q<small><sub>a</sub></small> = " + casasDecimais(qa,3)));
+        TV_Qa.setTextSize(tam_pequeno);
+        TV_Qa.setPadding(0,50,0,15);
+        scroll_results.addView(TV_Qa);
+
+        TextView TV_Qs = new TextView(OutputVCompressaoActivity.this);
+        TV_Qs.setText(Html.fromHtml("Q<small><sub>s</sub></small> = " + casasDecimais(qs,3)));
+        TV_Qs.setTextSize(tam_pequeno);
+        TV_Qs.setPadding(0,15,0,15);
+        scroll_results.addView(TV_Qs);
+
+        TextView TV_Q = new TextView(OutputVCompressaoActivity.this);
+        TV_Q.setText(Html.fromHtml("Q = " + casasDecimais(q,3)));
+        TV_Q.setTextSize(tam_pequeno);
+        TV_Q.setPadding(0,15,0,100);
+        scroll_results.addView(TV_Q);
+
+        TextView TV_flambglobal = new TextView(OutputVCompressaoActivity.this);
+        TV_flambglobal.setText("FLAMBAGEM GLOBAL");
+        TV_flambglobal.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
+        TV_flambglobal.setTextSize(tam_grande);
+        scroll_results.addView(TV_flambglobal);
+
+        TextView TV_esbx = new TextView(OutputVCompressaoActivity.this);
+        TV_esbx.setText(Html.fromHtml("λ<small><sub>x</sub></small> = " + casasDecimais(esbx,2)));
+        TV_esbx.setTextSize(tam_pequeno);
+        TV_esbx.setPadding(0,50,0,15);
+        scroll_results.addView(TV_esbx);
+
+        TextView TV_esby = new TextView(OutputVCompressaoActivity.this);
+        TV_esby.setText(Html.fromHtml("λ<small><sub>y</sub></small> = " + casasDecimais(esby,2)));
+        TV_esby.setTextSize(tam_pequeno);
+        TV_esby.setPadding(0,15,0,15);
+        scroll_results.addView(TV_esby);
+
+        TextView TV_esb = new TextView(OutputVCompressaoActivity.this);
+        TV_esb.setText(Html.fromHtml("λ = " + casasDecimais(esb,2)));
+        TV_esb.setTextSize(tam_pequeno);
+        TV_esb.setPadding(0,15,0,15);
+        scroll_results.addView(TV_esb);
+
+        TextView TV_nex = new TextView(OutputVCompressaoActivity.this);
+        TV_nex.setText(Html.fromHtml("N<small><sub>ex</sub></small> = " + casasDecimais(nex,2) + " kN"));
+        TV_nex.setTextSize(tam_pequeno);
+        TV_nex.setPadding(0,100,0,15);
+        scroll_results.addView(TV_nex);
+
+        TextView TV_ney = new TextView(OutputVCompressaoActivity.this);
+        TV_ney.setText(Html.fromHtml("N<small><sub>ey</sub></small> = " + casasDecimais(ney,2) + " kN"));
+        TV_ney.setTextSize(tam_pequeno);
+        TV_ney.setPadding(0,15,0,15);
+        scroll_results.addView(TV_ney);
+
+        TextView TV_nez = new TextView(OutputVCompressaoActivity.this);
+        TV_nez.setText(Html.fromHtml("N<small><sub>ez</sub></small> = " + casasDecimais(nez,2) + " kN"));
+        TV_nez.setTextSize(tam_pequeno);
+        TV_nez.setPadding(0,15,0,15);
+        scroll_results.addView(TV_nez);
+
+        TextView TV_ne = new TextView(OutputVCompressaoActivity.this);
+        TV_ne.setText(Html.fromHtml("N<small><sub>e</sub></small> = " + casasDecimais(ne,2) + " kN"));
+        TV_ne.setTextSize(tam_pequeno);
+        TV_ne.setPadding(0,15,0,15);
+        scroll_results.addView(TV_ne);
+
+        TextView TV_esbzero = new TextView(OutputVCompressaoActivity.this);
+        TV_esbzero.setText(Html.fromHtml("λ<small><sub>0</sub></small> = " + casasDecimais(esbzero,3) ));
+        TV_esbzero.setTextSize(tam_pequeno);
+        TV_esbzero.setPadding(0,100,0,15);
+        scroll_results.addView(TV_esbzero);
+
+        TextView TV_flamb = new TextView(OutputVCompressaoActivity.this);
+        TV_flamb.setText(Html.fromHtml("χ = " + casasDecimais(X,3) ));
+        TV_flamb.setTextSize(tam_pequeno);
+        TV_flamb.setPadding(0,15,0,15);
+        scroll_results.addView(TV_flamb);
+
+        TextView TV_compressao = new TextView(OutputVCompressaoActivity.this);
+        TV_compressao.setText("NORMAL RESISTENTE DE CÁLCULO");
+        TV_compressao.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
+        TV_compressao.setTextSize(tam_grande);
+        scroll_results.addView(TV_compressao);
+
+        TextView TV_compNCRD = new TextView(OutputVCompressaoActivity.this);
+        TV_compNCRD.setText(Html.fromHtml("N<small><sub>c,Rd</sub></small> = " + casasDecimais(ncrd,2) + " kN"));
+        TV_compNCRD.setTextSize(tam_pequeno);
+        TV_compNCRD.setPadding(0,50,0,100);
+        scroll_results.addView(TV_compNCRD);
+
+        TextView TV_coef = new TextView(OutputVCompressaoActivity.this);
+        TV_coef.setText("COEFICIENTE DE UTILIZAÇÃO");
+        TV_coef.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
+        TV_coef.setTextSize(tam_grande);
+        scroll_results.addView(TV_coef);
+
+        TextView TV_coefvalor = new TextView(OutputVCompressaoActivity.this);
+        TV_coefvalor.setText(Html.fromHtml("N<small><sub>c,Sd</sub></small> / N<small><sub>c,Rd</sub></small> = " + casasDecimais(coef,3) + " kN"));
+        TV_coefvalor.setTextSize(tam_pequeno);
+        TV_coefvalor.setPadding(0,50,0,100);
+        scroll_results.addView(TV_coefvalor);
+
+        TextView TV_verif = new TextView(OutputVCompressaoActivity.this);
+        TV_verif.setText("VERIFICAÇÕES");
+        TV_verif.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
+        TV_verif.setTextSize(tam_grande);
+        scroll_results.addView(TV_verif);
+
+        if(NCRD_MaiorIgual_NCSD(ncrd,ncsd))
+        {
+            TextView TV_nc = new TextView(OutputVCompressaoActivity.this);
+            TV_nc.setText(Html.fromHtml("N<small><sub>c,Rd</sub></small> maior que N<small><sub>c,Sd</sub></small>: OK! "));
+            TV_nc.setTextSize(tam_pequeno);
+            TV_nc.setPadding(0,15,0,100);
+            TV_nc.setTextColor(getResources().getColor(R.color.color_ok));
+            scroll_results.addView(TV_nc);
+        }
+        else
+        {
+            TextView TV_nc = new TextView(OutputVCompressaoActivity.this);
+            TV_nc.setText(Html.fromHtml("N<small><sub>c,Rd</sub></small> menor que N<small><sub>c,Sd</sub></small>: NÃO OK! "));
+            TV_nc.setTextSize(tam_pequeno);
+            TV_nc.setPadding(0,15,0,100);
+            TV_nc.setTextColor(getResources().getColor(R.color.color_Nok));
+            scroll_results.addView(TV_nc);
+        }
+
+        if(ESBELTEZ_MenorIgual_200(esb))
+        {
+            TextView TV_esb200 = new TextView(OutputVCompressaoActivity.this);
+            TV_esb200.setText("Esbeltez menor que 200: OK!");
+            TV_esb200.setTextSize(tam_pequeno);
+            TV_esb200.setPadding(0,15,0,100);
+            TV_esb200.setTextColor(getResources().getColor(R.color.color_ok));
+            scroll_results.addView(TV_esb200);
+        }
+        else
+        {
+            TextView TV_esb200 = new TextView(OutputVCompressaoActivity.this);
+            TV_esb200.setText("Esbeltez maior que 200: NÃO OK!");
+            TV_esb200.setTextSize(tam_pequeno);
+            TV_esb200.setPadding(0,15,0,100);
+            TV_esb200.setTextColor(getResources().getColor(R.color.color_Nok));
+            scroll_results.addView(TV_esb200);
+        }
+
+
     }
-    void Show_Results_SoldadoCustom()
+    private void Show_Results_SoldadoCustom()
     {
 
     }
