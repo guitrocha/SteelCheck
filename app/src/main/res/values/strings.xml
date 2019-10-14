@@ -11,6 +11,7 @@
     <string name="dimens_menu">Dimensionamento de Perfis Metálicos</string>
     <string name="tracao_sc">TRAÇÃO</string>
     <string name="compressao_sc">COMPRESSÃO</string>
+    <string name="flexao_sc">FLEXÃO</string>
     <string name="ntsd">Nt,Sd (kN):</string>
     <string name="fy">ƒy (MPa):</string>
     <string name="lx">Lx (cm):</string>
@@ -30,6 +31,11 @@
         <item>Laminado W</item>
     </string-array>
     <string-array name="secao_comp">
+        <item>Escolha seção</item>
+        <item>Laminado W</item>
+        <item>Soldado Customizado</item>
+    </string-array>
+    <string-array name="secao_flexao">
         <item>Escolha seção</item>
         <item>Laminado W</item>
         <item>Soldado Customizado</item>
@@ -125,7 +131,7 @@
         <item>W 610 x 155.0</item>
         <item>W 610 x 174.0</item>
     </string-array>
-    <string-array name="d_comp">
+    <string-array name="d">
         <item>100</item>
         <item>150</item>
         <item>200</item>
@@ -146,7 +152,7 @@
         <item>950</item>
         <item>1000</item>
     </string-array>
-    <string-array name="tw_comp">
+    <string-array name="tw">
         <item>4.75</item>
         <item>6.35</item>
         <item>8.00</item>
@@ -155,7 +161,7 @@
         <item>16.0</item>
         <item>19.0</item>
     </string-array>
-    <string-array name="bf_comp">
+    <string-array name="bf">
         <item>100</item>
         <item>150</item>
         <item>175</item>
@@ -171,7 +177,7 @@
         <item>650</item>
         <item>700</item>
     </string-array>
-    <string-array name="tf_comp">
+    <string-array name="tf">
         <item>4.75</item>
         <item>6.35</item>
         <item>8.00</item>
@@ -180,5 +186,11 @@
         <item>16.0</item>
         <item>19.0</item>
         <item>25.0</item>
+    </string-array>
+    <string-array name="analiseflexao">
+        <item>Momento Fletor</item>
+        <item>Momento e Cortante</item>
+        <item>Momento e Flecha</item>
+        <item>Momento, Cortante e Flecha</item>
     </string-array>
 </resources>

@@ -181,7 +181,7 @@ public class OutputVTracaoActivity extends AppCompatActivity {
         scroll_results.addView(TV_esbeltez);
 
         ImageButton plus = new ImageButton(OutputVTracaoActivity.this);
-        plus.setBackgroundResource(R.drawable.plus);
+        plus.setBackgroundResource(android.R.drawable.arrow_down_float);
         plus.setLayoutParams(new LinearLayout.LayoutParams(LinearLayoutCompat.LayoutParams.WRAP_CONTENT, LinearLayoutCompat.LayoutParams.WRAP_CONTENT));
         scroll_results.addView(plus);
 
@@ -493,13 +493,13 @@ public class OutputVTracaoActivity extends AppCompatActivity {
             TV_lambda_y.setPadding(60,15,0,100);
             plus_content.addView(TV_lambda_y);
 
-            v.setBackgroundResource(R.drawable.minus);
+            v.setBackgroundResource(android.R.drawable.arrow_up_float);
             plus_controler = 1;
         }
         else
         {
             plus_content.removeAllViews();
-            v.setBackgroundResource(R.drawable.plus);
+            v.setBackgroundResource(android.R.drawable.arrow_down_float);
             plus_controler = 0;
         }
     }

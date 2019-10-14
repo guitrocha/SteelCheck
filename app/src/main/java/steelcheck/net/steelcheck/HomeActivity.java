@@ -149,7 +149,10 @@ public class HomeActivity extends AppCompatActivity
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(intent);
         } else if (id == R.id.nav_flexaoV) {
-
+            Intent intent = new Intent(HomeActivity.this,VFlexaoActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivity(intent);
         } else if (id == R.id.nav_flexocompressaoV) {
 
         } else if (id == R.id.nav_tracaoD) {

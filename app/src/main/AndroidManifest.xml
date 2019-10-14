@@ -38,6 +38,14 @@
             android:name=".OutputVCompressaoActivity"
             android:label="Verificação de Compressão"
             android:theme="@style/SteelCheckMain" />
+        <activity
+            android:name=".VFlexaoActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".OutputVFlexaoActivity"
+            android:label="Verificação de Flexão"
+            android:theme="@style/SteelCheckMain" />
 
     </application>
 

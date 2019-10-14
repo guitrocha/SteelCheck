@@ -125,7 +125,10 @@ public class VCompressaoActivity extends AppCompatActivity
         } else if (id == R.id.nav_compressaoV) {
             // keep activity
         } else if (id == R.id.nav_flexaoV) {
-
+            Intent intent = new Intent(new Intent(VCompressaoActivity.this,VFlexaoActivity.class));
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivity(intent);
         } else if (id == R.id.nav_flexocompressaoV) {
 
         } else if (id == R.id.nav_tracaoD) {
@@ -202,7 +205,7 @@ public class VCompressaoActivity extends AppCompatActivity
                     d.setPadding(0,10,0,10);
 
                     Spinner spinner_d = new Spinner(VCompressaoActivity.this);
-                    final ArrayAdapter<CharSequence> adapter_d = ArrayAdapter.createFromResource(VCompressaoActivity.this, R.array.d_comp, android.R.layout.simple_spinner_item);
+                    final ArrayAdapter<CharSequence> adapter_d = ArrayAdapter.createFromResource(VCompressaoActivity.this, R.array.d, android.R.layout.simple_spinner_item);
                     adapter_d.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinner_d.setAdapter(adapter_d);
                     spinner_d.setOnItemSelectedListener(new dSpinnerClass());
@@ -223,7 +226,7 @@ public class VCompressaoActivity extends AppCompatActivity
                     tw.setPadding(0,10,0,10);
 
                     Spinner spinner_tw = new Spinner(VCompressaoActivity.this);
-                    final ArrayAdapter<CharSequence> adapter_tw = ArrayAdapter.createFromResource(VCompressaoActivity.this, R.array.tw_comp, android.R.layout.simple_spinner_item);
+                    final ArrayAdapter<CharSequence> adapter_tw = ArrayAdapter.createFromResource(VCompressaoActivity.this, R.array.tw, android.R.layout.simple_spinner_item);
                     adapter_tw.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinner_tw.setAdapter(adapter_tw);
                     spinner_tw.setOnItemSelectedListener(new twSpinnerClass());
@@ -244,7 +247,7 @@ public class VCompressaoActivity extends AppCompatActivity
                     bf.setPadding(0,10,0,10);
 
                     Spinner spinner_bf = new Spinner(VCompressaoActivity.this);
-                    final ArrayAdapter<CharSequence> adapter_bf = ArrayAdapter.createFromResource(VCompressaoActivity.this, R.array.bf_comp, android.R.layout.simple_spinner_item);
+                    final ArrayAdapter<CharSequence> adapter_bf = ArrayAdapter.createFromResource(VCompressaoActivity.this, R.array.bf, android.R.layout.simple_spinner_item);
                     adapter_bf.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinner_bf.setAdapter(adapter_bf);
                     spinner_bf.setOnItemSelectedListener(new bfSpinnerClass());
@@ -265,7 +268,7 @@ public class VCompressaoActivity extends AppCompatActivity
                     tf.setPadding(0,10,0,10);
 
                     Spinner spinner_tf = new Spinner(VCompressaoActivity.this);
-                    final ArrayAdapter<CharSequence> adapter_tf = ArrayAdapter.createFromResource(VCompressaoActivity.this, R.array.tf_comp, android.R.layout.simple_spinner_item);
+                    final ArrayAdapter<CharSequence> adapter_tf = ArrayAdapter.createFromResource(VCompressaoActivity.this, R.array.tf, android.R.layout.simple_spinner_item);
                     adapter_tf.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinner_tf.setAdapter(adapter_tf);
                     spinner_tf.setOnItemSelectedListener(new tfSpinnerClass());
