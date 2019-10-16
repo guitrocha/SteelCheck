@@ -39,9 +39,13 @@ public class VFlexaoActivity extends AppCompatActivity
     private double tf_selected;
     private int analise_selected_pos = 0;
     private LinearLayout analise_auxiliar_layout;
+    private TextView vao;
     private EditText vao_box;
+    private TextView flechamax;
     private EditText flechamax_box;
+    private TextView Vsdx;
     private EditText Vsdx_box;
+    private TextView Vsdy;
     private EditText Vsdy_box;
 
     @Override
@@ -376,6 +380,54 @@ public class VFlexaoActivity extends AppCompatActivity
                 analise_auxiliar_layout.setOrientation(LinearLayout.VERTICAL);
                 linear_scroll.addView(analise_auxiliar_layout);
 
+                //text
+                Vsdx = new TextView(VFlexaoActivity.this);
+                Vsdx.setText(Html.fromHtml("V<sub><small>Sd,x</small></sub> (kN):"));
+                Vsdx.setTextSize(17);
+                Vsdx.setPadding(0,10,0,10);
+
+                //box
+                Vsdx_box = new EditText(VFlexaoActivity.this);
+                Vsdx_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                Vsdx_box.setPadding(100,10,100,10);
+                Vsdx_box.canScrollHorizontally(1);
+
+                //text
+                Vsdy = new TextView(VFlexaoActivity.this);
+                Vsdy.setText(Html.fromHtml("V<sub><small>Sd,y</small></sub> (kN):"));
+                Vsdy.setTextSize(17);
+                Vsdy.setPadding(0,10,0,10);
+
+                //box
+                Vsdy_box = new EditText(VFlexaoActivity.this);
+                Vsdy_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                Vsdy_box.setPadding(100,10,100,10);
+                Vsdy_box.canScrollHorizontally(1);
+
+                //text
+                flechamax = new TextView(VFlexaoActivity.this);
+                flechamax.setText(Html.fromHtml("δ<sub><small>max</small></sub> (mm):"));
+                flechamax.setTextSize(17);
+                flechamax.setPadding(0,10,0,10);
+
+                //box
+                flechamax_box = new EditText(VFlexaoActivity.this);
+                flechamax_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                flechamax_box.setPadding(100,10,100,10);
+                flechamax_box.canScrollHorizontally(1);
+
+                //text
+                vao = new TextView(VFlexaoActivity.this);
+                vao.setText(Html.fromHtml("Vão<sub><small>max</small></sub> (m):"));
+                vao.setTextSize(17);
+                vao.setPadding(0,10,0,10);
+
+                //box
+                vao_box = new EditText(VFlexaoActivity.this);
+                vao_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                vao_box.setPadding(100,10,100,10);
+                vao_box.canScrollHorizontally(1);
+
                 //final botao
                 Button botao_verificar = new Button(VFlexaoActivity.this);
                 botao_verificar.setText(R.string.verificar);
@@ -421,6 +473,7 @@ public class VFlexaoActivity extends AppCompatActivity
                             //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             //intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                             intent.putExtra("secao",position);
+                            intent.putExtra("analise",analise_selected_pos);
                             if(position == 1)
                                 intent.putExtra("perfil",perfil_selected_pos);
                             else if(position == 2)
@@ -544,53 +597,7 @@ public class VFlexaoActivity extends AppCompatActivity
             }
             else
             {
-                //text
-                TextView Vsdx = new TextView(VFlexaoActivity.this);
-                Vsdx.setText(Html.fromHtml("V<sub><small>Sd,x</small></sub> (kN):"));
-                Vsdx.setTextSize(17);
-                Vsdx.setPadding(0,10,0,10);
 
-                //box
-                Vsdx_box = new EditText(VFlexaoActivity.this);
-                Vsdx_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
-                Vsdx_box.setPadding(100,10,100,10);
-                Vsdx_box.canScrollHorizontally(1);
-
-                //text
-                TextView Vsdy = new TextView(VFlexaoActivity.this);
-                Vsdy.setText(Html.fromHtml("V<sub><small>Sd,y</small></sub> (kN):"));
-                Vsdy.setTextSize(17);
-                Vsdy.setPadding(0,10,0,10);
-
-                //box
-                Vsdy_box = new EditText(VFlexaoActivity.this);
-                Vsdy_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
-                Vsdy_box.setPadding(100,10,100,10);
-                Vsdy_box.canScrollHorizontally(1);
-
-                //text
-                TextView flechamax = new TextView(VFlexaoActivity.this);
-                flechamax.setText(Html.fromHtml("δ<sub><small>max</small></sub> (mm):"));
-                flechamax.setTextSize(17);
-                flechamax.setPadding(0,10,0,10);
-
-                //box
-                flechamax_box = new EditText(VFlexaoActivity.this);
-                flechamax_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
-                flechamax_box.setPadding(100,10,100,10);
-                flechamax_box.canScrollHorizontally(1);
-
-                //text
-                TextView vao = new TextView(VFlexaoActivity.this);
-                vao.setText(Html.fromHtml("Vão<sub><small>max</small></sub> (m):"));
-                vao.setTextSize(17);
-                vao.setPadding(0,10,0,10);
-
-                //box
-                vao_box = new EditText(VFlexaoActivity.this);
-                vao_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
-                vao_box.setPadding(100,10,100,10);
-                vao_box.canScrollHorizontally(1);
 
                 analise_auxiliar_layout.removeAllViews();
 

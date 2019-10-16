@@ -37,7 +37,7 @@ public class OutputVFlexaoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_output_vcompressao);
+        setContentView(R.layout.activity_output_vflexao);
         Window window = getWindow();
         window.setStatusBarColor(Color.BLACK); // api21+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //back button
@@ -47,107 +47,774 @@ public class OutputVFlexaoActivity extends AppCompatActivity {
 
         if(extras != null)
         {
+            double msdx = extras.getDouble("msdx");
+            double msdy = extras.getDouble("msdy");
+            double fy = extras.getDouble("fy");
+            double lb = extras.getDouble("lb");
+            double cb = extras.getDouble("cb");
+            int secao = extras.getInt("secao");
+            int analise = extras.getInt("analise");
+            double vsdx = 0;
+            double vsdy = 0;
+            double flecha = 0;
+            double vao = 0;
+            if(analise == 1)
+            {
+                vsdx = extras.getDouble("vsdx");
+                vsdy = extras.getDouble("vsdy");
+            }
+            else if(analise == 2)
+            {
+                vao = extras.getDouble("vao");
+                flecha = extras.getDouble("flecha");
+            }
+            else if(analise == 3)
+            {
+                vsdx = extras.getDouble("vsdx");
+                vsdy = extras.getDouble("vsdy");
+                vao = extras.getDouble("vao");
+                flecha = extras.getDouble("flecha");
+            }
 
+            if(secao == 1)
+            {
+                DatabaseAccess database = DatabaseAccess.getInstance(getApplicationContext());
+                database.open();
+                int perfil = extras.getInt("perfil");
+                double FLM_lambda_b = FLM_lambda_b(database.get_aba(perfil));
+                double FLM_lambda_p = FLM_lambda_p(fy);
+                double FLM_lambda_r = FLM_lambda_r_LaminadoW(fy);
+                double FLM_mpx = Mpx(database.get_zx(perfil),fy);
+                double FLM_mpy = Mpy(database.get_zy(perfil),fy);
+                double FLM_mrx = FLM_Mrx(database.get_wx(perfil),fy);
+                double FLM_mry = FLM_Mry(database.get_wy(perfil),fy);
+                double FLM_mnx = Mn_FLM_x_LaminadoW(FLM_mpx,FLM_mrx,FLM_lambda_b,FLM_lambda_p,FLM_lambda_r,database.get_wx(perfil));
+                double FLM_mny = Mn_FLM_y_LaminadoW(FLM_mpy,FLM_mry,FLM_lambda_b,FLM_lambda_p,FLM_lambda_r,database.get_wy(perfil));
+                String FLM = FLM(FLM_lambda_b,FLM_lambda_p,FLM_lambda_r);
+                double FLA_lambda_b = FLM_lambda_b(database.get_mesa(perfil));
+                double FLA_lambda_p = FLA_lambda_p(fy);
+                double FLA_lambda_r = FLA_lambda_r(fy);
+                double FLA_mr = FLA_Mrx(database.get_wx(perfil),fy);
+                double FLA_mn = FLA_Mn(FLA_lambda_b,FLA_lambda_p,FLA_lambda_r,FLM_mpx,FLA_mr);
+                String FLA = FLA(FLA_lambda_b,FLA_lambda_p,FLA_lambda_r);
+
+                Show_Results_LaminadoW(database.get_perfil(perfil),analise,fy,database.get_ry(perfil),database.get_zx(perfil),database.get_iy(perfil),database.get_j(perfil)
+                ,database.get_cw(perfil),database.get_wx(perfil),database.get_mesa(perfil),database.get_aba(perfil),
+                        msdx,msdy,cb,vsdx,vsdy,flecha,vao,
+                        FLM,FLM_lambda_b,FLM_lambda_p,FLM_lambda_r,FLM_mnx,FLM_mny,
+                        FLA,FLA_lambda_b,FLA_lambda_p,FLA_lambda_r,FLA_mn,
+                        "teste3",lb,0,0,0,0,0,0,0,0,0,0,0);
+                database.close();
+            }
+            else if(secao == 2)
+            {
+                double d = extras.getDouble("d");
+                double tw = extras.getDouble("tw");
+                double bf = extras.getDouble("bf");
+                double tf = extras.getDouble("tf");
+                DatabaseCustom database = new DatabaseCustom();
+                database.calcularValores(d,tw,bf,tf);
+                Show_Results_SoldadoCustom("CUSTOMIZADO",analise,fy,d,tw,bf,tf,database.getRy(),database.getZx(),database.getIy(),database.getJ()
+                        ,database.getCw(),database.getWx(),database.getMesa(),database.getAba(),
+                        msdx,msdy,cb,vsdx,vsdy,flecha,vao,
+                        "teste",0,0,0,0,0,
+                        "teste2",0,0,0,0,
+                        "teste3",lb,0,0,0,0,0,0,0,0,0,0,0);
+
+            }
         }
 
     }
 
+    //CALCULOS DE VERIFICACAO
+    private double FLM_lambda_b(double aba)
+    {
+        return aba;
+    }
+    private double FLM_lambda_p(double fy)
+    {
+        return 0.38 * Math.sqrt(E_aco/(fy/10));
+    }
+    private double FLM_lambda_r_LaminadoW(double fy)
+    {
+        return 0.83 * Math.sqrt(1*E_aco/(0.7*(fy/10)));
+    }
+    private double Mpx(double zx, double fy)
+    {
+        return zx*(fy/1000);
+    }
+    private double Mpy(double zy, double fy)
+    {
+        return zy*(fy/1000);
+    }
+    private double FLM_Mrx(double wx, double fy)
+    {
+        return 0.7*wx*(fy/1000);
+    }
+    private double FLM_Mry(double wy, double fy)
+    {
+        return 0.7*wy*(fy/1000);
+    }
+    private double Mn_FLM_x_LaminadoW(double mpx, double mrx, double lambda_b, double lambda_p, double lambda_r, double wx)
+    {
+        if(lambda_b <= lambda_p)
+            return mpx;
+        if(lambda_b > lambda_p && lambda_b <= lambda_r)
+            return ( mpx ) - ( ( ( lambda_b - lambda_p )/( lambda_r - lambda_p ) )*( mpx - mrx ) );
+        return 0.69*E_aco*wx/Math.pow(lambda_b,2);
+    }
+    private double Mn_FLM_y_LaminadoW(double mpy, double mry, double lambda_b, double lambda_p, double lambda_r, double wy)
+    {
+        if(lambda_b <= lambda_p)
+            return mpy;
+        if(lambda_b > lambda_p && lambda_b <= lambda_r)
+            return ( mpy ) - ( ( ( lambda_b - lambda_p )/( lambda_r - lambda_p ) )*( mpy - mry ) );
+        return 0.69*E_aco*wy/Math.pow(lambda_b,2);
+    }
+    private String FLM(double lambda_b, double lambda_p, double lambda_r)
+    {
+        if(lambda_b <= lambda_p)
+            return "Seção Compacta";
+        if(lambda_b > lambda_p && lambda_b <= lambda_r)
+            return "Seção Semicompacta";
+        return "Seção Esbelta";
+    }
+    private double FLA_lambda_b(double mesa)
+    {
+        return mesa;
+    }
+    private double FLA_lambda_p(double fy)
+    {
+        return 3.76 * Math.sqrt(E_aco/(fy/10));
+    }
+    private double FLA_lambda_r(double fy)
+    {
+        return 5.7 * Math.sqrt(E_aco/(fy/10));
+    }
+    private double FLA_Mrx(double wx, double fy)
+    {
+        return wx * fy/1000;
+    }
+    private double FLA_Mn(double lambda_b, double lambda_p, double lambda_r, double mpx, double mr)
+    {
+        if(lambda_b <= lambda_p)
+            return mpx;
+        if(lambda_b > lambda_p && lambda_b <= lambda_r)
+            return ( mpx ) - ( ( ( lambda_b - lambda_p )/( lambda_r - lambda_p ) )*( mpx - mr ) );
+        return 0; //nao vai acontecer (msg de aviso)
+    }
+    private String FLA(double lambda_b, double lambda_p, double lambda_r)
+    {
+        if(lambda_b <= lambda_p)
+            return "Seção Compacta";
+        if(lambda_b > lambda_p && lambda_b <= lambda_r)
+            return "Seção Semicompacta";
+        return "Seção Esbelta"; // nao vai acontecer
+    }
+    //ARREDONDAMENTO
+    private double casasDecimais(double original, int quant)
+    {   double valor = original;
+        String formato = "%." + quant + "f";
+        valor = Double.valueOf(String.format(Locale.US, formato, valor));
+        return valor;
+    }
+    //CRIACAO DE LAYOUT
+    private void Show_Results_LaminadoW(String perfil, int analise, double fy, double ry, double zx, double iy, double j, double cw, double wx
+            , double mesa, double aba, double msdx, double msdy, double cb, double vsdx, double vsdy, double flecha, double vao
+            , String FLM, double FLM_lambda_b, double FLM_lambda_p, double FLM_lambda_r, double mnflmx, double mnflmy
+            , String FLA, double FLA_lambda_b, double FLA_lambda_p, double FLA_lambda_r, double mnfla
+            , String FLT, double lb, double FLT_lambda_b, double lp, double FLT_lambda_p, double lr, double FLT_lambda_r, double cb_mnflt
+            , double mrdx, double mrdy, double vrdx, double vrdy, double flechaadm )
+    {
+        scroll_results = (LinearLayout) findViewById(R.id.scroll_results_idflexao);
 
-    public class DatabaseCustom{
-        public double h;
-        public double mesa;
-        public double aba;
-        public double cg;
-        public double ag;
-        public double ix;
-        public double wx;
-        public double rx;
-        public double zx;
-        public double iy;
-        public double wy;
-        public double ry;
-        public double zy;
-        public double j;
-        public double cw;
+        TextView TV_perfil = new TextView(OutputVFlexaoActivity.this);
+        TV_perfil.setText("PERFIL " + perfil);
+        TV_perfil.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
+        TV_perfil.setTextSize(tam_grande);
+        scroll_results.addView(TV_perfil);
 
-        public double getAba() {
-            return aba;
-        }
+        TextView TV_elasticidade = new TextView(OutputVFlexaoActivity.this);
+        TV_elasticidade.setText(Html.fromHtml("E<small><sub>aco</sub></small> = 200000 MPa"));
+        TV_elasticidade.setTextSize(tam_pequeno);
+        TV_elasticidade.setPadding(0,50,0,15);
+        scroll_results.addView(TV_elasticidade);
 
-        public double getH() {
-            return h;
-        }
+        TextView TV_fy = new TextView(OutputVFlexaoActivity.this);
+        TV_fy.setText(Html.fromHtml("f<small><sub>y</sub></small> = " + casasDecimais(fy,2) + " MPa"));
+        TV_fy.setTextSize(tam_pequeno);
+        TV_fy.setPadding(0,15,0,60);
+        scroll_results.addView(TV_fy);
 
-        public double getMesa() {
-            return mesa;
-        }
+        TextView TV_ry = new TextView(OutputVFlexaoActivity.this);
+        TV_ry.setText(Html.fromHtml("r<small><sub>y</sub></small> = " + casasDecimais(ry,2) + " cm"));
+        TV_ry.setTextSize(tam_pequeno);
+        TV_ry.setPadding(0,100,0,15);
+        scroll_results.addView(TV_ry);
 
-        public double getCg() {
-            return cg;
-        }
+        TextView TV_zx = new TextView(OutputVFlexaoActivity.this);
+        TV_zx.setText(Html.fromHtml("Z<small><sub>x</sub></small> = " + casasDecimais(zx,2) + " cm³"));
+        TV_zx.setTextSize(tam_pequeno);
+        TV_zx.setPadding(0,15,0,15);
+        scroll_results.addView(TV_zx);
 
-        public double getAg() {
-            return ag;
-        }
+        TextView TV_iy = new TextView(OutputVFlexaoActivity.this);
+        TV_iy.setText(Html.fromHtml("I<small><sub>y</sub></small> = " + casasDecimais(iy,2) + " cm<small><sup>4</sup></small>"));
+        TV_iy.setTextSize(tam_pequeno);
+        TV_iy.setPadding(0,15,0,15);
+        scroll_results.addView(TV_iy);
 
-        public double getIx() {
-            return ix;
-        }
+        TextView TV_J = new TextView(OutputVFlexaoActivity.this);
+        TV_J.setText(Html.fromHtml("J = " + casasDecimais(j,2) + " cm<small><sup>4</sup></small>"));
+        TV_J.setTextSize(tam_pequeno);
+        TV_J.setPadding(0,15,0,15);
+        scroll_results.addView(TV_J);
 
-        public double getWx() {
-            return wx;
-        }
+        TextView TV_cw = new TextView(OutputVFlexaoActivity.this);
+        TV_cw.setText(Html.fromHtml("C<small><sub>w</sub></small> = " + casasDecimais(cw,2) + " cm<small><sup>6</sup></small>"));
+        TV_cw.setTextSize(tam_pequeno);
+        TV_cw.setPadding(0,15,0,15);
+        scroll_results.addView(TV_cw);
 
-        public double getRx() {
-            return rx;
-        }
+        TextView TV_wx = new TextView(OutputVFlexaoActivity.this);
+        TV_wx.setText(Html.fromHtml("W<small><sub>x</sub></small> = " + casasDecimais(wx,2) + " cm<small><sup>3</sup></small>"));
+        TV_wx.setTextSize(tam_pequeno);
+        TV_wx.setPadding(0,15,0,15);
+        scroll_results.addView(TV_wx);
 
-        public double getZx() {
-            return zx;
-        }
+        TextView TV_mesa = new TextView(OutputVFlexaoActivity.this);
+        TV_mesa.setText(Html.fromHtml("h<small><sub>w</sub></small> / t<small><sub>w</sub></small> = " + casasDecimais(mesa,2) ));
+        TV_mesa.setTextSize(tam_pequeno);
+        TV_mesa.setPadding(0,15,0,15);
+        scroll_results.addView(TV_mesa);
 
-        public double getIy() {
-            return iy;
-        }
+        TextView TV_aba = new TextView(OutputVFlexaoActivity.this);
+        TV_aba.setText(Html.fromHtml("0.5b<small><sub>f</sub></small> / t<small><sub>f</sub></small> = " + casasDecimais(aba,2) ));
+        TV_aba.setTextSize(tam_pequeno);
+        TV_aba.setPadding(0,15,0,60);
+        scroll_results.addView(TV_aba);
 
-        public double getWy() {
-            return wy;
-        }
+        TextView TV_msdx = new TextView(OutputVFlexaoActivity.this);
+        TV_msdx.setText(Html.fromHtml("M<small><sub>Sd,x</sub></small> = " + casasDecimais(msdx,2) + " kNm"));
+        TV_msdx.setTextSize(tam_pequeno);
+        TV_msdx.setPadding(0,15,0,15);
+        scroll_results.addView(TV_msdx);
 
-        public double getRy() {
-            return ry;
-        }
+        TextView TV_msdy = new TextView(OutputVFlexaoActivity.this);
+        TV_msdy.setText(Html.fromHtml("M<small><sub>Sd,y</sub></small> = " + casasDecimais(msdy,2) + " kNm"));
+        TV_msdy.setTextSize(tam_pequeno);
+        TV_msdy.setPadding(0,15,0,15);
+        scroll_results.addView(TV_msdy);
 
-        public double getZy() {
-            return zy;
-        }
+        TextView TV_cb = new TextView(OutputVFlexaoActivity.this);
+        TV_cb.setText(Html.fromHtml("C<small><sub>b</sub></small> = " + casasDecimais(cb,3) ));
+        TV_cb.setTextSize(tam_pequeno);
+        TV_cb.setPadding(0,15,0,15);
+        scroll_results.addView(TV_cb);
 
-        public double getJ() {
-            return j;
-        }
-
-        public double getCw() {
-            return cw;
-        }
-
-        public void calcularValores(double d, double tw, double bf, double tf)
+            //**ATRIBUTOS ANALISE
+        if (analise == 1 || analise == 3)
         {
-            h       = d - 2*tf;
-            mesa    = h/tw;
-            aba     = 0.5*bf/tf;
-            cg      = (tf*bf*tf/2+h*tw*(tf+h/2)+tf*bf*(d-tf/2))/(tf*bf+tw*h+tf*bf);
-            ag      = (2*bf*tf+h*tw)/100;
-            ix      = ((bf*Math.pow(tf,3))/12+bf*tf*Math.pow(cg-tf/2,2)+tw*Math.pow(h,3)/12+tw*h*Math.pow(tf+h/2-cg,2)+bf*Math.pow(tf,3)/12+bf*tf*Math.pow(d-cg-tf/2,2))/10000;
-            wx      = ix/(d/10-cg/10);
-            rx      = Math.pow(ix/ag,0.5);
-            zx      = (tf*bf*(d-cg-tf/2)+tw*(d-cg-tf)*(d-cg-tf)/2+tf*bf*(cg-tf/2)+tw*(cg-tf)*(cg-tf)/2)/1000;
-            iy      = (tf*Math.pow(bf,3)/12+tf*Math.pow(bf,3)/12+h*Math.pow(tw,3)/12)/10000;
-            wy      = iy/(0.5*bf/10);
-            ry      = Math.pow(iy/ag,0.5);
-            zy      = (h*Math.pow(tw,2)/4+tf*Math.pow(bf,2)/4+tf*Math.pow(bf,2)/4)/1000;
-            j       = (bf*Math.pow(tf,3)/3+bf*Math.pow(tf,3)/3+(h+tf/2+tf/2)*Math.pow(tw,3)/3)/10000;
-            cw      = Math.pow(d-tf,2)/12*(tf*Math.pow(bf,3)*tf*Math.pow(bf,3))/(tf*Math.pow(bf,3)+tf*Math.pow(bf,3))/1000000;
+            TextView TV_vsdx = new TextView(OutputVFlexaoActivity.this);
+            TV_vsdx.setText(Html.fromHtml("V<small><sub>Sd,x</sub></small> = " + casasDecimais(vsdx,2) + " kN"));
+            TV_vsdx.setTextSize(tam_pequeno);
+            TV_vsdx.setPadding(0,15,0,15);
+            scroll_results.addView(TV_vsdx);
+
+            TextView TV_vsdy = new TextView(OutputVFlexaoActivity.this);
+            TV_vsdy.setText(Html.fromHtml("V<small><sub>Sd,y</sub></small> = " + casasDecimais(vsdy,2) + " kN"));
+            TV_vsdy.setTextSize(tam_pequeno);
+            TV_vsdy.setPadding(0,15,0,15);
+            scroll_results.addView(TV_vsdy);
         }
+        if( analise == 2 || analise == 3)
+        {
+            TextView TV_flecha = new TextView(OutputVFlexaoActivity.this);
+            TV_flecha.setText(Html.fromHtml("δ<small><sub>max</sub></small> = " + casasDecimais(flecha,2) + " mm"));
+            TV_flecha.setTextSize(tam_pequeno);
+            TV_flecha.setPadding(0,15,0,15);
+            scroll_results.addView(TV_flecha);
+
+            TextView TV_vao = new TextView(OutputVFlexaoActivity.this);
+            TV_vao.setText(Html.fromHtml("Vão = " + casasDecimais(vao,2) + " m"));
+            TV_vao.setTextSize(tam_pequeno);
+            TV_vao.setPadding(0,15,0,15);
+            scroll_results.addView(TV_vao);
+        }
+
+        //FLM
+        TextView TV_FLM = new TextView(OutputVFlexaoActivity.this);
+        TV_FLM.setText("FLM - " + FLM);
+        TV_FLM.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
+        TV_FLM.setTextSize(tam_grande);
+        TV_FLM.setPadding(0,100,0,0);
+        scroll_results.addView(TV_FLM);
+
+        TextView TV_flm_b = new TextView(OutputVFlexaoActivity.this);
+        TV_flm_b.setText(Html.fromHtml("λ<small><sub>b</sub></small> = " + casasDecimais(FLM_lambda_b,2) ));
+        TV_flm_b.setTextSize(tam_pequeno);
+        TV_flm_b.setPadding(0,15,0,15);
+        scroll_results.addView(TV_flm_b);
+
+        TextView TV_flm_p = new TextView(OutputVFlexaoActivity.this);
+        TV_flm_p.setText(Html.fromHtml("λ<small><sub>p</sub></small> = " + casasDecimais(FLM_lambda_p,2) ));
+        TV_flm_p.setTextSize(tam_pequeno);
+        TV_flm_p.setPadding(0,15,0,15);
+        scroll_results.addView(TV_flm_p);
+
+        TextView TV_flm_r = new TextView(OutputVFlexaoActivity.this);
+        TV_flm_r.setText(Html.fromHtml("λ<small><sub>r</sub></small> = " + casasDecimais(FLM_lambda_r,2) ));
+        TV_flm_r.setTextSize(tam_pequeno);
+        TV_flm_r.setPadding(0,15,0,15);
+        scroll_results.addView(TV_flm_r);
+
+        TextView TV_flm_mnx = new TextView(OutputVFlexaoActivity.this);
+        TV_flm_mnx.setText(Html.fromHtml("M<small><sub>n,FLM,x</sub></small> = " + casasDecimais(mnflmx,2) + " kNm" ));
+        TV_flm_mnx.setTextSize(tam_pequeno);
+        TV_flm_mnx.setPadding(0,15,0,15);
+        scroll_results.addView(TV_flm_mnx);
+
+        TextView TV_flm_mny = new TextView(OutputVFlexaoActivity.this);
+        TV_flm_mny.setText(Html.fromHtml("M<small><sub>n,FLM,y</sub></small> = " + casasDecimais(mnflmy,2)  + " kNm"));
+        TV_flm_mny.setTextSize(tam_pequeno);
+        TV_flm_mny.setPadding(0,15,0,100);
+        scroll_results.addView(TV_flm_mny);
+
+        //FLA
+        TextView TV_FLA = new TextView(OutputVFlexaoActivity.this);
+        TV_FLA.setText("FLA - " + FLA);
+        TV_FLA.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
+        TV_FLA.setTextSize(tam_grande);
+        scroll_results.addView(TV_FLA);
+
+        TextView TV_fla_b = new TextView(OutputVFlexaoActivity.this);
+        TV_fla_b.setText(Html.fromHtml("λ<small><sub>b</sub></small> = " + casasDecimais(FLA_lambda_b,2) ));
+        TV_fla_b.setTextSize(tam_pequeno);
+        TV_fla_b.setPadding(0,15,0,15);
+        scroll_results.addView(TV_fla_b);
+
+        TextView TV_fla_p = new TextView(OutputVFlexaoActivity.this);
+        TV_fla_p.setText(Html.fromHtml("λ<small><sub>p</sub></small> = " + casasDecimais(FLA_lambda_p,2) ));
+        TV_fla_p.setTextSize(tam_pequeno);
+        TV_fla_p.setPadding(0,15,0,15);
+        scroll_results.addView(TV_fla_p);
+
+        TextView TV_fla_r = new TextView(OutputVFlexaoActivity.this);
+        TV_fla_r.setText(Html.fromHtml("λ<small><sub>r</sub></small> = " + casasDecimais(FLA_lambda_r,2) ));
+        TV_fla_r.setTextSize(tam_pequeno);
+        TV_fla_r.setPadding(0,15,0,15);
+        scroll_results.addView(TV_fla_r);
+
+        TextView TV_fla_mn = new TextView(OutputVFlexaoActivity.this);
+        TV_fla_mn.setText(Html.fromHtml("M<small><sub>n,FLA</sub></small> = " + casasDecimais(mnfla,2) + " kNm" ));
+        TV_fla_mn.setTextSize(tam_pequeno);
+        TV_fla_mn.setPadding(0,15,0,100);
+        scroll_results.addView(TV_fla_mn);
+
+        //FLT
+        TextView TV_FLT = new TextView(OutputVFlexaoActivity.this);
+        TV_FLT.setText("FLT - " + FLT);
+        TV_FLT.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
+        TV_FLT.setTextSize(tam_grande);
+        scroll_results.addView(TV_FLT);
+
+        TextView TV_flt_b = new TextView(OutputVFlexaoActivity.this);
+        TV_flt_b.setText(Html.fromHtml("ℓ<small><sub>b</sub></small> = " + casasDecimais(lb,2) +
+                " cm | λ<small><sub>b</sub></small> = " + casasDecimais(FLT_lambda_b,2)));
+        TV_flt_b.setTextSize(tam_pequeno);
+        TV_flt_b.setPadding(0,15,0,15);
+        scroll_results.addView(TV_flt_b);
+
+        TextView TV_flt_p = new TextView(OutputVFlexaoActivity.this);
+        TV_flt_p.setText(Html.fromHtml("ℓ<small><sub>p</sub></small> = " + casasDecimais(lp,2) +
+                " cm | λ<small><sub>p</sub></small> = " + casasDecimais(FLT_lambda_p,2)));
+        TV_flt_p.setTextSize(tam_pequeno);
+        TV_flt_p.setPadding(0,15,0,15);
+        scroll_results.addView(TV_flt_p);
+
+        TextView TV_flt_r = new TextView(OutputVFlexaoActivity.this);
+        TV_flt_r.setText(Html.fromHtml("ℓ<small><sub>r</sub></small> = " + casasDecimais(lr,2) +
+                " cm | λ<small><sub>r</sub></small> = " + casasDecimais(FLT_lambda_r,2)));
+        TV_flt_r.setTextSize(tam_pequeno);
+        TV_flt_r.setPadding(0,15,0,15);
+        scroll_results.addView(TV_flt_r);
+
+        TextView TV_flt_cbmn = new TextView(OutputVFlexaoActivity.this);
+        TV_flt_cbmn.setText(Html.fromHtml("C<small><sub>b</sub></small> . M<small><sub>n,FLT</sub></small> = " + casasDecimais(cb_mnflt,2) + " kNm"));
+        TV_flt_cbmn.setTextSize(tam_pequeno);
+        TV_flt_cbmn.setPadding(0,15,0,100);
+        scroll_results.addView(TV_flt_cbmn);
+
+        //ANALISE
+
+            //**momento
+        TextView TV_momento = new TextView(OutputVFlexaoActivity.this);
+        TV_momento.setText("MOMENTO RESISTENTE DE CÁLCULO");
+        TV_momento.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
+        TV_momento.setTextSize(tam_grande);
+        scroll_results.addView(TV_momento);
+
+        TextView TV_mrdx = new TextView(OutputVFlexaoActivity.this);
+        TV_mrdx.setText(Html.fromHtml("M<small><sub>Rd,x</sub></small> = " + casasDecimais(mrdx,2) + " kNm"));
+        TV_mrdx.setTextSize(tam_pequeno);
+        TV_mrdx.setPadding(0,15,0,15);
+        scroll_results.addView(TV_mrdx);
+
+        TextView TV_mrdy = new TextView(OutputVFlexaoActivity.this);
+        TV_mrdy.setText(Html.fromHtml("M<small><sub>Rd,y</sub></small> = " + casasDecimais(mrdy,2) + " kNm"));
+        TV_mrdy.setTextSize(tam_pequeno);
+        TV_mrdy.setPadding(0,15,0,100);
+        scroll_results.addView(TV_mrdy);
+
+            //**cortante
+        if(analise == 1 || analise == 3)
+        {
+            TextView TV_cortante = new TextView(OutputVFlexaoActivity.this);
+            TV_cortante.setText("CORTANTE RESISTENTE DE CÁLCULO");
+            TV_cortante.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
+            TV_cortante.setTextSize(tam_grande);
+            scroll_results.addView(TV_cortante);
+
+            TextView TV_vrdx = new TextView(OutputVFlexaoActivity.this);
+            TV_vrdx.setText(Html.fromHtml("V<small><sub>Rd,x</sub></small> = " + casasDecimais(vrdx,2) + " kN"));
+            TV_vrdx.setTextSize(tam_pequeno);
+            TV_vrdx.setPadding(0,15,0,15);
+            scroll_results.addView(TV_vrdx);
+
+            TextView TV_vrdy = new TextView(OutputVFlexaoActivity.this);
+            TV_vrdy.setText(Html.fromHtml("V<small><sub>Rd,y</sub></small> = " + casasDecimais(vrdy,2) + " kN"));
+            TV_vrdy.setTextSize(tam_pequeno);
+            TV_vrdy.setPadding(0,15,0,100);
+            scroll_results.addView(TV_vrdy);
+        }
+
+            //**flecha
+        if(analise == 2 || analise == 3)
+        {
+            TextView TV_flechaadm = new TextView(OutputVFlexaoActivity.this);
+            TV_flechaadm.setText("FLECHA ADMISSÍVEL");
+            TV_flechaadm.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
+            TV_flechaadm.setTextSize(tam_grande);
+            scroll_results.addView(TV_flechaadm);
+
+            TextView TV_fadm = new TextView(OutputVFlexaoActivity.this);
+            TV_fadm.setText(Html.fromHtml("δ<small><sub>adm</sub></small> = " + casasDecimais(flechaadm,2) + " mm"));
+            TV_fadm.setTextSize(tam_pequeno);
+            TV_fadm.setPadding(0,15,0,15);
+            scroll_results.addView(TV_fadm);
+        }
+
+    }
+    private void Show_Results_SoldadoCustom(String perfil, int analise, double fy, double d, double tw, double bf, double tf, double ry, double zx, double iy, double j, double cw, double wx
+            , double mesa, double aba, double msdx, double msdy, double cb, double vsdx, double vsdy, double flecha, double vao
+            , String FLM, double FLM_lambda_b, double FLM_lambda_p, double FLM_lambda_r, double mnflmx, double mnflmy
+            , String FLA, double FLA_lambda_b, double FLA_lambda_p, double FLA_lambda_r, double mnfla
+            , String FLT, double lb, double FLT_lambda_b, double lp, double FLT_lambda_p, double lr, double FLT_lambda_r, double cb_mnflt
+            , double mrdx, double mrdy, double vrdx, double vrdy, double flechaadm)
+    {
+        scroll_results = (LinearLayout) findViewById(R.id.scroll_results_idflexao);
+
+        TextView TV_perfil = new TextView(OutputVFlexaoActivity.this);
+        TV_perfil.setText("PERFIL " + perfil);
+        TV_perfil.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
+        TV_perfil.setTextSize(tam_grande);
+        scroll_results.addView(TV_perfil);
+
+        TextView TV_elasticidade = new TextView(OutputVFlexaoActivity.this);
+        TV_elasticidade.setText(Html.fromHtml("E<small><sub>aco</sub></small> = 200000 MPa"));
+        TV_elasticidade.setTextSize(tam_pequeno);
+        TV_elasticidade.setPadding(0,50,0,15);
+        scroll_results.addView(TV_elasticidade);
+
+        TextView TV_fy = new TextView(OutputVFlexaoActivity.this);
+        TV_fy.setText(Html.fromHtml("f<small><sub>y</sub></small> = " + casasDecimais(fy,2) + " MPa"));
+        TV_fy.setTextSize(tam_pequeno);
+        TV_fy.setPadding(0,15,0,60);
+        scroll_results.addView(TV_fy);
+
+        //custom
+        TextView TV_d = new TextView(OutputVFlexaoActivity.this);
+        TV_d.setText(Html.fromHtml("d = " + casasDecimais(d,2) + " mm"));
+        TV_d.setTextSize(tam_pequeno);
+        TV_d.setPadding(0,100,0,15);
+        scroll_results.addView(TV_d);
+
+        TextView TV_tw = new TextView(OutputVFlexaoActivity.this);
+        TV_tw.setText(Html.fromHtml("t<small><sub>w</sub></small> = " + casasDecimais(tw,2) + " mm"));
+        TV_tw.setTextSize(tam_pequeno);
+        TV_tw.setPadding(0,15,0,15);
+        scroll_results.addView(TV_tw);
+
+        TextView TV_bf = new TextView(OutputVFlexaoActivity.this);
+        TV_bf.setText(Html.fromHtml("b<small><sub>f</sub></small> = " + casasDecimais(bf,2) + " mm"));
+        TV_bf.setTextSize(tam_pequeno);
+        TV_bf.setPadding(0,15,0,15);
+        scroll_results.addView(TV_bf);
+
+        TextView TV_tf = new TextView(OutputVFlexaoActivity.this);
+        TV_tf.setText(Html.fromHtml("t<small><sub>f</sub></small> = " + casasDecimais(tf,2) + " mm"));
+        TV_tf.setTextSize(tam_pequeno);
+        TV_tf.setPadding(0,15,0,15);
+        scroll_results.addView(TV_tf);
+
+        TextView TV_ry = new TextView(OutputVFlexaoActivity.this);
+        TV_ry.setText(Html.fromHtml("r<small><sub>y</sub></small> = " + casasDecimais(ry,2) + " cm"));
+        TV_ry.setTextSize(tam_pequeno);
+        TV_ry.setPadding(0,100,0,15);
+        scroll_results.addView(TV_ry);
+
+        TextView TV_zx = new TextView(OutputVFlexaoActivity.this);
+        TV_zx.setText(Html.fromHtml("Z<small><sub>x</sub></small> = " + casasDecimais(zx,2) + " cm³"));
+        TV_zx.setTextSize(tam_pequeno);
+        TV_zx.setPadding(0,15,0,15);
+        scroll_results.addView(TV_zx);
+
+        TextView TV_iy = new TextView(OutputVFlexaoActivity.this);
+        TV_iy.setText(Html.fromHtml("I<small><sub>y</sub></small> = " + casasDecimais(iy,2) + " cm<small><sup>4</sup></small>"));
+        TV_iy.setTextSize(tam_pequeno);
+        TV_iy.setPadding(0,15,0,15);
+        scroll_results.addView(TV_iy);
+
+        TextView TV_J = new TextView(OutputVFlexaoActivity.this);
+        TV_J.setText(Html.fromHtml("J = " + casasDecimais(j,2) + " cm<small><sup>4</sup></small>"));
+        TV_J.setTextSize(tam_pequeno);
+        TV_J.setPadding(0,15,0,15);
+        scroll_results.addView(TV_J);
+
+        TextView TV_cw = new TextView(OutputVFlexaoActivity.this);
+        TV_cw.setText(Html.fromHtml("C<small><sub>w</sub></small> = " + casasDecimais(cw,2) + " cm<small><sup>6</sup></small>"));
+        TV_cw.setTextSize(tam_pequeno);
+        TV_cw.setPadding(0,15,0,15);
+        scroll_results.addView(TV_cw);
+
+        TextView TV_wx = new TextView(OutputVFlexaoActivity.this);
+        TV_wx.setText(Html.fromHtml("W<small><sub>x</sub></small> = " + casasDecimais(wx,2) + " cm<small><sup>3</sup></small>"));
+        TV_wx.setTextSize(tam_pequeno);
+        TV_wx.setPadding(0,15,0,15);
+        scroll_results.addView(TV_wx);
+
+        TextView TV_mesa = new TextView(OutputVFlexaoActivity.this);
+        TV_mesa.setText(Html.fromHtml("h<small><sub>w</sub></small> / t<small><sub>w</sub></small> = " + casasDecimais(mesa,2) ));
+        TV_mesa.setTextSize(tam_pequeno);
+        TV_mesa.setPadding(0,15,0,15);
+        scroll_results.addView(TV_mesa);
+
+        TextView TV_aba = new TextView(OutputVFlexaoActivity.this);
+        TV_aba.setText(Html.fromHtml("0.5b<small><sub>f</sub></small> / t<small><sub>f</sub></small> = " + casasDecimais(aba,2) ));
+        TV_aba.setTextSize(tam_pequeno);
+        TV_aba.setPadding(0,15,0,60);
+        scroll_results.addView(TV_aba);
+
+        TextView TV_msdx = new TextView(OutputVFlexaoActivity.this);
+        TV_msdx.setText(Html.fromHtml("M<small><sub>Sd,x</sub></small> = " + casasDecimais(msdx,2) + " kNm"));
+        TV_msdx.setTextSize(tam_pequeno);
+        TV_msdx.setPadding(0,15,0,15);
+        scroll_results.addView(TV_msdx);
+
+        TextView TV_msdy = new TextView(OutputVFlexaoActivity.this);
+        TV_msdy.setText(Html.fromHtml("M<small><sub>Sd,y</sub></small> = " + casasDecimais(msdy,2) + " kNm"));
+        TV_msdy.setTextSize(tam_pequeno);
+        TV_msdy.setPadding(0,15,0,15);
+        scroll_results.addView(TV_msdy);
+
+        TextView TV_cb = new TextView(OutputVFlexaoActivity.this);
+        TV_cb.setText(Html.fromHtml("C<small><sub>b</sub></small> = " + casasDecimais(cb,3) ));
+        TV_cb.setTextSize(tam_pequeno);
+        TV_cb.setPadding(0,15,0,15);
+        scroll_results.addView(TV_cb);
+
+        //**ATRIBUTOS ANALISE
+        if (analise == 1 || analise == 3)
+        {
+            TextView TV_vsdx = new TextView(OutputVFlexaoActivity.this);
+            TV_vsdx.setText(Html.fromHtml("V<small><sub>Sd,x</sub></small> = " + casasDecimais(vsdx,2) + " kN"));
+            TV_vsdx.setTextSize(tam_pequeno);
+            TV_vsdx.setPadding(0,15,0,15);
+            scroll_results.addView(TV_vsdx);
+
+            TextView TV_vsdy = new TextView(OutputVFlexaoActivity.this);
+            TV_vsdy.setText(Html.fromHtml("V<small><sub>Sd,y</sub></small> = " + casasDecimais(vsdy,2) + " kN"));
+            TV_vsdy.setTextSize(tam_pequeno);
+            TV_vsdy.setPadding(0,15,0,15);
+            scroll_results.addView(TV_vsdy);
+        }
+        if( analise == 2 || analise == 3)
+        {
+            TextView TV_flecha = new TextView(OutputVFlexaoActivity.this);
+            TV_flecha.setText(Html.fromHtml("δ<small><sub>max</sub></small> = " + casasDecimais(flecha,2) + " mm"));
+            TV_flecha.setTextSize(tam_pequeno);
+            TV_flecha.setPadding(0,15,0,15);
+            scroll_results.addView(TV_flecha);
+
+            TextView TV_vao = new TextView(OutputVFlexaoActivity.this);
+            TV_vao.setText(Html.fromHtml("Vão = " + casasDecimais(vao,2) + " m"));
+            TV_vao.setTextSize(tam_pequeno);
+            TV_vao.setPadding(0,15,0,15);
+            scroll_results.addView(TV_vao);
+        }
+
+        //FLM
+        TextView TV_FLM = new TextView(OutputVFlexaoActivity.this);
+        TV_FLM.setText("FLM - " + FLM);
+        TV_FLM.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
+        TV_FLM.setTextSize(tam_grande);
+        TV_FLM.setPadding(0,100,0,0);
+        scroll_results.addView(TV_FLM);
+
+        TextView TV_flm_b = new TextView(OutputVFlexaoActivity.this);
+        TV_flm_b.setText(Html.fromHtml("λ<small><sub>b</sub></small> = " + casasDecimais(FLM_lambda_b,2) ));
+        TV_flm_b.setTextSize(tam_pequeno);
+        TV_flm_b.setPadding(0,15,0,15);
+        scroll_results.addView(TV_flm_b);
+
+        TextView TV_flm_p = new TextView(OutputVFlexaoActivity.this);
+        TV_flm_p.setText(Html.fromHtml("λ<small><sub>p</sub></small> = " + casasDecimais(FLM_lambda_p,2) ));
+        TV_flm_p.setTextSize(tam_pequeno);
+        TV_flm_p.setPadding(0,15,0,15);
+        scroll_results.addView(TV_flm_p);
+
+        TextView TV_flm_r = new TextView(OutputVFlexaoActivity.this);
+        TV_flm_r.setText(Html.fromHtml("λ<small><sub>r</sub></small> = " + casasDecimais(FLM_lambda_r,2) ));
+        TV_flm_r.setTextSize(tam_pequeno);
+        TV_flm_r.setPadding(0,15,0,15);
+        scroll_results.addView(TV_flm_r);
+
+        TextView TV_flm_mnx = new TextView(OutputVFlexaoActivity.this);
+        TV_flm_mnx.setText(Html.fromHtml("M<small><sub>n,FLM,x</sub></small> = " + casasDecimais(mnflmx,2) ));
+        TV_flm_mnx.setTextSize(tam_pequeno);
+        TV_flm_mnx.setPadding(0,15,0,15);
+        scroll_results.addView(TV_flm_mnx);
+
+        TextView TV_flm_mny = new TextView(OutputVFlexaoActivity.this);
+        TV_flm_mny.setText(Html.fromHtml("M<small><sub>n,FLM,y</sub></small> = " + casasDecimais(mnflmy,2) ));
+        TV_flm_mny.setTextSize(tam_pequeno);
+        TV_flm_mny.setPadding(0,15,0,100);
+        scroll_results.addView(TV_flm_mny);
+
+        //FLA
+        TextView TV_FLA = new TextView(OutputVFlexaoActivity.this);
+        TV_FLA.setText("FLA - " + FLA);
+        TV_FLA.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
+        TV_FLA.setTextSize(tam_grande);
+        scroll_results.addView(TV_FLA);
+
+        TextView TV_fla_b = new TextView(OutputVFlexaoActivity.this);
+        TV_fla_b.setText(Html.fromHtml("λ<small><sub>b</sub></small> = " + casasDecimais(FLA_lambda_b,2) ));
+        TV_fla_b.setTextSize(tam_pequeno);
+        TV_fla_b.setPadding(0,15,0,15);
+        scroll_results.addView(TV_fla_b);
+
+        TextView TV_fla_p = new TextView(OutputVFlexaoActivity.this);
+        TV_fla_p.setText(Html.fromHtml("λ<small><sub>p</sub></small> = " + casasDecimais(FLA_lambda_p,2) ));
+        TV_fla_p.setTextSize(tam_pequeno);
+        TV_fla_p.setPadding(0,15,0,15);
+        scroll_results.addView(TV_fla_p);
+
+        TextView TV_fla_r = new TextView(OutputVFlexaoActivity.this);
+        TV_fla_r.setText(Html.fromHtml("λ<small><sub>r</sub></small> = " + casasDecimais(FLA_lambda_r,2) ));
+        TV_fla_r.setTextSize(tam_pequeno);
+        TV_fla_r.setPadding(0,15,0,15);
+        scroll_results.addView(TV_fla_r);
+
+        TextView TV_fla_mn = new TextView(OutputVFlexaoActivity.this);
+        TV_fla_mn.setText(Html.fromHtml("M<small><sub>n,FLA</sub></small> = " + casasDecimais(mnfla,2) ));
+        TV_fla_mn.setTextSize(tam_pequeno);
+        TV_fla_mn.setPadding(0,15,0,100);
+        scroll_results.addView(TV_fla_mn);
+
+        //FLT
+        TextView TV_FLT = new TextView(OutputVFlexaoActivity.this);
+        TV_FLT.setText("FLT - " + FLT);
+        TV_FLT.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
+        TV_FLT.setTextSize(tam_grande);
+        scroll_results.addView(TV_FLT);
+
+        TextView TV_flt_b = new TextView(OutputVFlexaoActivity.this);
+        TV_flt_b.setText(Html.fromHtml("ℓ<small><sub>b</sub></small> = " + casasDecimais(lb,2) +
+                " cm | λ<small><sub>b</sub></small> = " + casasDecimais(FLT_lambda_b,2)));
+        TV_flt_b.setTextSize(tam_pequeno);
+        TV_flt_b.setPadding(0,15,0,15);
+        scroll_results.addView(TV_flt_b);
+
+        TextView TV_flt_p = new TextView(OutputVFlexaoActivity.this);
+        TV_flt_p.setText(Html.fromHtml("ℓ<small><sub>p</sub></small> = " + casasDecimais(lp,2) +
+                " cm | λ<small><sub>p</sub></small> = " + casasDecimais(FLT_lambda_p,2)));
+        TV_flt_p.setTextSize(tam_pequeno);
+        TV_flt_p.setPadding(0,15,0,15);
+        scroll_results.addView(TV_flt_p);
+
+        TextView TV_flt_r = new TextView(OutputVFlexaoActivity.this);
+        TV_flt_r.setText(Html.fromHtml("ℓ<small><sub>r</sub></small> = " + casasDecimais(lr,2) +
+                " cm | λ<small><sub>r</sub></small> = " + casasDecimais(FLT_lambda_r,2)));
+        TV_flt_r.setTextSize(tam_pequeno);
+        TV_flt_r.setPadding(0,15,0,15);
+        scroll_results.addView(TV_flt_r);
+
+        TextView TV_flt_cbmn = new TextView(OutputVFlexaoActivity.this);
+        TV_flt_cbmn.setText(Html.fromHtml("C<small><sub>b</sub></small> . M<small><sub>n,FLT</sub></small> = " + casasDecimais(cb_mnflt,2) + " kNm"));
+        TV_flt_cbmn.setTextSize(tam_pequeno);
+        TV_flt_cbmn.setPadding(0,15,0,100);
+        scroll_results.addView(TV_flt_cbmn);
+
+        //ANALISE
+
+        //**momento
+        TextView TV_momento = new TextView(OutputVFlexaoActivity.this);
+        TV_momento.setText("MOMENTO RESISTENTE DE CÁLCULO");
+        TV_momento.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
+        TV_momento.setTextSize(tam_grande);
+        scroll_results.addView(TV_momento);
+
+        TextView TV_mrdx = new TextView(OutputVFlexaoActivity.this);
+        TV_mrdx.setText(Html.fromHtml("M<small><sub>Rd,x</sub></small> = " + casasDecimais(mrdx,2) + " kNm"));
+        TV_mrdx.setTextSize(tam_pequeno);
+        TV_mrdx.setPadding(0,15,0,15);
+        scroll_results.addView(TV_mrdx);
+
+        TextView TV_mrdy = new TextView(OutputVFlexaoActivity.this);
+        TV_mrdy.setText(Html.fromHtml("M<small><sub>Rd,y</sub></small> = " + casasDecimais(mrdy,2) + " kNm"));
+        TV_mrdy.setTextSize(tam_pequeno);
+        TV_mrdy.setPadding(0,15,0,100);
+        scroll_results.addView(TV_mrdy);
+
+        //**cortante
+        if(analise == 1 || analise == 3)
+        {
+            TextView TV_cortante = new TextView(OutputVFlexaoActivity.this);
+            TV_cortante.setText("CORTANTE RESISTENTE DE CÁLCULO");
+            TV_cortante.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
+            TV_cortante.setTextSize(tam_grande);
+            scroll_results.addView(TV_cortante);
+
+            TextView TV_vrdx = new TextView(OutputVFlexaoActivity.this);
+            TV_vrdx.setText(Html.fromHtml("V<small><sub>Rd,x</sub></small> = " + casasDecimais(vrdx,2) + " kN"));
+            TV_vrdx.setTextSize(tam_pequeno);
+            TV_vrdx.setPadding(0,15,0,15);
+            scroll_results.addView(TV_vrdx);
+
+            TextView TV_vrdy = new TextView(OutputVFlexaoActivity.this);
+            TV_vrdy.setText(Html.fromHtml("V<small><sub>Rd,y</sub></small> = " + casasDecimais(vrdy,2) + " kN"));
+            TV_vrdy.setTextSize(tam_pequeno);
+            TV_vrdy.setPadding(0,15,0,100);
+            scroll_results.addView(TV_vrdy);
+        }
+
+        //**flecha
+        if(analise == 2 || analise == 3)
+        {
+            TextView TV_flechaadm = new TextView(OutputVFlexaoActivity.this);
+            TV_flechaadm.setText("FLECHA ADMISSÍVEL");
+            TV_flechaadm.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
+            TV_flechaadm.setTextSize(tam_grande);
+            scroll_results.addView(TV_flechaadm);
+
+            TextView TV_fadm = new TextView(OutputVFlexaoActivity.this);
+            TV_fadm.setText(Html.fromHtml("δ<small><sub>adm</sub></small> = " + casasDecimais(flechaadm,2) + " mm"));
+            TV_fadm.setTextSize(tam_pequeno);
+            TV_fadm.setPadding(0,15,0,15);
+            scroll_results.addView(TV_fadm);
+        }
+
     }
 
 }
