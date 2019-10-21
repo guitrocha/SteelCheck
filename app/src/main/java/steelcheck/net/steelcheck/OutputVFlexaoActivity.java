@@ -84,26 +84,40 @@ public class OutputVFlexaoActivity extends AppCompatActivity {
                 double FLM_lambda_b = FLM_lambda_b(database.get_aba(perfil));
                 double FLM_lambda_p = FLM_lambda_p(fy);
                 double FLM_lambda_r = FLM_lambda_r_LaminadoW(fy);
-                double FLM_mpx = Mpx(database.get_zx(perfil),fy);
-                double FLM_mpy = Mpy(database.get_zy(perfil),fy);
+                double mpx = Mpx(database.get_zx(perfil),fy);
+                double mpy = Mpy(database.get_zy(perfil),fy);
                 double FLM_mrx = FLM_Mrx(database.get_wx(perfil),fy);
                 double FLM_mry = FLM_Mry(database.get_wy(perfil),fy);
-                double FLM_mnx = Mn_FLM_x_LaminadoW(FLM_mpx,FLM_mrx,FLM_lambda_b,FLM_lambda_p,FLM_lambda_r,database.get_wx(perfil));
-                double FLM_mny = Mn_FLM_y_LaminadoW(FLM_mpy,FLM_mry,FLM_lambda_b,FLM_lambda_p,FLM_lambda_r,database.get_wy(perfil));
+                double FLM_mnx = Mn_FLM_x_LaminadoW(mpx,FLM_mrx,FLM_lambda_b,FLM_lambda_p,FLM_lambda_r,database.get_wx(perfil));
+                double FLM_mny = Mn_FLM_y_LaminadoW(mpy,FLM_mry,FLM_lambda_b,FLM_lambda_p,FLM_lambda_r,database.get_wy(perfil));
                 String FLM = FLM(FLM_lambda_b,FLM_lambda_p,FLM_lambda_r);
                 double FLA_lambda_b = FLM_lambda_b(database.get_mesa(perfil));
                 double FLA_lambda_p = FLA_lambda_p(fy);
                 double FLA_lambda_r = FLA_lambda_r(fy);
                 double FLA_mr = FLA_Mrx(database.get_wx(perfil),fy);
-                double FLA_mn = FLA_Mn(FLA_lambda_b,FLA_lambda_p,FLA_lambda_r,FLM_mpx,FLA_mr);
+                double FLA_mn = FLA_Mn(FLA_lambda_b,FLA_lambda_p,FLA_lambda_r,mpx,FLA_mr);
                 String FLA = FLA(FLA_lambda_b,FLA_lambda_p,FLA_lambda_r);
+                double FLT_lambda_b = FLT_lambda_b(lb,database.get_ry(perfil));
+                double FLT_l_p = FLT_l_p(database.get_ry(perfil),fy);
+                double FLT_lambda_p = FLT_lambda_p(FLT_l_p,database.get_ry(perfil));
+                double FLT_l_r = FLT_l_r(database.get_iy(perfil),database.get_j(perfil),database.get_ry(perfil),database.get_cw(perfil),fy,database.get_wx(perfil));
+                double FLT_lambda_r = FLT_lambda_r(FLT_l_r,database.get_ry(perfil));
+                double FLT_mn = FLT_Mn(FLT_lambda_b,FLT_lambda_p,FLT_lambda_r,mpx,FLM_mrx,cb,database.get_iy(perfil),database.get_cw(perfil),database.get_j(perfil),lb);
+                String FLT = FLT(FLT_lambda_b,FLT_lambda_p,FLT_lambda_r);
+                double mrdx = Mrdx(mpx,FLM_mnx,FLA_mn,FLT_mn);
+                double mrdy = Mrdy(mpy,FLM_mny);
+                double vrdx = Vrdx(database.get_mesa(perfil),fy,database.get_d(perfil),database.get_tw(perfil));
+                double vrdy = Vrdy(database.get_aba(perfil),fy,database.get_bf(perfil),database.get_tf(perfil));
+                double flechaadm = FlechaAdm(vao);
+
 
                 Show_Results_LaminadoW(database.get_perfil(perfil),analise,fy,database.get_ry(perfil),database.get_zx(perfil),database.get_iy(perfil),database.get_j(perfil)
                 ,database.get_cw(perfil),database.get_wx(perfil),database.get_mesa(perfil),database.get_aba(perfil),
                         msdx,msdy,cb,vsdx,vsdy,flecha,vao,
                         FLM,FLM_lambda_b,FLM_lambda_p,FLM_lambda_r,FLM_mnx,FLM_mny,
                         FLA,FLA_lambda_b,FLA_lambda_p,FLA_lambda_r,FLA_mn,
-                        "teste3",lb,0,0,0,0,0,0,0,0,0,0,0);
+                        FLT,lb,FLT_lambda_b,FLT_l_p,FLT_lambda_p,FLT_l_r,FLT_lambda_r,FLT_mn,mrdx,mrdy,
+                        vrdx,vrdy,flechaadm);
                 database.close();
             }
             else if(secao == 2)
@@ -211,6 +225,126 @@ public class OutputVFlexaoActivity extends AppCompatActivity {
             return "Seção Semicompacta";
         return "Seção Esbelta"; // nao vai acontecer
     }
+
+    private double FLT_lambda_b(double lb, double ry)
+    {
+        return lb/ry;
+    }
+    private double FLT_l_p(double ry, double fy)
+    {
+        return 1.76*ry*Math.sqrt(E_aco/(fy/10));
+    }
+    private double FLT_lambda_p(double lp, double ry)
+    {
+        return lp/ry;
+    }
+    private double beta1(double fy, double wx, double j)
+    {
+        return (0.7*(fy/10)*wx)/(E_aco*j);
+    }
+    private double FLT_l_r(double iy, double j, double ry, double cw, double fy, double wx)
+    {   double beta = beta1(fy,wx,j);
+        return ( ( 1.38*Math.sqrt(iy*j) )/( j*beta) )*( Math.sqrt(1 + Math.sqrt(1 + ( (27*cw*Math.pow(beta,2))/iy ))) );
+    }
+    private double FLT_lambda_r(double lr, double ry)
+    {
+        return lr/ry;
+    }
+    private double FLT_Mn(double lambda_b, double lambda_p, double lambda_r, double mpx, double mr,
+                          double cb, double iy, double cw, double j, double lb)
+    {
+        if(lambda_b <= lambda_p)
+            return mpx;
+        if(lambda_b > lambda_p && lambda_b <= lambda_r) {
+            double aux = cb*((mpx) - (((lambda_b - lambda_p) / (lambda_r - lambda_p)) * (mpx - mr)));
+            System.out.println(" cb*mrx = " + aux);
+            System.out.println(" mpx = " + mpx);
+            if(aux > mpx)
+                return mpx;
+            else
+                return aux;
+        }
+        return (( cb*Math.pow(Math.PI,2)*E_aco*iy * ( Math.sqrt( (cw/iy)*( 1+(0.039*j*Math.pow(lb,2)/cw) ) ) ) )/( Math.pow(lb,2) )) / 100;
+    }
+    private String FLT(double lambda_b, double lambda_p, double lambda_r)
+    {
+        if(lambda_b <= lambda_p)
+            return "Viga Curta";
+        if(lambda_b > lambda_p && lambda_b <= lambda_r)
+            return "Viga Intermediária";
+        return "Viga Longa";
+    }
+
+    private double Mrflx(double mpx, double flmx, double fla, double flt)
+    {   double min = mpx;
+        if(flmx < min)
+            min = flmx;
+        if(fla < min)
+            min = fla;
+        if(flt < min)
+            min = flt;
+        return min;
+    }
+    private double Mrfly(double mpy, double flmy)
+    {
+        if(mpy < flmy)
+            return mpy;
+        return flmy;
+    }
+    private double Mrdx(double mpx, double flmx, double fla, double flt)
+    {
+        double mrflx = Mrflx(mpx,flmx,fla,flt);
+        return mrflx/gama_a1;
+    }
+    private double Mrdy(double mpy, double flmy)
+    {
+        double mrfly = Mrfly(mpy,flmy);
+        return mrfly/gama_a1;
+    }
+
+    private double Vrdx(double mesa, double fy, double d, double tw)
+    {
+        double lambda_vx = mesa;
+        double kvx = 5.0;
+        double lim1x = 1.10*Math.sqrt(kvx*E_aco/(fy/10));
+        double lim2x = 1.37*Math.sqrt(kvx*E_aco/(fy/10));
+        double vplx = 0.6*d*tw*fy/1000;
+
+        if(lambda_vx <= lim1x)
+            return vplx/gama_a1;
+        if((lambda_vx > lim1x) && (lambda_vx <= lim2x))
+            return (lim1x/lambda_vx)*(vplx/gama_a1);
+        return 1.24*Math.pow(lim1x/lambda_vx,2)*(vplx/gama_a1);
+    }
+    private double Vrdy(double aba, double fy, double bf, double tf)
+    {
+        double lambda_vy = aba;
+        double kvy = 1.2;
+        double lim1y = 1.10*Math.sqrt(kvy*E_aco/(fy/10));
+        double lim2y = 1.37*Math.sqrt(kvy*E_aco/(fy/10));
+        double vply = 0.6*2*bf*tf*fy/1000;
+
+        if(lambda_vy <= lim1y)
+            return vply/gama_a1;
+        if((lambda_vy > lim1y) && (lambda_vy <= lim2y))
+            return (lim1y/lambda_vy)*(vply/gama_a1);
+        return 1.24*Math.pow(lim1y/lambda_vy,2)*(vply/gama_a1);
+    }
+
+    private double FlechaAdm(double vao)
+    {
+        return 1000*vao/350;
+    }
+
+    private double Momento(double msdx, double msdy, double mrdx, double mrdy)
+    {
+        return ( ( msdx/mrdx ) ) + ( ( msdy/mrdy ) );
+    }
+    private double Cortante(double vsdx, double vsdy, double vrdx, double vrdy)
+    {
+        return ( ( vsdx/vrdx ) ) + ( ( vsdy/vrdy ) );
+    }
+
     //ARREDONDAMENTO
     private double casasDecimais(double original, int quant)
     {   double valor = original;
@@ -224,7 +358,7 @@ public class OutputVFlexaoActivity extends AppCompatActivity {
             , String FLM, double FLM_lambda_b, double FLM_lambda_p, double FLM_lambda_r, double mnflmx, double mnflmy
             , String FLA, double FLA_lambda_b, double FLA_lambda_p, double FLA_lambda_r, double mnfla
             , String FLT, double lb, double FLT_lambda_b, double lp, double FLT_lambda_p, double lr, double FLT_lambda_r, double cb_mnflt
-            , double mrdx, double mrdy, double vrdx, double vrdy, double flechaadm )
+            , double mrdx, double mrdy, double vrdx, double vrdy, double flechaadm)
     {
         scroll_results = (LinearLayout) findViewById(R.id.scroll_results_idflexao);
 
@@ -500,9 +634,101 @@ public class OutputVFlexaoActivity extends AppCompatActivity {
             TextView TV_fadm = new TextView(OutputVFlexaoActivity.this);
             TV_fadm.setText(Html.fromHtml("δ<small><sub>adm</sub></small> = " + casasDecimais(flechaadm,2) + " mm"));
             TV_fadm.setTextSize(tam_pequeno);
-            TV_fadm.setPadding(0,15,0,15);
+            TV_fadm.setPadding(0,15,0,100);
             scroll_results.addView(TV_fadm);
         }
+
+
+        ///VERIFICAÇOES
+
+        TextView TV_verifica = new TextView(OutputVFlexaoActivity.this);
+        TV_verifica.setText("VERIFICAÇÃO");
+        TV_verifica.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
+        TV_verifica.setTextSize(tam_grande);
+        scroll_results.addView(TV_verifica);
+
+        double momento = Momento(msdx,msdy,mrdx,mrdy);
+
+        TextView TV_mom = new TextView(OutputVFlexaoActivity.this);
+        TV_mom.setText(Html.fromHtml("M<small><sub>Sd,x</sub></small> / M<small><sub>Rd,x</sub></small>  +  M<small><sub>Sd,y</sub></small> / M<small><sub>Rd,y</sub></small> = " + casasDecimais(momento,3) ));
+        TV_mom.setTextSize(tam_pequeno);
+        TV_mom.setPadding(0,15,0,15);
+        scroll_results.addView(TV_mom);
+
+        if (momento <= 1.0) //ok
+        {
+            TextView TV_mom_ok = new TextView(OutputVFlexaoActivity.this);
+            TV_mom_ok.setText(Html.fromHtml("Perfil atende ao momento fletor! "));
+            TV_mom_ok.setTextSize(tam_pequeno);
+            TV_mom_ok.setPadding(0,15,0,70);
+            TV_mom_ok.setTextColor(getResources().getColor(R.color.color_ok));
+            scroll_results.addView(TV_mom_ok);
+        }
+        else
+        {
+            TextView TV_mom_nok = new TextView(OutputVFlexaoActivity.this);
+            TV_mom_nok.setText(Html.fromHtml("Perfil NÃO atende ao momento fletor!"));
+            TV_mom_nok.setTextSize(tam_pequeno);
+            TV_mom_nok.setPadding(0,15,0,70);
+            TV_mom_nok.setTextColor(getResources().getColor(R.color.color_Nok));
+            scroll_results.addView(TV_mom_nok);
+        }
+
+        if(analise == 1 || analise == 3)
+        {
+            double cortante = Cortante(vsdx,vsdy,vrdx,vrdy);
+
+            TextView TV_cort = new TextView(OutputVFlexaoActivity.this);
+            TV_cort.setText(Html.fromHtml("V<small><sub>Sd,x</sub></small> / V<small><sub>Rd,x</sub></small>  +  V<small><sub>Sd,y</sub></small> / V<small><sub>Rd,y</sub></small> = " + casasDecimais(cortante,3) ));
+            TV_cort.setTextSize(tam_pequeno);
+            TV_cort.setPadding(0,15,0,15);
+            scroll_results.addView(TV_cort);
+
+            if (cortante <= 1.0) //ok
+            {
+                TextView TV_cort_ok = new TextView(OutputVFlexaoActivity.this);
+                TV_cort_ok.setText(Html.fromHtml("Perfil atende à força cortante! "));
+                TV_cort_ok.setTextSize(tam_pequeno);
+                TV_cort_ok.setPadding(0,15,0,70);
+                TV_cort_ok.setTextColor(getResources().getColor(R.color.color_ok));
+                scroll_results.addView(TV_cort_ok);
+            }
+            else
+            {
+                TextView TV_cort_nok = new TextView(OutputVFlexaoActivity.this);
+                TV_cort_nok.setText(Html.fromHtml("Perfil NÃO atende à força cortante!"));
+                TV_cort_nok.setTextSize(tam_pequeno);
+                TV_cort_nok.setPadding(0,15,0,70);
+                TV_cort_nok.setTextColor(getResources().getColor(R.color.color_Nok));
+                scroll_results.addView(TV_cort_nok);
+            }
+
+        }
+
+        if(analise == 2 || analise == 3)
+        {
+
+            if (flecha <= flechaadm) //ok
+            {
+                TextView TV_fle_ok = new TextView(OutputVFlexaoActivity.this);
+                TV_fle_ok.setText(Html.fromHtml("Flecha máxima menor que flecha admissível: OK! "));
+                TV_fle_ok.setTextSize(tam_pequeno);
+                TV_fle_ok.setPadding(0,15,0,70);
+                TV_fle_ok.setTextColor(getResources().getColor(R.color.color_ok));
+                scroll_results.addView(TV_fle_ok);
+            }
+            else
+            {
+                TextView TV_fle_nok = new TextView(OutputVFlexaoActivity.this);
+                TV_fle_nok.setText(Html.fromHtml("NÃO OK! A flecha máxima deve ser menor que a admissível."));
+                TV_fle_nok.setTextSize(tam_pequeno);
+                TV_fle_nok.setPadding(0,15,0,70);
+                TV_fle_nok.setTextColor(getResources().getColor(R.color.color_Nok));
+                scroll_results.addView(TV_fle_nok);
+            }
+
+        }
+
 
     }
     private void Show_Results_SoldadoCustom(String perfil, int analise, double fy, double d, double tw, double bf, double tf, double ry, double zx, double iy, double j, double cw, double wx
