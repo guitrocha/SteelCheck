@@ -127,7 +127,10 @@ public class VTracaoActivity extends AppCompatActivity
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(intent);
         } else if (id == R.id.nav_flexocompressaoV) {
-
+            Intent intent = new Intent(new Intent(VTracaoActivity.this,VFlexocompressaoActivity.class));
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivity(intent);
         } else if (id == R.id.nav_tracaoD) {
 
         } else if (id == R.id.nav_compressaoD) {

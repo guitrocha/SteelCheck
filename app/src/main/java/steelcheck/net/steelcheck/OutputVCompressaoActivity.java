@@ -18,14 +18,13 @@ import android.widget.TextView;
 import java.util.Locale;
 
 public class OutputVCompressaoActivity extends AppCompatActivity {
-    private final double gama_a1 = 1.10;
-    private final double gama_a2 = 1.35;
-    private final double E_aco = 20000.0; // kN/cm²
-    private final double G = 7700.0; // kN/cm²
-    final int tam_grande = 25, tam_pequeno = 18;
+    public final double gama_a1 = 1.10;
+    public final double gama_a2 = 1.35;
+    public final double E_aco = 20000.0; // kN/cm²
+    public final double G = 7700.0; // kN/cm²
+    public final int tam_grande = 25, tam_pequeno = 18;
 
     private LinearLayout scroll_results;
-    private int plus_controler = 0;
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -130,35 +129,35 @@ public class OutputVCompressaoActivity extends AppCompatActivity {
 
     //CALCULOS DE VERIFICACAO
         //flambagem local
-    private double esbeltez_limite_AA(double fy) // b/t lim
+    public double esbeltez_limite_AA(double fy) // b/t lim
     {
         return (1.49) * (Math.sqrt(E_aco/(fy/10)));
     }
-    private double esbeltez_de_placa_AA(double mesa) // recebe do banco de dados
+    public double esbeltez_de_placa_AA(double mesa) // recebe do banco de dados
     {
         return mesa;
     }
-    private boolean esb_lim_MAIORIGUAL_placa(double lim, double placa)
+    public boolean esb_lim_MAIORIGUAL_placa(double lim, double placa)
     {
         return lim >= placa;
     }
-    private double bef(double tw, double fy, double mesa)
+    public double bef(double tw, double fy, double mesa)
     {
         return (1.92)*(tw)*(Math.sqrt(E_aco/(fy/10)))*( (1)-((0.34/mesa)*(Math.sqrt(E_aco/(fy/10)))) );
     }
-    private double Aef(double ag, double dlinha, double bef, double tw)
+    public double Aef(double ag, double dlinha, double bef, double tw)
     {
         return (ag) - (((dlinha-bef)*tw)/100); //mm para cm dlinha e bef divide 100
     }
-    private double Qa_sem_flambagem()
+    public double Qa_sem_flambagem()
     {
         return 1.0;
     }
-    private double Qa_com_flambagem(double aef, double ag)
+    public double Qa_com_flambagem(double aef, double ag)
     {
         return aef / ag;
     }
-    private double Qa(double fy,double mesa,double tw,double ag,double dlinha)
+    public double Qa(double fy,double mesa,double tw,double ag,double dlinha)
     {
         double e_lim = esbeltez_limite_AA(fy);
         double e_placa = esbeltez_de_placa_AA(mesa);
@@ -172,59 +171,59 @@ public class OutputVCompressaoActivity extends AppCompatActivity {
         }
     }
 
-    private double esbeltez_limite1_AL_laminado(double fy) // b/t lim
+    public double esbeltez_limite1_AL_laminado(double fy) // b/t lim
     {
         return (0.56) * (Math.sqrt(E_aco/(fy/10)));
     }
-    private double esbeltez_limite1_AL_custom(double fy, double kc) // b/t lim
+    public double esbeltez_limite1_AL_custom(double fy, double kc) // b/t lim
     {
         return (0.64) * (Math.sqrt(E_aco/((fy/10)/kc)));
     }
-    private double esbeltez_limite2_AL_laminado(double fy)
+    public double esbeltez_limite2_AL_laminado(double fy)
     {
         return (1.03) * (Math.sqrt(E_aco/(fy/10)));
     }
-    private double esbeltez_limite2_AL_custom(double fy, double kc)
+    public double esbeltez_limite2_AL_custom(double fy, double kc)
     {
         return (1.17) * (Math.sqrt(E_aco/((fy/10)/kc)));
     }
-    private double esbeltez_de_placa_AL(double aba) // banco de dados
+    public double esbeltez_de_placa_AL(double aba) // banco de dados
     {
         return aba;
     }
-    private boolean lim1_MENOR_placa_MENORIGUAL_lim2(double lim1, double placa, double lim2)
+    public boolean lim1_MENOR_placa_MENORIGUAL_lim2(double lim1, double placa, double lim2)
     {
         return (lim1 < placa) && (placa <= lim2);
     }
-    private boolean placa_MAIOR_lim2(double placa, double lim2)
+    public boolean placa_MAIOR_lim2(double placa, double lim2)
     {
         return placa > lim2;
     }
-    private double Kc(double h, double tw)
+    public double Kc(double h, double tw)
     {
         return 4 / Math.sqrt(h/tw);
     }
-    private double Qs_sem_flambagem()
+    public double Qs_sem_flambagem()
     {
         return 1.0;
     }
-    private double Qs_com_flambagem_1_laminado(double aba, double fy)
+    public double Qs_com_flambagem_1_laminado(double aba, double fy)
     {
         return 1.415 - (0.74*aba*(Math.sqrt((fy/10)/E_aco)));
     }
-    private double Qs_com_flambagem_1_custom(double aba, double fy, double kc)
+    public double Qs_com_flambagem_1_custom(double aba, double fy, double kc)
     {
         return 1.415 - (0.65*aba*(Math.sqrt((fy/10)/(E_aco*kc))));
     }
-    private double Qs_com_flambagem_2_laminado(double aba, double fy)
+    public double Qs_com_flambagem_2_laminado(double aba, double fy)
     {
         return (0.69*E_aco)/((fy/10)*(Math.pow(aba,2)));
     }
-    private double Qs_com_flambagem_2_custom(double aba, double fy, double kc)
+    public double Qs_com_flambagem_2_custom(double aba, double fy, double kc)
     {
         return (0.90*kc*E_aco)/((fy/10)*(Math.pow(aba,2)));
     }
-    private double Qs_laminado(double fy, double aba)
+    public double Qs_laminado(double fy, double aba)
     {
         double e_lim1 = esbeltez_limite1_AL_laminado(fy);
         double e_lim2 = esbeltez_limite2_AL_laminado(fy);
@@ -242,7 +241,7 @@ public class OutputVCompressaoActivity extends AppCompatActivity {
             return Qs_com_flambagem_2_laminado(e_placa,fy);
         }
     }
-    private double Qs_custom(double fy, double aba, double kc)
+    public double Qs_custom(double fy, double aba, double kc)
     {
         double e_lim1 = esbeltez_limite1_AL_custom(fy,kc);
         double e_lim2 = esbeltez_limite2_AL_custom(fy,kc);
@@ -260,40 +259,40 @@ public class OutputVCompressaoActivity extends AppCompatActivity {
             return Qs_com_flambagem_2_custom(e_placa,fy,kc);
         }
     }
-    private double Q(double qa, double qs)
+    public double Q(double qa, double qs)
     {
         return qa*qs;
     }
 
         //flambagem global
 
-    private double esbeltez_x(double kx, double lx, double rx)
+    public double esbeltez_x(double kx, double lx, double rx)
     {
         return (kx*lx)/rx;
     }
-    private double esbeltez_y(double ky, double ly, double ry)
+    public double esbeltez_y(double ky, double ly, double ry)
     {
         return (ky*ly)/ry;
     }
-    private double esbeltez_final(double e_x, double e_y)
+    public double esbeltez_final(double e_x, double e_y)
     {   if(e_x > e_y)
             return e_x;
         return e_y;
     }
-    private double Nex(double ix, double kx, double lx)
+    public double Nex(double ix, double kx, double lx)
     {
         return ( Math.pow(Math.PI,2) * E_aco * ix ) / ( Math.pow(kx*lx,2) );
     }
-    private double Ney(double iy, double ky, double ly)
+    public double Ney(double iy, double ky, double ly)
     {
         return ( Math.pow(Math.PI,2) * E_aco * iy ) / ( Math.pow(ky*ly,2) );
     }
-    private double Nez(double rx, double ry, double cw, double kz, double lz, double j)
+    public double Nez(double rx, double ry, double cw, double kz, double lz, double j)
     {
         double r0_quadrado = (Math.pow(rx,2)+Math.pow(ry,2));
         return ( 1/r0_quadrado ) * ( ( ( Math.pow(Math.PI,2)*E_aco*cw )/( Math.pow(kz*lz,2) ) ) + ( G*j ) );
     }
-    private double Ne(double nex, double ney, double nez)
+    public double Ne(double nex, double ney, double nez)
     {
         double menor = nex;
         if(ney < menor)
@@ -302,19 +301,19 @@ public class OutputVCompressaoActivity extends AppCompatActivity {
             menor = nez;
         return menor;
     }
-    private double esbeltez_zero(double Q, double ag, double fy, double Ne) //força critica de flambagem global
+    public double esbeltez_zero(double Q, double ag, double fy, double Ne) //força critica de flambagem global
     {
         return Math.sqrt((Q*ag*(fy/10))/Ne);
     }
-    private double X_1(double esb_zero)
+    public double X_1(double esb_zero)
     {
         return Math.pow(0.658,Math.pow(esb_zero,2));
     }
-    private double X_2(double esb_zero)
+    public double X_2(double esb_zero)
     {
         return 0.877/Math.pow(esb_zero,2);
     }
-    private double X(double esb_zero)
+    public double X(double esb_zero)
     {
         if(esb_zero <= 1.5)
             return X_1(esb_zero);
@@ -322,11 +321,12 @@ public class OutputVCompressaoActivity extends AppCompatActivity {
     }
 
         //normal resistente e coef
-    private double NCRD(double X, double Q, double ag, double fy)
+
+    public double NCRD(double X, double Q, double ag, double fy)
     {
         return ( X*Q*ag*(fy/10) )/( gama_a1 );
     }
-    private double Coeficiente_Utilização(double NCSD, double NCRD)
+    public double Coeficiente_Utilização(double NCSD, double NCRD)
     {   return ( NCSD / NCRD );
     }
 

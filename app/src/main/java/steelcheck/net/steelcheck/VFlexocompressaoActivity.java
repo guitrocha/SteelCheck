@@ -2,6 +2,7 @@ package steelcheck.net.steelcheck;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
@@ -19,17 +20,19 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class VFlexaoActivity extends AppCompatActivity
+public class VFlexocompressaoActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemSelectedListener{
 
-    private Spinner secao_flexao;
+    private Spinner secao_flexocomp;
     private LinearLayout linear_scroll;
     private String perfil_selected_str;
     private int perfil_selected_pos = 0;
@@ -38,20 +41,12 @@ public class VFlexaoActivity extends AppCompatActivity
     private double bf_selected;
     private double tf_selected;
     private int analise_selected_pos = 0;
-    private LinearLayout analise_auxiliar_layout;
-    private TextView vao;
-    private EditText vao_box;
-    private TextView flechamax;
-    private EditText flechamax_box;
-    private TextView Vsdx;
-    private EditText Vsdx_box;
-    private TextView Vsdy;
-    private EditText Vsdy_box;
+    private boolean isAmp = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_vflexao);
+        setContentView(R.layout.activity_vflexocompressao);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -68,11 +63,11 @@ public class VFlexaoActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        secao_flexao = (Spinner) findViewById(R.id.secao_vflexao);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.secao_flexao, android.R.layout.simple_spinner_item);
+        secao_flexocomp = (Spinner) findViewById(R.id.secao_vflexocompressao);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.secao_flexocompressao, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        secao_flexao.setAdapter(adapter);
-        secao_flexao.setOnItemSelectedListener(new SecaoSpinnerClass());
+        secao_flexocomp.setAdapter(adapter);
+        secao_flexocomp.setOnItemSelectedListener(new SecaoSpinnerClass());
 
 
     }
@@ -116,34 +111,34 @@ public class VFlexaoActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-            Intent intent = new Intent(new Intent(VFlexaoActivity.this,HomeActivity.class));
+            Intent intent = new Intent(new Intent(VFlexocompressaoActivity.this,HomeActivity.class));
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(intent);
         } else if (id == R.id.nav_sobre) {
-            Intent intent = new Intent(new Intent(VFlexaoActivity.this,SobreActivity.class));
+            Intent intent = new Intent(new Intent(VFlexocompressaoActivity.this,SobreActivity.class));
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(intent);
         } else if (id == R.id.nav_contato) {
 
         } else if (id == R.id.nav_tracaoV) {
-            Intent intent = new Intent(new Intent(VFlexaoActivity.this,VTracaoActivity.class));
+            Intent intent = new Intent(new Intent(VFlexocompressaoActivity.this,VTracaoActivity.class));
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(intent);
         } else if (id == R.id.nav_compressaoV) {
-            Intent intent = new Intent(new Intent(VFlexaoActivity.this,VCompressaoActivity.class));
+            Intent intent = new Intent(new Intent(VFlexocompressaoActivity.this,VCompressaoActivity.class));
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(intent);
         } else if (id == R.id.nav_flexaoV) {
-            //keep activity
-        } else if (id == R.id.nav_flexocompressaoV) {
-            Intent intent = new Intent(new Intent(VFlexaoActivity.this,VFlexocompressaoActivity.class));
+            Intent intent = new Intent(new Intent(VFlexocompressaoActivity.this,VFlexaoActivity.class));
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(intent);
+        } else if (id == R.id.nav_flexocompressaoV) {
+            //keep activity
         } else if (id == R.id.nav_tracaoD) {
 
         } else if (id == R.id.nav_compressaoD) {
@@ -173,7 +168,7 @@ public class VFlexaoActivity extends AppCompatActivity
     class SecaoSpinnerClass implements AdapterView.OnItemSelectedListener {
         public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {
 
-            linear_scroll = (LinearLayout) findViewById(R.id.linear_scroll_idflexao);
+            linear_scroll = (LinearLayout) findViewById(R.id.linear_scroll_idflexocompressao);
             linear_scroll.setGravity(Gravity.CENTER);
             System.out.println(id);
             linear_scroll.removeAllViews();
@@ -188,14 +183,14 @@ public class VFlexaoActivity extends AppCompatActivity
                 if(position == 1)
                 {
                     //imagem
-                    ImageView image = new ImageView(VFlexaoActivity.this);
-                    image.setImageDrawable(ContextCompat.getDrawable(VFlexaoActivity.this, R.drawable.laminado));
+                    ImageView image = new ImageView(VFlexocompressaoActivity.this);
+                    image.setImageDrawable(ContextCompat.getDrawable(VFlexocompressaoActivity.this, R.drawable.laminado));
                     linear_scroll.addView(image);
                     linear_scroll.setGravity(Gravity.CENTER);
 
                     //perfil spinner
-                    Spinner spinner_perfil = new Spinner(VFlexaoActivity.this);
-                    final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(VFlexaoActivity.this, R.array.laminado_perfis, android.R.layout.simple_spinner_item);
+                    Spinner spinner_perfil = new Spinner(VFlexocompressaoActivity.this);
+                    final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(VFlexocompressaoActivity.this, R.array.laminado_perfis, android.R.layout.simple_spinner_item);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinner_perfil.setAdapter(adapter);
                     spinner_perfil.setOnItemSelectedListener(new PerfilSpinnerClass());
@@ -207,18 +202,18 @@ public class VFlexaoActivity extends AppCompatActivity
                 {
 
                     //d
-                    LinearLayout d_layout = new LinearLayout(VFlexaoActivity.this);
+                    LinearLayout d_layout = new LinearLayout(VFlexocompressaoActivity.this);
                     d_layout.setOrientation(LinearLayout.HORIZONTAL);
                     d_layout.setGravity(Gravity.CENTER);
 
-                    TextView d = new TextView(VFlexaoActivity.this);
+                    TextView d = new TextView(VFlexocompressaoActivity.this);
                     d.setText(Html.fromHtml("d  (mm):"));
                     d_layout.addView(d);
                     d.setTextSize(17);
                     d.setPadding(0,10,0,10);
 
-                    Spinner spinner_d = new Spinner(VFlexaoActivity.this);
-                    final ArrayAdapter<CharSequence> adapter_d = ArrayAdapter.createFromResource(VFlexaoActivity.this, R.array.d, android.R.layout.simple_spinner_item);
+                    Spinner spinner_d = new Spinner(VFlexocompressaoActivity.this);
+                    final ArrayAdapter<CharSequence> adapter_d = ArrayAdapter.createFromResource(VFlexocompressaoActivity.this, R.array.d, android.R.layout.simple_spinner_item);
                     adapter_d.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinner_d.setAdapter(adapter_d);
                     spinner_d.setOnItemSelectedListener(new dSpinnerClass());
@@ -228,18 +223,18 @@ public class VFlexaoActivity extends AppCompatActivity
                     linear_scroll.addView(d_layout);
 
                     //tw
-                    LinearLayout tw_layout = new LinearLayout(VFlexaoActivity.this);
+                    LinearLayout tw_layout = new LinearLayout(VFlexocompressaoActivity.this);
                     tw_layout.setOrientation(LinearLayout.HORIZONTAL);
                     tw_layout.setGravity(Gravity.CENTER);
 
-                    TextView tw = new TextView(VFlexaoActivity.this);
+                    TextView tw = new TextView(VFlexocompressaoActivity.this);
                     tw.setText(Html.fromHtml("t<sub><small>w</small></sub> (mm):"));
                     tw_layout.addView(tw);
                     tw.setTextSize(17);
                     tw.setPadding(0,10,0,10);
 
-                    Spinner spinner_tw = new Spinner(VFlexaoActivity.this);
-                    final ArrayAdapter<CharSequence> adapter_tw = ArrayAdapter.createFromResource(VFlexaoActivity.this, R.array.tw, android.R.layout.simple_spinner_item);
+                    Spinner spinner_tw = new Spinner(VFlexocompressaoActivity.this);
+                    final ArrayAdapter<CharSequence> adapter_tw = ArrayAdapter.createFromResource(VFlexocompressaoActivity.this, R.array.tw, android.R.layout.simple_spinner_item);
                     adapter_tw.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinner_tw.setAdapter(adapter_tw);
                     spinner_tw.setOnItemSelectedListener(new twSpinnerClass());
@@ -249,18 +244,18 @@ public class VFlexaoActivity extends AppCompatActivity
                     linear_scroll.addView(tw_layout);
 
                     //bf
-                    LinearLayout bf_layout = new LinearLayout(VFlexaoActivity.this);
+                    LinearLayout bf_layout = new LinearLayout(VFlexocompressaoActivity.this);
                     bf_layout.setOrientation(LinearLayout.HORIZONTAL);
                     bf_layout.setGravity(Gravity.CENTER);
 
-                    TextView bf = new TextView(VFlexaoActivity.this);
+                    TextView bf = new TextView(VFlexocompressaoActivity.this);
                     bf.setText(Html.fromHtml("b<sub><small>f</small></sub> (mm):"));
                     bf_layout.addView(bf);
                     bf.setTextSize(17);
                     bf.setPadding(0,10,0,10);
 
-                    Spinner spinner_bf = new Spinner(VFlexaoActivity.this);
-                    final ArrayAdapter<CharSequence> adapter_bf = ArrayAdapter.createFromResource(VFlexaoActivity.this, R.array.bf, android.R.layout.simple_spinner_item);
+                    Spinner spinner_bf = new Spinner(VFlexocompressaoActivity.this);
+                    final ArrayAdapter<CharSequence> adapter_bf = ArrayAdapter.createFromResource(VFlexocompressaoActivity.this, R.array.bf, android.R.layout.simple_spinner_item);
                     adapter_bf.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinner_bf.setAdapter(adapter_bf);
                     spinner_bf.setOnItemSelectedListener(new bfSpinnerClass());
@@ -270,18 +265,18 @@ public class VFlexaoActivity extends AppCompatActivity
                     linear_scroll.addView(bf_layout);
 
                     //tf
-                    LinearLayout tf_layout = new LinearLayout(VFlexaoActivity.this);
+                    LinearLayout tf_layout = new LinearLayout(VFlexocompressaoActivity.this);
                     tf_layout.setOrientation(LinearLayout.HORIZONTAL);
                     tf_layout.setGravity(Gravity.CENTER);
 
-                    TextView tf = new TextView(VFlexaoActivity.this);
+                    TextView tf = new TextView(VFlexocompressaoActivity.this);
                     tf.setText(Html.fromHtml("t<sub><small>f</small></sub> (mm):"));
                     tf_layout.addView(tf);
                     tf.setTextSize(17);
                     tf.setPadding(0,10,0,10);
 
-                    Spinner spinner_tf = new Spinner(VFlexaoActivity.this);
-                    final ArrayAdapter<CharSequence> adapter_tf = ArrayAdapter.createFromResource(VFlexaoActivity.this, R.array.tf, android.R.layout.simple_spinner_item);
+                    Spinner spinner_tf = new Spinner(VFlexocompressaoActivity.this);
+                    final ArrayAdapter<CharSequence> adapter_tf = ArrayAdapter.createFromResource(VFlexocompressaoActivity.this, R.array.tf, android.R.layout.simple_spinner_item);
                     adapter_tf.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinner_tf.setAdapter(adapter_tf);
                     spinner_tf.setOnItemSelectedListener(new tfSpinnerClass());
@@ -292,64 +287,58 @@ public class VFlexaoActivity extends AppCompatActivity
                     linear_scroll.addView(tf_layout);
                 }
 
+                //viga
+                TextView TV_viga = new TextView(VFlexocompressaoActivity.this);
+                TV_viga.setText("DADOS DA VIGA");
+                TV_viga.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
+                TV_viga.setTextSize(25);
+                TV_viga.setPadding(0,70,0,0);
+                linear_scroll.addView(TV_viga);
+
                 //text1
-                TextView Msdx = new TextView(VFlexaoActivity.this);
+                TextView Msdx = new TextView(VFlexocompressaoActivity.this);
                 Msdx.setText(Html.fromHtml("M<sub><small>Sd,x</small></sub> (kNm):"));
                 linear_scroll.addView(Msdx);
                 Msdx.setTextSize(17);
                 Msdx.setPadding(0,100,0,10);
 
                 //box1
-                final EditText Msdx_box = new EditText(VFlexaoActivity.this);
+                final EditText Msdx_box = new EditText(VFlexocompressaoActivity.this);
                 Msdx_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
                 linear_scroll.addView(Msdx_box);
                 Msdx_box.setPadding(100,10,100,10);
                 Msdx_box.canScrollHorizontally(1);
 
                 //text1
-                TextView Msdy = new TextView(VFlexaoActivity.this);
+                TextView Msdy = new TextView(VFlexocompressaoActivity.this);
                 Msdy.setText(Html.fromHtml("M<sub><small>Sd,y</small></sub> (kNm):"));
                 linear_scroll.addView(Msdy);
                 Msdy.setTextSize(17);
                 Msdy.setPadding(0,10,0,10);
 
                 //box1
-                final EditText Msdy_box = new EditText(VFlexaoActivity.this);
+                final EditText Msdy_box = new EditText(VFlexocompressaoActivity.this);
                 Msdy_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
                 linear_scroll.addView(Msdy_box);
                 Msdy_box.setPadding(100,10,100,10);
                 Msdy_box.canScrollHorizontally(1);
 
-                //text2
-                TextView fy = new TextView(VFlexaoActivity.this);
-                fy.setText(Html.fromHtml("f<sub><small>y</small></sub> (MPa):"));
-                linear_scroll.addView(fy);
-                fy.setTextSize(17);
-                fy.setPadding(0,10,0,10);
-
-                //box2
-                final EditText fy_box = new EditText(VFlexaoActivity.this);
-                fy_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
-                linear_scroll.addView(fy_box);
-                fy_box.setPadding(100,10,100,10);
-                fy_box.canScrollHorizontally(1);
-
                 //text3
-                TextView lb = new TextView(VFlexaoActivity.this);
+                TextView lb = new TextView(VFlexocompressaoActivity.this);
                 lb.setText(Html.fromHtml("ℓ<sub><small>b</small></sub> (cm):"));
                 linear_scroll.addView(lb);
                 lb.setTextSize(17);
                 lb.setPadding(0,10,0,10);
 
                 //box3
-                final EditText lb_box = new EditText(VFlexaoActivity.this);
+                final EditText lb_box = new EditText(VFlexocompressaoActivity.this);
                 lb_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
                 linear_scroll.addView(lb_box);
                 lb_box.setPadding(100,10,100,10);
                 lb_box.canScrollHorizontally(1);
 
                 //text4
-                TextView cb = new TextView(VFlexaoActivity.this);
+                TextView cb = new TextView(VFlexocompressaoActivity.this);
                 cb.setText(Html.fromHtml("C<sub><small>b</small></sub>:"));
                 linear_scroll.addView(cb);
                 cb.setTextSize(17);
@@ -357,83 +346,207 @@ public class VFlexaoActivity extends AppCompatActivity
                 cb.setHint("1.0 ≤ Cb ≤ 3.0");
 
                 //box4
-                final EditText cb_box = new EditText(VFlexaoActivity.this);
+                final EditText cb_box = new EditText(VFlexocompressaoActivity.this);
                 cb_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
                 linear_scroll.addView(cb_box);
                 cb_box.setPadding(100,10,100,10);
                 cb_box.canScrollHorizontally(1);
 
-                //tipo analise
+                //coluna
+                TextView TV_coluna = new TextView(VFlexocompressaoActivity.this);
+                TV_coluna.setText("DADOS DA COLUNA");
+                TV_coluna.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
+                TV_coluna.setTextSize(25);
+                TV_coluna.setPadding(0,70,0,0);
+                linear_scroll.addView(TV_coluna);
 
-                TextView analise = new TextView(VFlexaoActivity.this);
-                analise.setText(Html.fromHtml("Tipo de análise:"));
-                linear_scroll.addView(analise);
-                analise.setTextSize(17);
-                analise.setPadding(0,100,0,10);
-                analise.setTextColor(Color.BLACK);
+                //text1
+                TextView Ncsd = new TextView(VFlexocompressaoActivity.this);
+                Ncsd.setText(Html.fromHtml("N<sub><small>c,Sd</small></sub> (kN):"));
+                linear_scroll.addView(Ncsd);
+                Ncsd.setTextSize(17);
+                Ncsd.setPadding(0,100,0,10);
 
-                Spinner spinner_analise = new Spinner(VFlexaoActivity.this);
-                final ArrayAdapter<CharSequence> adapter_analise = ArrayAdapter.createFromResource(VFlexaoActivity.this, R.array.analiseflexao, android.R.layout.simple_spinner_item);
-                adapter_analise.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinner_analise.setAdapter(adapter_analise);
-                spinner_analise.setOnItemSelectedListener(new analiseSpinnerClass());
-                spinner_analise.setLayoutParams(new LinearLayout.LayoutParams(600,130));
-                linear_scroll.addView(spinner_analise);
+                //box1
+                final EditText Ncsd_box = new EditText(VFlexocompressaoActivity.this);
+                Ncsd_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                linear_scroll.addView(Ncsd_box);
+                Ncsd_box.setPadding(100,10,100,10);
+                Ncsd_box.canScrollHorizontally(1);
 
-                analise_auxiliar_layout = new LinearLayout(VFlexaoActivity.this);
-                analise_auxiliar_layout.setOrientation(LinearLayout.VERTICAL);
-                linear_scroll.addView(analise_auxiliar_layout);
+                //text2
+                TextView fy = new TextView(VFlexocompressaoActivity.this);
+                fy.setText(Html.fromHtml("f<sub><small>y</small></sub> (MPa):"));
+                linear_scroll.addView(fy);
+                fy.setTextSize(17);
+                fy.setPadding(0,10,0,10);
 
-                //text
-                Vsdx = new TextView(VFlexaoActivity.this);
-                Vsdx.setText(Html.fromHtml("V<sub><small>Sd,x</small></sub> (kN):"));
-                Vsdx.setTextSize(17);
-                Vsdx.setPadding(0,10,0,10);
+                //box2
+                final EditText fy_box = new EditText(VFlexocompressaoActivity.this);
+                fy_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                linear_scroll.addView(fy_box);
+                fy_box.setPadding(100,10,100,10);
+                fy_box.canScrollHorizontally(1);
 
-                //box
-                Vsdx_box = new EditText(VFlexaoActivity.this);
-                Vsdx_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
-                Vsdx_box.setPadding(100,10,100,10);
-                Vsdx_box.canScrollHorizontally(1);
+                //text3
+                TextView kx = new TextView(VFlexocompressaoActivity.this);
+                kx.setText(Html.fromHtml("k<sub><small>x</small></sub>:"));
+                linear_scroll.addView(kx);
+                kx.setTextSize(17);
+                kx.setPadding(0,10,0,10);
 
-                //text
-                Vsdy = new TextView(VFlexaoActivity.this);
-                Vsdy.setText(Html.fromHtml("V<sub><small>Sd,y</small></sub> (kN):"));
-                Vsdy.setTextSize(17);
-                Vsdy.setPadding(0,10,0,10);
+                //box3
+                final EditText kx_box = new EditText(VFlexocompressaoActivity.this);
+                kx_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                linear_scroll.addView(kx_box);
+                kx_box.setPadding(100,10,100,10);
+                kx_box.canScrollHorizontally(1);
 
-                //box
-                Vsdy_box = new EditText(VFlexaoActivity.this);
-                Vsdy_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
-                Vsdy_box.setPadding(100,10,100,10);
-                Vsdy_box.canScrollHorizontally(1);
+                //text4
+                TextView ky = new TextView(VFlexocompressaoActivity.this);
+                ky.setText(Html.fromHtml("k<sub><small>y</small></sub>:"));
+                linear_scroll.addView(ky);
+                ky.setTextSize(17);
+                ky.setPadding(0,10,0,10);
 
-                //text
-                flechamax = new TextView(VFlexaoActivity.this);
-                flechamax.setText(Html.fromHtml("δ<sub><small>max</small></sub> (mm):"));
-                flechamax.setTextSize(17);
-                flechamax.setPadding(0,10,0,10);
+                //box4
+                final EditText ky_box = new EditText(VFlexocompressaoActivity.this);
+                ky_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                linear_scroll.addView(ky_box);
+                ky_box.setPadding(100,10,100,10);
+                ky_box.canScrollHorizontally(1);
 
-                //box
-                flechamax_box = new EditText(VFlexaoActivity.this);
-                flechamax_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
-                flechamax_box.setPadding(100,10,100,10);
-                flechamax_box.canScrollHorizontally(1);
+                //text5
+                TextView kz = new TextView(VFlexocompressaoActivity.this);
+                kz.setText(Html.fromHtml("k<sub><small>z</small></sub>:"));
+                linear_scroll.addView(kz);
+                kz.setTextSize(17);
+                kz.setPadding(0,10,0,10);
 
-                //text
-                vao = new TextView(VFlexaoActivity.this);
-                vao.setText(Html.fromHtml("Vão<sub><small>max</small></sub> (m):"));
-                vao.setTextSize(17);
-                vao.setPadding(0,10,0,10);
+                //box5
+                final EditText kz_box = new EditText(VFlexocompressaoActivity.this);
+                kz_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                linear_scroll.addView(kz_box);
+                kz_box.setPadding(100,10,100,10);
+                kz_box.canScrollHorizontally(1);
 
-                //box
-                vao_box = new EditText(VFlexaoActivity.this);
-                vao_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
-                vao_box.setPadding(100,10,100,10);
-                vao_box.canScrollHorizontally(1);
+                //text6
+                TextView Lx = new TextView(VFlexocompressaoActivity.this);
+                Lx.setText(Html.fromHtml("L<sub><small>x</small></sub> (cm):"));
+                linear_scroll.addView(Lx);
+                Lx.setTextSize(17);
+                Lx.setPadding(0,10,0,10);
+
+                //box6
+                final EditText Lx_box = new EditText(VFlexocompressaoActivity.this);
+                Lx_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                linear_scroll.addView(Lx_box);
+                Lx_box.setPadding(100,10,100,10);
+                Lx_box.canScrollHorizontally(1);
+
+                //text7
+                TextView Ly = new TextView(VFlexocompressaoActivity.this);
+                Ly.setText(Html.fromHtml("L<sub><small>y</small></sub> (cm):"));
+                linear_scroll.addView(Ly);
+                Ly.setTextSize(17);
+                Ly.setPadding(0,10,0,10);
+
+                //box7
+                final EditText Ly_box = new EditText(VFlexocompressaoActivity.this);
+                Ly_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                linear_scroll.addView(Ly_box);
+                Ly_box.setPadding(100,10,100,10);
+                Ly_box.canScrollHorizontally(1);
+
+                //text8
+                TextView Lz = new TextView(VFlexocompressaoActivity.this);
+                Lz.setText(Html.fromHtml("L<sub><small>z</small></sub> (cm):"));
+                linear_scroll.addView(Lz);
+                Lz.setTextSize(17);
+                Lz.setPadding(0,10,0,10);
+
+                //box8
+                final EditText Lz_box = new EditText(VFlexocompressaoActivity.this);
+                Lz_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                linear_scroll.addView(Lz_box);
+                Lz_box.setPadding(100,10,100,10);
+                Lz_box.canScrollHorizontally(1);
+
+                //amplificacao
+                TextView TV_amp = new TextView(VFlexocompressaoActivity.this);
+                TV_amp.setText("AMPLIFICAÇÃO DE MOMENTOS FLETORES");
+                TV_amp.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
+                TV_amp.setTextSize(25);
+                TV_amp.setPadding(0,70,0,0);
+                linear_scroll.addView(TV_amp);
+
+                //switch
+                LinearLayout switch_layout = new LinearLayout(VFlexocompressaoActivity.this);
+                switch_layout.setOrientation(LinearLayout.HORIZONTAL);
+
+                TextView nao = new TextView(VFlexocompressaoActivity.this);
+                nao.setText("Não");
+                switch_layout.addView(nao);
+                Switch amp = new Switch(VFlexocompressaoActivity.this);
+                switch_layout.addView(amp);
+                TextView sim = new TextView(VFlexocompressaoActivity.this);
+                sim.setText("Sim");
+                switch_layout.addView(sim);
+                switch_layout.setPadding(0,20,0,50);
+
+                linear_scroll.addView(switch_layout);
+
+                final LinearLayout amp_layout = new LinearLayout(VFlexocompressaoActivity.this);
+                amp_layout.setOrientation(LinearLayout.VERTICAL);
+                linear_scroll.addView(amp_layout);
+
+                //cmx
+                final TextView cmx = new TextView(VFlexocompressaoActivity.this);
+                cmx.setText(Html.fromHtml("C<sub><small>m,x</small></sub>:"));
+                cmx.setTextSize(17);
+                cmx.setPadding(0,10,0,10);
+
+                //
+                final EditText cmx_box = new EditText(VFlexocompressaoActivity.this);
+                cmx_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                cmx_box.setPadding(100,10,100,10);
+                cmx_box.canScrollHorizontally(1);
+
+                //cmx
+                final TextView cmy = new TextView(VFlexocompressaoActivity.this);
+                cmy.setText(Html.fromHtml("C<sub><small>m,y</small></sub>:"));
+                cmy.setTextSize(17);
+                cmy.setPadding(0,10,0,10);
+
+                //
+                final EditText cmy_box = new EditText(VFlexocompressaoActivity.this);
+                cmy_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                cmy_box.setPadding(100,10,100,10);
+                cmy_box.canScrollHorizontally(1);
+
+                amp.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        isAmp = isChecked;
+                        if(isChecked)
+                        {
+                            amp_layout.addView(cmx);
+                            amp_layout.addView(cmx_box);
+                            amp_layout.addView(cmy);
+                            amp_layout.addView(cmy_box);
+                        }
+                        else
+                        {
+                            amp_layout.removeAllViews();
+                        }
+                    }
+                });
+
+
+
 
                 //final botao
-                Button botao_verificar = new Button(VFlexaoActivity.this);
+                Button botao_verificar = new Button(VFlexocompressaoActivity.this);
                 botao_verificar.setText(R.string.verificar);
                 linear_scroll.addView(botao_verificar);
 
@@ -442,43 +555,43 @@ public class VFlexaoActivity extends AppCompatActivity
                     public void onClick(View v) {
                         String Msdy_value = Msdy_box.getText().toString();
                         String Msdx_value = Msdx_box.getText().toString();
-                        String fy_value = fy_box.getText().toString();
                         String cb_value = cb_box.getText().toString();
                         String lb_value = lb_box.getText().toString();
-                        String vsdx_value = Vsdx_box.getText().toString();
-                        String vsdy_value = Vsdy_box.getText().toString();
-                        String vao_value = vao_box.getText().toString();
-                        String flecha_value = flechamax_box.getText().toString();
+                        String Ncsd_value = Ncsd_box.getText().toString();
+                        String fy_value = fy_box.getText().toString();
+                        String kx_value = kx_box.getText().toString();
+                        String ky_value = ky_box.getText().toString();
+                        String kz_value = kz_box.getText().toString();
+                        String Lx_value = Lx_box.getText().toString();
+                        String Ly_value = Ly_box.getText().toString();
+                        String Lz_value = Lz_box.getText().toString();
+                        String cmx_value = cmx_box.getText().toString();
+                        String cmy_value = cmy_box.getText().toString();
 
                         if(Msdx_value.isEmpty() || Msdy_value.isEmpty() || fy_value.isEmpty()
-                                || cb_value.isEmpty() || lb_value.isEmpty()  )
+                                || cb_value.isEmpty() || lb_value.isEmpty()
+                                || Ncsd_value.isEmpty() || fy_value.isEmpty()
+                                || kx_value.isEmpty() || ky_value.isEmpty() || kz_value.isEmpty()
+                                || Lx_value.isEmpty() || Ly_value.isEmpty() || Lz_value.isEmpty())
                         {
-                            Toast.makeText(VFlexaoActivity.this, R.string.warning_preencher, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(VFlexocompressaoActivity.this, R.string.warning_preencher, Toast.LENGTH_SHORT).show();
                         }
                         else if(Double.parseDouble(cb_value) < 1 || Double.parseDouble(cb_value) > 3)
                         {
-                            Toast.makeText(VFlexaoActivity.this, "Cb deve atender: 1.0 ≤ Cb ≤ 3.0", Toast.LENGTH_LONG).show();
+                            Toast.makeText(VFlexocompressaoActivity.this, "Cb deve atender: 1.0 ≤ Cb ≤ 3.0", Toast.LENGTH_LONG).show();
 
                         }
                         else if(position == 1 && perfil_selected_pos == 0)
                         {
-                            Toast.makeText(VFlexaoActivity.this, R.string.warning_selecionar, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(VFlexocompressaoActivity.this, R.string.warning_selecionar, Toast.LENGTH_SHORT).show();
                         }
-                        else if(analise_selected_pos == 1 && (vsdx_value.isEmpty() || vsdy_value.isEmpty()))
+                        else if(isAmp && (cmx_value.isEmpty() || cmy_value.isEmpty()))
                         {
-                            Toast.makeText(VFlexaoActivity.this, R.string.warning_preencher, Toast.LENGTH_SHORT).show();
-                        }
-                        else if(analise_selected_pos == 2 && (vao_value.isEmpty() || flecha_value.isEmpty()))
-                        {
-                            Toast.makeText(VFlexaoActivity.this, R.string.warning_preencher, Toast.LENGTH_SHORT).show();
-                        }
-                        else if(analise_selected_pos == 3 && (vsdx_value.isEmpty() || vsdy_value.isEmpty() || vao_value.isEmpty() || flecha_value.isEmpty()))
-                        {
-                            Toast.makeText(VFlexaoActivity.this, R.string.warning_preencher, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(VFlexocompressaoActivity.this, R.string.warning_preencher, Toast.LENGTH_SHORT).show();
                         }
                         else
                         {
-                            Intent intent = new Intent(new Intent(VFlexaoActivity.this,OutputVFlexaoActivity.class));
+                            Intent intent = new Intent(new Intent(VFlexocompressaoActivity.this,OutputVFlexaoActivity.class));
                             //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             //intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                             intent.putExtra("secao",position);
@@ -492,29 +605,24 @@ public class VFlexaoActivity extends AppCompatActivity
                                 intent.putExtra("bf",bf_selected);
                                 intent.putExtra("tf",tf_selected);
                             }
-                            if(analise_selected_pos == 1)
+                            if(isAmp)
                             {
-                                intent.putExtra("vsdx",Double.parseDouble(vsdx_value));
-                                intent.putExtra("vsdy",Double.parseDouble(vsdy_value));
+                                intent.putExtra("cmx",Double.parseDouble(cmx_value));
+                                intent.putExtra("cmy",Double.parseDouble(cmy_value));
                             }
-                            else if(analise_selected_pos == 2)
-                            {
-                                intent.putExtra("flecha",Double.parseDouble(flecha_value));
-                                intent.putExtra("vao",Double.parseDouble(vao_value));
-                            }
-                            else if(analise_selected_pos == 3)
-                            {
-                                intent.putExtra("vsdx",Double.parseDouble(vsdx_value));
-                                intent.putExtra("vsdy",Double.parseDouble(vsdy_value));
-                                intent.putExtra("flecha",Double.parseDouble(flecha_value));
-                                intent.putExtra("vao",Double.parseDouble(vao_value));
-                            }
+
                             intent.putExtra("msdx",Double.parseDouble(Msdx_value));
                             intent.putExtra("msdy",Double.parseDouble(Msdy_value));
-                            intent.putExtra("fy",Double.parseDouble(fy_value));
                             intent.putExtra("lb",Double.parseDouble(lb_value));
                             intent.putExtra("cb",Double.parseDouble(cb_value));
-
+                            intent.putExtra("ncsd", Double.parseDouble(Ncsd_value));
+                            intent.putExtra("fy", Double.parseDouble(fy_value));
+                            intent.putExtra("kx", Double.parseDouble(kx_value));
+                            intent.putExtra("ky", Double.parseDouble(ky_value));
+                            intent.putExtra("kz", Double.parseDouble(kz_value));
+                            intent.putExtra("lx", Double.parseDouble(Lx_value));
+                            intent.putExtra("ly", Double.parseDouble(Ly_value));
+                            intent.putExtra("lz", Double.parseDouble(Lz_value));
                             startActivity(intent);
                         }
                     }
@@ -594,53 +702,5 @@ public class VFlexaoActivity extends AppCompatActivity
             System.out.println("Nothing selected on Spinner tf");
         }
     }
-    class analiseSpinnerClass implements AdapterView.OnItemSelectedListener {
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-            String analise = parent.getAdapter().getItem(position).toString();
-            analise_selected_pos = position;
-            System.out.println(analise_selected_pos);
-            if(position == 0)
-            {
-                analise_auxiliar_layout.removeAllViews();
-            }
-            else
-            {
-
-
-                analise_auxiliar_layout.removeAllViews();
-
-                if(position == 1)
-                {
-                    analise_auxiliar_layout.addView(Vsdx);
-                    analise_auxiliar_layout.addView(Vsdx_box);
-                    analise_auxiliar_layout.addView(Vsdy);
-                    analise_auxiliar_layout.addView(Vsdy_box);
-                }
-                else if(position == 2)
-                {
-                    analise_auxiliar_layout.addView(flechamax);
-                    analise_auxiliar_layout.addView(flechamax_box);
-                    analise_auxiliar_layout.addView(vao);
-                    analise_auxiliar_layout.addView(vao_box);
-                }
-                else if(position == 3)
-                {
-                    analise_auxiliar_layout.addView(Vsdx);
-                    analise_auxiliar_layout.addView(Vsdx_box);
-                    analise_auxiliar_layout.addView(Vsdy);
-                    analise_auxiliar_layout.addView(Vsdy_box);
-                    analise_auxiliar_layout.addView(flechamax);
-                    analise_auxiliar_layout.addView(flechamax_box);
-                    analise_auxiliar_layout.addView(vao);
-                    analise_auxiliar_layout.addView(vao_box);
-                }
-            }
-
-        }
-
-        public void onNothingSelected(AdapterView<?> parent) {
-            System.out.println("Nothing selected on Spinner analise");
-        }
-    }
 }

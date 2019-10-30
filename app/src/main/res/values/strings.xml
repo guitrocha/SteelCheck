@@ -12,6 +12,7 @@
     <string name="tracao_sc">TRAÇÃO</string>
     <string name="compressao_sc">COMPRESSÃO</string>
     <string name="flexao_sc">FLEXÃO</string>
+    <string name="flexocompressao_sc">FLEXOCOMPRESSÃO</string>
     <string name="ntsd">Nt,Sd (kN):</string>
     <string name="fy">ƒy (MPa):</string>
     <string name="lx">Lx (cm):</string>
@@ -36,6 +37,11 @@
         <item>Soldado Customizado</item>
     </string-array>
     <string-array name="secao_flexao">
+        <item>Escolha seção</item>
+        <item>Laminado W</item>
+        <item>Soldado Customizado</item>
+    </string-array>
+    <string-array name="secao_flexocompressao">
         <item>Escolha seção</item>
         <item>Laminado W</item>
         <item>Soldado Customizado</item>
