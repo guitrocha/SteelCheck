@@ -19,12 +19,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".VTracaoActivity"
+            android:name=".SobreActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".SobreActivity"
-            android:label="@string/app_name"
+            android:name=".VTracaoActivity"
+            android:label="@string/verificacao"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".OutputVTracaoActivity"
@@ -32,7 +32,7 @@
             android:theme="@style/SteelCheckMain" />
         <activity
             android:name=".VCompressaoActivity"
-            android:label="@string/app_name"
+            android:label="@string/verificacao"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".OutputVCompressaoActivity"
@@ -40,7 +40,7 @@
             android:theme="@style/SteelCheckMain" />
         <activity
             android:name=".VFlexaoActivity"
-            android:label="@string/app_name"
+            android:label="@string/verificacao"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".OutputVFlexaoActivity"
@@ -48,12 +48,28 @@
             android:theme="@style/SteelCheckMain" />
         <activity
             android:name=".VFlexocompressaoActivity"
-            android:label="@string/app_name"
+            android:label="@string/verificacao"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".OutputVFlexocompressaoActivity"
             android:label="Verificação de Flexocompressão"
             android:theme="@style/SteelCheckMain" />
+        <activity
+            android:name=".DTracaoActivity"
+            android:label="@string/dimensionamento"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".DCompressaoActivity"
+            android:label="@string/dimensionamento"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".DFlexaoActivity"
+            android:label="@string/dimensionamento"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".DFlexocompressaoActivity"
+            android:label="@string/dimensionamento"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

@@ -116,42 +116,54 @@ public class VFlexaoActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-            Intent intent = new Intent(new Intent(VFlexaoActivity.this,HomeActivity.class));
+            Intent intent = new Intent(VFlexaoActivity.this,HomeActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(intent);
         } else if (id == R.id.nav_sobre) {
-            Intent intent = new Intent(new Intent(VFlexaoActivity.this,SobreActivity.class));
+            Intent intent = new Intent(VFlexaoActivity.this,SobreActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(intent);
         } else if (id == R.id.nav_contato) {
 
         } else if (id == R.id.nav_tracaoV) {
-            Intent intent = new Intent(new Intent(VFlexaoActivity.this,VTracaoActivity.class));
+            Intent intent = new Intent(VFlexaoActivity.this,VTracaoActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(intent);
         } else if (id == R.id.nav_compressaoV) {
-            Intent intent = new Intent(new Intent(VFlexaoActivity.this,VCompressaoActivity.class));
+            Intent intent = new Intent(VFlexaoActivity.this,VCompressaoActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(intent);
         } else if (id == R.id.nav_flexaoV) {
             //keep activity
         } else if (id == R.id.nav_flexocompressaoV) {
-            Intent intent = new Intent(new Intent(VFlexaoActivity.this,VFlexocompressaoActivity.class));
+            Intent intent = new Intent(VFlexaoActivity.this,VFlexocompressaoActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(intent);
         } else if (id == R.id.nav_tracaoD) {
-
+            Intent intent = new Intent(VFlexaoActivity.this,DTracaoActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivity(intent);
         } else if (id == R.id.nav_compressaoD) {
-
+            Intent intent = new Intent(VFlexaoActivity.this,DCompressaoActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivity(intent);
         } else if (id == R.id.nav_flexaoD) {
-
+            Intent intent = new Intent(VFlexaoActivity.this,DFlexaoActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivity(intent);
         } else if (id == R.id.nav_flexocompressaoD) {
-
+            Intent intent = new Intent(VFlexaoActivity.this,DFlexocompressaoActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

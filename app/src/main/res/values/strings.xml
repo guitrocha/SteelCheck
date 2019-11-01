@@ -9,6 +9,8 @@
     <string name="dimensionamento_sc">Dimensionamento</string>
     <string name="verificacao_menu">Verificação de Perfis Metálicos</string>
     <string name="dimens_menu">Dimensionamento de Perfis Metálicos</string>
+    <string name="verificacao">Verificação</string>
+    <string name="dimensionamento">Dimensionamento</string>
     <string name="tracao_sc">TRAÇÃO</string>
     <string name="compressao_sc">COMPRESSÃO</string>
     <string name="flexao_sc">FLEXÃO</string>
@@ -20,6 +22,7 @@
     <string name="escoamento">Escoamento seção bruta</string>
     <string name="ruptura">Ruptura seção líquida</string>
     <string name="verificar">Verificar</string>
+    <string name="dimensionar">Dimensionar</string>
     <string name="warning_preencher">Preencha todos os dados solicitados!</string>
     <string name="warning_selecionar">Nenhum perfil selecionado.</string>
     <string name="sc_website">steelcheck.net</string>
