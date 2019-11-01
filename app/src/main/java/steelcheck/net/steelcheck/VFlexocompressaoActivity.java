@@ -591,11 +591,11 @@ public class VFlexocompressaoActivity extends AppCompatActivity
                         }
                         else
                         {
-                            Intent intent = new Intent(new Intent(VFlexocompressaoActivity.this,OutputVFlexaoActivity.class));
+                            Intent intent = new Intent(new Intent(VFlexocompressaoActivity.this,OutputVFlexocompressaoActivity.class));
                             //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             //intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                             intent.putExtra("secao",position);
-                            intent.putExtra("analise",analise_selected_pos);
+                            intent.putExtra("amp",isAmp);
                             if(position == 1)
                                 intent.putExtra("perfil",perfil_selected_pos);
                             else if(position == 2)
