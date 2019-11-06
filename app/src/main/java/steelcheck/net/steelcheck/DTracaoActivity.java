@@ -32,6 +32,7 @@ public class DTracaoActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemSelectedListener{
 
     private Spinner secao_perfil;
+    private String orderby_selected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -236,7 +237,19 @@ public class DTracaoActivity extends AppCompatActivity
                     Ly_box.setPadding(100,10,100,10);
                     Ly_box.canScrollHorizontally(1);
 
+                    TextView TV_ordenar = new TextView(DTracaoActivity.this);
+                    TV_ordenar.setText(Html.fromHtml("Escolher perfil em ordem de:"));
+                    linear_scroll.addView(TV_ordenar);
+                    TV_ordenar.setTextSize(17);
+                    TV_ordenar.setPadding(0,100,0,30);
 
+                    Spinner spin_orderby = new Spinner(DTracaoActivity.this);
+                    ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(DTracaoActivity.this,R.array.orderby_tracao, android.R.layout.simple_spinner_item);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spin_orderby.setAdapter(adapter);
+                    spin_orderby.setOnItemSelectedListener(new OrderBySpinnerClass());
+                    spin_orderby.setLayoutParams(new LinearLayout.LayoutParams(800,130));
+                    linear_scroll.addView(spin_orderby);
                     // final
 
                     Button botao_dimens = new Button(DTracaoActivity.this);
@@ -259,14 +272,15 @@ public class DTracaoActivity extends AppCompatActivity
                             else
                             {
 
-                                /*Intent intent = new Intent(new Intent(DTracaoActivity.this,OutputVTracaoActivity.class));
+                                Intent intent = new Intent(DTracaoActivity.this,OutputDTracaoActivity.class);
                                 //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 //intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                                 intent.putExtra("ntsd", Double.parseDouble(Ntsd_value));
                                 intent.putExtra("fy", Double.parseDouble(fy_value));
                                 intent.putExtra("lx", Double.parseDouble(Lx_value));
                                 intent.putExtra("ly", Double.parseDouble(Ly_value));
-                                startActivity(intent);*/
+                                intent.putExtra("ordem", orderby_selected);
+                                startActivity(intent);
 
 
                             }
@@ -281,6 +295,30 @@ public class DTracaoActivity extends AppCompatActivity
             System.out.println("Nothing selected on Spinner Section");
         }
     }
-
+    class OrderBySpinnerClass implements AdapterView.OnItemSelectedListener{
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id){
+            switch(position)
+            {
+                case 0:
+                    orderby_selected = "massa";
+                    break;
+                case 1:
+                    orderby_selected = "d";
+                    break;
+                case 2:
+                    orderby_selected = "bf";
+                    break;
+                case 3:
+                    orderby_selected = "tf";
+                    break;
+                case 4:
+                    orderby_selected = "tw";
+                    break;
+            }
+        }
+        public void onNothingSelected(AdapterView<?> parent) {
+            System.out.println("Nothing selected on Spinner OrderBy");
+        }
+    }
 
 }

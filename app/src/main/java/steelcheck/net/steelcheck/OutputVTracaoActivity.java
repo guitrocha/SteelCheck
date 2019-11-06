@@ -16,8 +16,8 @@ import android.widget.TextView;
 import java.util.Locale;
 
 public class OutputVTracaoActivity extends AppCompatActivity {
-    private final double gama_a1 = 1.10;
-    private final double gama_a2 = 1.35;
+    public final double gama_a1 = 1.10;
+    public final double gama_a2 = 1.35;
 
     private LinearLayout scroll_results;
     private int plus_controler = 0;
@@ -42,6 +42,7 @@ public class OutputVTracaoActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         DatabaseAccess database = DatabaseAccess.getInstance(getApplicationContext());
         database.open();
+        database.order_by("id");
 
 
         if(extras != null)
@@ -96,41 +97,41 @@ public class OutputVTracaoActivity extends AppCompatActivity {
 
     //CALCULOS DE VERIFICACAO
 
-    private double NTRD_Escoamento_Secao_Bruta(double fy, double Ag)
+    public double NTRD_Escoamento_Secao_Bruta(double fy, double Ag)
     {   return ( (Ag * (fy/10)) / (gama_a1) );
     }
-    private double NTRD_Ruptura_Secao_Liquida(double Ct, double An, double fu)
+    public double NTRD_Ruptura_Secao_Liquida(double Ct, double An, double fu)
     {   return ( (Ct * An * (fu/10)) / (gama_a2) );
     }
-    private double NTRD_Final(double NTRD_bruto, double NTRD_liquido)
+    public double NTRD_Final(double NTRD_bruto, double NTRD_liquido)
     {   if(NTRD_bruto < NTRD_liquido)
             return NTRD_bruto;
         return NTRD_liquido;
     }
 
-    private double Esbeltez_x(double lx, double rx)
+    public double Esbeltez_x(double lx, double rx)
     {   return ( lx / rx );
     }
-    private double Esbeltez_y(double ly, double ry)
+    public double Esbeltez_y(double ly, double ry)
     {   return ( ly / ry );
     }
-    private double Esbeltez_Final(double e_x, double e_y)
+    public double Esbeltez_Final(double e_x, double e_y)
     {   if(e_x > e_y)
             return e_x;
         return e_y;
     }
 
-    private double Coeficiente_Utilização(double NTSD, double NTRD)
+    public double Coeficiente_Utilização(double NTSD, double NTRD)
     {   return ( NTSD / NTRD );
     }
 
     //VERIFICACAO
 
-    private boolean NTRD_MaiorIgual_NTSD(double NTRD, double NTSD)
+    public boolean NTRD_MaiorIgual_NTSD(double NTRD, double NTSD)
     {   return NTRD >= NTSD;
     }
 
-    private boolean Esbeltez_MenorIgual_300(double esbeltez)
+    public boolean Esbeltez_MenorIgual_300(double esbeltez)
     {   return esbeltez <= 300;
     }
 

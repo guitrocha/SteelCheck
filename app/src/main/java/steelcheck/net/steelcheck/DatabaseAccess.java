@@ -2,6 +2,7 @@ package steelcheck.net.steelcheck;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -10,6 +11,7 @@ public class DatabaseAccess {
     private SQLiteDatabase db;
     private static DatabaseAccess instance;
     Cursor c = null;
+    Cursor order = null;
 
     //private contructor so that object creation is avoided from outside the class
     private DatabaseAccess(Context context)
@@ -140,5 +142,13 @@ public class DatabaseAccess {
     public double get_u(int position)
     {   int index = index_init(position,"u");
         return c.getDouble(index);
+    }
+    public void order_by(String parameter)
+    {
+        c = db.rawQuery("SELECT * FROM perfis ORDER BY " + parameter,null);
+    }
+    public long quantTuplas()
+    {
+        return DatabaseUtils.queryNumEntries(db,"perfis");
     }
 }

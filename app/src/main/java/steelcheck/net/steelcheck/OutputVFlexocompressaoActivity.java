@@ -79,6 +79,7 @@ public class OutputVFlexocompressaoActivity extends AppCompatActivity {
             if (secao == 1) {
                 DatabaseAccess database = DatabaseAccess.getInstance(getApplicationContext());
                 database.open();
+                database.order_by("id");
                 int perfil = extras.getInt("perfil");
                 //flexao
                 double FLM_lambda_b = flex.FLM_lambda_b(database.get_aba(perfil));

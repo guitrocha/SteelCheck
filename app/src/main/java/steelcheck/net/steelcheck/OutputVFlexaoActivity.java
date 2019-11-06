@@ -79,6 +79,7 @@ public class OutputVFlexaoActivity extends AppCompatActivity {
             {
                 DatabaseAccess database = DatabaseAccess.getInstance(getApplicationContext());
                 database.open();
+                database.order_by("id");
                 int perfil = extras.getInt("perfil");
                 double FLM_lambda_b = FLM_lambda_b(database.get_aba(perfil));
                 double FLM_lambda_p = FLM_lambda_p(fy);

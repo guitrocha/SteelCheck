@@ -202,4 +202,35 @@
         <item>Momento e Flecha</item>
         <item>Momento, Cortante e Flecha</item>
     </string-array>
+    <string-array name="orderby_tracao">
+        <item>Massa Linear</item>
+        <item>Altura Total da Seção (d)</item>
+        <item>Largura da Mesa (bf)</item>
+        <item>Espessura da Mesa (tf)</item>
+        <item>Espessura da Alma (tw)</item>
+    </string-array>
+    <string-array name="orderby_compr">
+        <item>Massa Linear</item>
+        <item>Altura Total da Seção (d)</item>
+        <item>Largura da Mesa (bf)</item>
+        <item>Espessura da Mesa (tf)</item>
+        <item>Espessura da Alma (tw)</item>
+        <item>Área Bruta (Ag)</item>
+        <item>Inércia em X (Ix)</item>
+        <item>Inércia em y (Iy)</item>
+    </string-array>
+    <string-array name="orderby_flex">
+        <item>Massa Linear</item>
+        <item>Altura Total da Seção (d)</item>
+        <item>Largura da Mesa (bf)</item>
+        <item>Espessura da Mesa (tf)</item>
+        <item>Espessura da Alma (tw)</item>
+        <item>Área Bruta (Ag)</item>
+        <item>Inércia em X (Ix)</item>
+        <item>Inércia em y (Iy)</item>
+        <item>Módulo de resistência elástico em x (Wx)</item>
+        <item>Módulo de resistência elástico em y (Wy)</item>
+        <item>Módulo de resistência plástico em x (Zx)</item>
+        <item>Módulo de resistência plástico em y (Zy)</item>
+    </string-array>
 </resources>

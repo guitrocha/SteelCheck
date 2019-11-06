@@ -31,13 +31,7 @@ public class DFlexaoActivity extends AppCompatActivity
 
     private Spinner secao_flexao;
     private LinearLayout linear_scroll;
-    private String perfil_selected_str;
-    private int perfil_selected_pos = 0;
-    private double d_selected;
-    private double tw_selected;
-    private double bf_selected;
-    private double tf_selected;
-    private int analise_selected_pos = 0;
+    private String orderby_selected;
     private LinearLayout analise_auxiliar_layout;
     private TextView vao;
     private EditText vao_box;
@@ -47,6 +41,7 @@ public class DFlexaoActivity extends AppCompatActivity
     private EditText Vsdx_box;
     private TextView Vsdy;
     private EditText Vsdy_box;
+    private int analise_selected_pos = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -283,6 +278,88 @@ public class DFlexaoActivity extends AppCompatActivity
                 cb_box.setPadding(100,10,100,10);
                 cb_box.canScrollHorizontally(1);
 
+                //tipo analise
+
+                TextView analise = new TextView(DFlexaoActivity.this);
+                analise.setText(Html.fromHtml("Tipo de análise:"));
+                linear_scroll.addView(analise);
+                analise.setTextSize(17);
+                analise.setPadding(0,100,0,10);
+                analise.setTextColor(Color.BLACK);
+
+                Spinner spinner_analise = new Spinner(DFlexaoActivity.this);
+                final ArrayAdapter<CharSequence> adapter_analise = ArrayAdapter.createFromResource(DFlexaoActivity.this, R.array.analiseflexao, android.R.layout.simple_spinner_item);
+                adapter_analise.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner_analise.setAdapter(adapter_analise);
+                spinner_analise.setOnItemSelectedListener(new analiseSpinnerClass());
+                spinner_analise.setLayoutParams(new LinearLayout.LayoutParams(600,130));
+                linear_scroll.addView(spinner_analise);
+
+                analise_auxiliar_layout = new LinearLayout(DFlexaoActivity.this);
+                analise_auxiliar_layout.setOrientation(LinearLayout.VERTICAL);
+                linear_scroll.addView(analise_auxiliar_layout);
+
+                //text
+                Vsdx = new TextView(DFlexaoActivity.this);
+                Vsdx.setText(Html.fromHtml("V<sub><small>Sd,x</small></sub> (kN):"));
+                Vsdx.setTextSize(17);
+                Vsdx.setPadding(0,10,0,10);
+
+                //box
+                Vsdx_box = new EditText(DFlexaoActivity.this);
+                Vsdx_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                Vsdx_box.setPadding(100,10,100,10);
+                Vsdx_box.canScrollHorizontally(1);
+
+                //text
+                Vsdy = new TextView(DFlexaoActivity.this);
+                Vsdy.setText(Html.fromHtml("V<sub><small>Sd,y</small></sub> (kN):"));
+                Vsdy.setTextSize(17);
+                Vsdy.setPadding(0,10,0,10);
+
+                //box
+                Vsdy_box = new EditText(DFlexaoActivity.this);
+                Vsdy_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                Vsdy_box.setPadding(100,10,100,10);
+                Vsdy_box.canScrollHorizontally(1);
+
+                //text
+                flechamax = new TextView(DFlexaoActivity.this);
+                flechamax.setText(Html.fromHtml("δ<sub><small>max</small></sub> (mm):"));
+                flechamax.setTextSize(17);
+                flechamax.setPadding(0,10,0,10);
+
+                //box
+                flechamax_box = new EditText(DFlexaoActivity.this);
+                flechamax_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                flechamax_box.setPadding(100,10,100,10);
+                flechamax_box.canScrollHorizontally(1);
+
+                //text
+                vao = new TextView(DFlexaoActivity.this);
+                vao.setText(Html.fromHtml("Vão<sub><small>max</small></sub> (m):"));
+                vao.setTextSize(17);
+                vao.setPadding(0,10,0,10);
+
+                //box
+                vao_box = new EditText(DFlexaoActivity.this);
+                vao_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                vao_box.setPadding(100,10,100,10);
+                vao_box.canScrollHorizontally(1);
+
+                TextView TV_ordenar = new TextView(DFlexaoActivity.this);
+                TV_ordenar.setText(Html.fromHtml("Escolher perfil em ordem de:"));
+                linear_scroll.addView(TV_ordenar);
+                TV_ordenar.setTextSize(17);
+                TV_ordenar.setPadding(0,100,0,30);
+
+                Spinner spin_orderby = new Spinner(DFlexaoActivity.this);
+                ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(DFlexaoActivity.this,R.array.orderby_flex, android.R.layout.simple_spinner_item);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spin_orderby.setAdapter(adapter);
+                spin_orderby.setOnItemSelectedListener(new OrderBySpinnerClass());
+                spin_orderby.setLayoutParams(new LinearLayout.LayoutParams(800,130));
+                linear_scroll.addView(spin_orderby);
 
                 //final botao
                 Button botao_dimens = new Button(DFlexaoActivity.this);
@@ -297,6 +374,10 @@ public class DFlexaoActivity extends AppCompatActivity
                         String fy_value = fy_box.getText().toString();
                         String cb_value = cb_box.getText().toString();
                         String lb_value = lb_box.getText().toString();
+                        String vsdx_value = Vsdx_box.getText().toString();
+                        String vsdy_value = Vsdy_box.getText().toString();
+                        String vao_value = vao_box.getText().toString();
+                        String flecha_value = flechamax_box.getText().toString();
 
                         if(Msdx_value.isEmpty() || Msdy_value.isEmpty() || fy_value.isEmpty()
                                 || cb_value.isEmpty() || lb_value.isEmpty()  )
@@ -308,19 +389,48 @@ public class DFlexaoActivity extends AppCompatActivity
                             Toast.makeText(DFlexaoActivity.this, "Cb deve atender: 1.0 ≤ Cb ≤ 3.0", Toast.LENGTH_LONG).show();
 
                         }
+                        else if(analise_selected_pos == 1 && (vsdx_value.isEmpty() || vsdy_value.isEmpty()))
+                        {
+                            Toast.makeText(DFlexaoActivity.this, R.string.warning_preencher, Toast.LENGTH_SHORT).show();
+                        }
+                        else if(analise_selected_pos == 2 && (vao_value.isEmpty() || flecha_value.isEmpty()))
+                        {
+                            Toast.makeText(DFlexaoActivity.this, R.string.warning_preencher, Toast.LENGTH_SHORT).show();
+                        }
+                        else if(analise_selected_pos == 3 && (vsdx_value.isEmpty() || vsdy_value.isEmpty() || vao_value.isEmpty() || flecha_value.isEmpty()))
+                        {
+                            Toast.makeText(DFlexaoActivity.this, R.string.warning_preencher, Toast.LENGTH_SHORT).show();
+                        }
                         else
-                        {/*
+                        {
                             Intent intent = new Intent(new Intent(DFlexaoActivity.this,OutputDFlexaoActivity.class));
                             //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             //intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                            intent.putExtra("secao",position);
+                            if(analise_selected_pos == 1)
+                            {
+                                intent.putExtra("vsdx",Double.parseDouble(vsdx_value));
+                                intent.putExtra("vsdy",Double.parseDouble(vsdy_value));
+                            }
+                            else if(analise_selected_pos == 2)
+                            {
+                                intent.putExtra("flecha",Double.parseDouble(flecha_value));
+                                intent.putExtra("vao",Double.parseDouble(vao_value));
+                            }
+                            else if(analise_selected_pos == 3)
+                            {
+                                intent.putExtra("vsdx",Double.parseDouble(vsdx_value));
+                                intent.putExtra("vsdy",Double.parseDouble(vsdy_value));
+                                intent.putExtra("flecha",Double.parseDouble(flecha_value));
+                                intent.putExtra("vao",Double.parseDouble(vao_value));
+                            }
                             intent.putExtra("msdx",Double.parseDouble(Msdx_value));
                             intent.putExtra("msdy",Double.parseDouble(Msdy_value));
                             intent.putExtra("fy",Double.parseDouble(fy_value));
                             intent.putExtra("lb",Double.parseDouble(lb_value));
                             intent.putExtra("cb",Double.parseDouble(cb_value));
-
-                            startActivity(intent);*/
+                            intent.putExtra("ordem", orderby_selected);
+                            intent.putExtra("analise",analise_selected_pos);
+                            startActivity(intent);
                         }
                     }
                 });
@@ -333,5 +443,77 @@ public class DFlexaoActivity extends AppCompatActivity
             System.out.println("Nothing selected on Spinner Section");
         }
     }
+    class OrderBySpinnerClass implements AdapterView.OnItemSelectedListener{
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id){
+            switch(position)
+            {
+                case 0:
+                    orderby_selected = "massa";
+                    break;
+                case 1:
+                    orderby_selected = "d";
+                    break;
+                case 2:
+                    orderby_selected = "bf";
+                    break;
+                case 3:
+                    orderby_selected = "tf";
+                    break;
+                case 4:
+                    orderby_selected = "tw";
+                    break;
+            }
+        }
+        public void onNothingSelected(AdapterView<?> parent) {
+            System.out.println("Nothing selected on Spinner OrderBy");
+        }
+    }
+    class analiseSpinnerClass implements AdapterView.OnItemSelectedListener {
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
+            String analise = parent.getAdapter().getItem(position).toString();
+            analise_selected_pos = position;
+            System.out.println(analise_selected_pos);
+            if(position == 0)
+            {
+                analise_auxiliar_layout.removeAllViews();
+            }
+            else
+            {
+
+
+                analise_auxiliar_layout.removeAllViews();
+
+                if(position == 1)
+                {
+                    analise_auxiliar_layout.addView(Vsdx);
+                    analise_auxiliar_layout.addView(Vsdx_box);
+                    analise_auxiliar_layout.addView(Vsdy);
+                    analise_auxiliar_layout.addView(Vsdy_box);
+                }
+                else if(position == 2)
+                {
+                    analise_auxiliar_layout.addView(flechamax);
+                    analise_auxiliar_layout.addView(flechamax_box);
+                    analise_auxiliar_layout.addView(vao);
+                    analise_auxiliar_layout.addView(vao_box);
+                }
+                else if(position == 3)
+                {
+                    analise_auxiliar_layout.addView(Vsdx);
+                    analise_auxiliar_layout.addView(Vsdx_box);
+                    analise_auxiliar_layout.addView(Vsdy);
+                    analise_auxiliar_layout.addView(Vsdy_box);
+                    analise_auxiliar_layout.addView(flechamax);
+                    analise_auxiliar_layout.addView(flechamax_box);
+                    analise_auxiliar_layout.addView(vao);
+                    analise_auxiliar_layout.addView(vao_box);
+                }
+            }
+
+        }
+        public void onNothingSelected(AdapterView<?> parent) {
+            System.out.println("Nothing selected on Spinner analise");
+        }
+    }
 }

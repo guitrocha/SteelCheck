@@ -62,6 +62,7 @@ public class OutputVCompressaoActivity extends AppCompatActivity {
             {
                 DatabaseAccess database = DatabaseAccess.getInstance(getApplicationContext());
                 database.open();
+                database.order_by("id");
                 int perfil_selected_pos = extras.getInt("perfil");
                 double qa = Qa(fy,database.get_mesa(perfil_selected_pos),database.get_tw(perfil_selected_pos),database.get_area(perfil_selected_pos),database.get_dlinha(perfil_selected_pos));
                 double qs = Qs_laminado(fy,database.get_aba(perfil_selected_pos));
