@@ -75,10 +75,6 @@
             android:label="@string/dimensionamento"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".OutputDFlexaoActivity"
-            android:label="Dimensionamento de Flexão"
-            android:theme="@style/SteelCheckMain" />
-        <activity
             android:name=".DFlexocompressaoActivity"
             android:label="@string/dimensionamento"
             android:theme="@style/AppTheme.NoActionBar" />
