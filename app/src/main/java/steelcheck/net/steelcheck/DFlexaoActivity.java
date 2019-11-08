@@ -462,6 +462,28 @@ public class DFlexaoActivity extends AppCompatActivity
                 case 4:
                     orderby_selected = "tw";
                     break;
+                case 5:
+                    orderby_selected = "area";
+                    break;
+                case 6:
+                    orderby_selected = "ix";
+                    break;
+                case 7:
+                    orderby_selected = "iy";
+                    break;
+                case 8:
+                    orderby_selected = "wx";
+                    break;
+                case 9:
+                    orderby_selected = "wy";
+                    break;
+                case 10:
+                    orderby_selected = "zx";
+                    break;
+                case 11:
+                    orderby_selected = "zy";
+                    break;
+
             }
         }
         public void onNothingSelected(AdapterView<?> parent) {
@@ -480,8 +502,6 @@ public class DFlexaoActivity extends AppCompatActivity
             }
             else
             {
-
-
                 analise_auxiliar_layout.removeAllViews();
 
                 if(position == 1)

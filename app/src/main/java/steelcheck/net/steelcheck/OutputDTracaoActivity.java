@@ -77,6 +77,8 @@ public class OutputDTracaoActivity extends AppCompatActivity {
                 scroll_results = (LinearLayout) findViewById(R.id.scroll_results_id);
                 scroll_results.addView(ERRO);
                 ERRO.setText("Nenhum perfil é adequado!");
+                ERRO.setTextColor(getResources().getColor(R.color.color_Nok));
+                ERRO.setTextSize(25);
             }
 
 
@@ -101,6 +103,7 @@ public class OutputDTracaoActivity extends AppCompatActivity {
         TV_perfil.setText("PERFIL " + perfil);
         TV_perfil.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
         TV_perfil.setTextSize(tam_grande);
+        TV_perfil.setTextColor(getResources().getColor(R.color.color_ok));
         scroll_results.addView(TV_perfil);
 
         TextView TV_elasticidade = new TextView(OutputDTracaoActivity.this);

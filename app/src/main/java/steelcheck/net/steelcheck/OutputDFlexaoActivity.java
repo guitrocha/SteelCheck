@@ -214,15 +214,16 @@ public class OutputDFlexaoActivity extends AppCompatActivity {
             TextView ERRO = new TextView(OutputDFlexaoActivity.this);
             ERRO.setText("Nenhum perfil é adequado!");
             scroll_results.addView(ERRO);
-            System.out.println("aqui");
-
+            ERRO.setTextColor(getResources().getColor(R.color.color_Nok));
+            ERRO.setTextSize(tam_grande);
             return;
         }
-        System.out.println("aqui");
+
         TextView TV_perfil = new TextView(OutputDFlexaoActivity.this);
         TV_perfil.setText("PERFIL " + perfil);
         TV_perfil.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
         TV_perfil.setTextSize(tam_grande);
+        TV_perfil.setTextColor(getResources().getColor(R.color.color_ok));
         scroll_results.addView(TV_perfil);
 
         TextView TV_elasticidade = new TextView(OutputDFlexaoActivity.this);

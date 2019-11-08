@@ -35,6 +35,7 @@ public class DFlexocompressaoActivity extends AppCompatActivity
     private Spinner secao_flexocomp;
     private LinearLayout linear_scroll;
     private boolean isAmp = false;
+    private String orderby_selected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -455,7 +456,13 @@ public class DFlexocompressaoActivity extends AppCompatActivity
                 });
 
 
-
+                Spinner spin_orderby = new Spinner(DFlexocompressaoActivity.this);
+                ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(DFlexocompressaoActivity.this,R.array.orderby_flex, android.R.layout.simple_spinner_item);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spin_orderby.setAdapter(adapter);
+                spin_orderby.setOnItemSelectedListener(new OrderBySpinnerClass());
+                spin_orderby.setLayoutParams(new LinearLayout.LayoutParams(800,130));
+                linear_scroll.addView(spin_orderby);
 
                 //final botao
                 Button botao_dimens = new Button(DFlexocompressaoActivity.this);
@@ -498,12 +505,12 @@ public class DFlexocompressaoActivity extends AppCompatActivity
                             Toast.makeText(DFlexocompressaoActivity.this, R.string.warning_preencher, Toast.LENGTH_SHORT).show();
                         }
                         else
-                        {/*
+                        {
                             Intent intent = new Intent(new Intent(DFlexocompressaoActivity.this,OutputDFlexocompressaoActivity.class));
                             //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             //intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                            intent.putExtra("secao",position);
                             intent.putExtra("amp",isAmp);
+                            intent.putExtra("ordem",orderby_selected);
                             if(isAmp)
                             {
                                 intent.putExtra("cmx",Double.parseDouble(cmx_value));
@@ -522,7 +529,7 @@ public class DFlexocompressaoActivity extends AppCompatActivity
                             intent.putExtra("lx", Double.parseDouble(Lx_value));
                             intent.putExtra("ly", Double.parseDouble(Ly_value));
                             intent.putExtra("lz", Double.parseDouble(Lz_value));
-                            startActivity(intent);*/
+                            startActivity(intent);
                         }
                     }
                 });
@@ -533,6 +540,53 @@ public class DFlexocompressaoActivity extends AppCompatActivity
         }
         public void onNothingSelected(AdapterView<?> parent) {
             System.out.println("Nothing selected on Spinner Section");
+        }
+    }
+    class OrderBySpinnerClass implements AdapterView.OnItemSelectedListener{
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id){
+            switch(position)
+            {
+                case 0:
+                    orderby_selected = "massa";
+                    break;
+                case 1:
+                    orderby_selected = "d";
+                    break;
+                case 2:
+                    orderby_selected = "bf";
+                    break;
+                case 3:
+                    orderby_selected = "tf";
+                    break;
+                case 4:
+                    orderby_selected = "tw";
+                    break;
+                case 5:
+                    orderby_selected = "area";
+                    break;
+                case 6:
+                    orderby_selected = "ix";
+                    break;
+                case 7:
+                    orderby_selected = "iy";
+                    break;
+                case 8:
+                    orderby_selected = "wx";
+                    break;
+                case 9:
+                    orderby_selected = "wy";
+                    break;
+                case 10:
+                    orderby_selected = "zx";
+                    break;
+                case 11:
+                    orderby_selected = "zy";
+                    break;
+
+            }
+        }
+        public void onNothingSelected(AdapterView<?> parent) {
+            System.out.println("Nothing selected on Spinner OrderBy");
         }
     }
 
