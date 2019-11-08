@@ -78,6 +78,9 @@
             android:name=".DFlexocompressaoActivity"
             android:label="@string/dimensionamento"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".OutputDFlexaoActivity"
+            android:label="Dimensionamento de Tração"
+            android:theme="@style/SteelCheckMain"/>
     </application>
 
 </manifest>
