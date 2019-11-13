@@ -89,7 +89,7 @@ public class DFlexaoActivity extends AppCompatActivity
         return true;
     }
 
-    @Override
+   /* @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -102,7 +102,7 @@ public class DFlexaoActivity extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -292,7 +292,7 @@ public class DFlexaoActivity extends AppCompatActivity
                 adapter_analise.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinner_analise.setAdapter(adapter_analise);
                 spinner_analise.setOnItemSelectedListener(new analiseSpinnerClass());
-                spinner_analise.setLayoutParams(new LinearLayout.LayoutParams(600,130));
+                //spinner_analise.setLayoutParams(new LinearLayout.LayoutParams(600,130));
                 linear_scroll.addView(spinner_analise);
 
                 analise_auxiliar_layout = new LinearLayout(DFlexaoActivity.this);
@@ -358,7 +358,7 @@ public class DFlexaoActivity extends AppCompatActivity
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spin_orderby.setAdapter(adapter);
                 spin_orderby.setOnItemSelectedListener(new OrderBySpinnerClass());
-                spin_orderby.setLayoutParams(new LinearLayout.LayoutParams(800,130));
+                //spin_orderby.setLayoutParams(new LinearLayout.LayoutParams(800,130));
                 linear_scroll.addView(spin_orderby);
 
                 //final botao

@@ -27,8 +27,9 @@
     <string name="warning_selecionar">Nenhum perfil selecionado.</string>
     <string name="sc_website">steelcheck.net</string>
     <string name="sc_criador1">Luiz H. A. Neiva\nMestre em Engenharia Civil.\n\nDoutorando em Engenharia Civil, na área de concentração de construção metálica, pela Universidade Federal de Ouro Preto. Possui mestrado em Engenharia Civil, na área de concentração de construção metálica, pela Universidade Federal de Ouro Preto (2017) e graduação em Engenharia Civil pela Universidade Federal da Bahia (UFBA), com período sanduíche pela Universidade de Coimbra (09/2012 - 07/2013).</string>
-    <string name="sc_criador2">Guilherme F. Rocha\n\nGraduando em Ciência da Computação pela Universidade Federal de Ouro Preto.</string>
-
+    <string name="sc_criador2">Guilherme F. Rocha\n\nGraduando em Ciência da Computação pela Universidade Federal de Ouro Preto. Desenvolveu o aplicativo durante o projeto de iniciação científica no Laboratório de Estruturas da UFOP, orientado pelo professor Vinícius Nicchio Alves e co-orientado por Luiz H. A. Neiva.</string>
+    <string name="exclusividade">Os autores não são responsáveis pelo respectivo uso do programa ou seus resultados. Não tendo nenhum dever legal ou responsabilidade para com qualquer pessoa ou companhia pelos danos causados direta ou indiretamente resultantes de alguma informação  ou no uso do programa aqui disponibilizado. O usuário é responsável por toda ou qualquer conclusão feita com o uso do programa.</string>
+    <string name="exclusividade_titulo">PROGRAMA ELABORADO PARA USO EXCLUSIVAMENTE ACADÊMICO.</string>
 
     <string-array name="secao_perfil">
         <item>Escolha seção</item>

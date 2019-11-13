@@ -87,7 +87,7 @@ public class ContatoActivity extends AppCompatActivity
         return true;
     }
 
-    @Override
+    /*@Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -100,7 +100,7 @@ public class ContatoActivity extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -117,6 +117,7 @@ public class ContatoActivity extends AppCompatActivity
             Intent intent = new Intent(new Intent(ContatoActivity.this,SobreActivity.class));
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivity(intent);
         } else if (id == R.id.nav_contato) {
             //keep activity
         } else if (id == R.id.nav_tracaoV) {

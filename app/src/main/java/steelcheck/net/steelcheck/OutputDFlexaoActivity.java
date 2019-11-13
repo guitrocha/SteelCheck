@@ -123,7 +123,10 @@ public class OutputDFlexaoActivity extends AppCompatActivity {
 
             }
             i--;
-            Show_Results_LaminadoW(flag,database.get_perfil(i), analise, fy, database.get_ry(i), database.get_zx(i), database.get_iy(i), database.get_j(i)
+            String show_ordem = "";
+            if(flag)
+                show_ordem = generate_string_ordem(ordem,database,i);
+            Show_Results_LaminadoW(flag,database.get_perfil(i), show_ordem,analise, fy, database.get_ry(i), database.get_zx(i), database.get_iy(i), database.get_j(i)
                         , database.get_cw(i), database.get_wx(i), database.get_mesa(i), database.get_aba(i),
                         msdx, msdy, cb, vsdx, vsdy, flecha, vao,
                         FLM, FLM_lambda_b, FLM_lambda_p, FLM_lambda_r, FLM_mnx, FLM_mny,
@@ -186,6 +189,50 @@ public class OutputDFlexaoActivity extends AppCompatActivity {
         }
         return flag;
     }
+    private String generate_string_ordem(String ordem, DatabaseAccess db, int i)
+    {
+        String show = "";
+        switch(ordem)
+        {
+            case "massa":
+                show = "Massa Linear = " + db.get_massa(i) + " kg/m";
+                break;
+            case "d":
+                show = "d = " + db.get_d(i) + " mm";
+                break;
+            case "bf":
+                show = "b<small><sub>f</sub></small> = " + db.get_bf(i) + " mm";
+                break;
+            case "tf":
+                show = "t<small><sub>f</sub></small> = " + db.get_tf(i) + " mm";
+                break;
+            case "tw":
+                show = "t<small><sub>w</sub></small> = " + db.get_tw(i) + " mm";
+                break;
+            case "area":
+                show = "A<small><sub>g</sub></small> = " + db.get_area(i) + " cm²";
+                break;
+            case "ix":
+                show = "I<small><sub>x</sub></small> = " + db.get_ix(i) + " cm<small><sup>4</sup></small>";
+                break;
+            case "iy":
+                show = "I<small><sub>y</sub></small> = " + db.get_iy(i) + " cm<small><sup>4</sup></small>";
+                break;
+            case "wx":
+                show = "W<small><sub>x</sub></small> = " + db.get_wx(i) + " cm<small><sup>3</sup></small>";
+                break;
+            case "wy":
+                show = "W<small><sub>y</sub></small> = " + db.get_wy(i) + " cm<small><sup>3</sup></small>";
+                break;
+            case "zx":
+                show = "Z<small><sub>x</sub></small> = " + db.get_zx(i) + " cm<small><sup>3</sup></small>";
+                break;
+            case "zy":
+                show = "Z<small><sub>y</sub></small> = " + db.get_zy(i) + " cm<small><sup>3</sup></small>";
+                break;
+        }
+        return show;
+    }
     //ARREDONDAMENTO
     public double casasDecimais(double original, int quant)
     {   double valor = original;
@@ -194,7 +241,7 @@ public class OutputDFlexaoActivity extends AppCompatActivity {
         return valor;
     }
     //CRIACAO DE LAYOUT
-    private void Show_Results_LaminadoW(boolean flag, String perfil, int analise, double fy, double ry, double zx, double iy, double j, double cw, double wx
+    private void Show_Results_LaminadoW(boolean flag, String perfil, String ordem,int analise, double fy, double ry, double zx, double iy, double j, double cw, double wx
             , double mesa, double aba, double msdx, double msdy, double cb, double vsdx, double vsdy, double flecha, double vao
             , String FLM, double FLM_lambda_b, double FLM_lambda_p, double FLM_lambda_r, double mnflmx, double mnflmy
             , String FLA, double FLA_lambda_b, double FLA_lambda_p, double FLA_lambda_r, double mnfla
@@ -225,6 +272,12 @@ public class OutputDFlexaoActivity extends AppCompatActivity {
         TV_perfil.setTextSize(tam_grande);
         TV_perfil.setTextColor(getResources().getColor(R.color.color_ok));
         scroll_results.addView(TV_perfil);
+
+        TextView TV_ordem = new TextView(OutputDFlexaoActivity.this);
+        TV_ordem.setText(Html.fromHtml(ordem));
+        TV_ordem.setTextSize(tam_pequeno);
+        TV_ordem.setPadding(0,50,0,15);
+        scroll_results.addView(TV_ordem);
 
         TextView TV_elasticidade = new TextView(OutputDFlexaoActivity.this);
         TV_elasticidade.setText(Html.fromHtml("E<small><sub>aco</sub></small> = 200000 MPa"));

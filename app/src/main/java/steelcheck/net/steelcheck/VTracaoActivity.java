@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.BitmapCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -24,9 +25,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.lang.reflect.Method;
 
 public class VTracaoActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemSelectedListener{
@@ -35,6 +39,7 @@ public class VTracaoActivity extends AppCompatActivity
     private String perfil_selected_str;
     private int perfil_selected_pos = 0;
     private int radio_selected = 0;
+    private ScrollView scv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +66,8 @@ public class VTracaoActivity extends AppCompatActivity
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         secao_perfil.setAdapter(adapter);
         secao_perfil.setOnItemSelectedListener(new SecaoSpinnerClass());
-
+        secao_perfil.setBackground(getResources().getDrawable(android.R.drawable.btn_dropdown));
+        secao_perfil.setPadding(30,30,30,40);
     }
 
     @Override
@@ -81,7 +87,7 @@ public class VTracaoActivity extends AppCompatActivity
         return true;
     }
 
-    @Override
+   /* @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -94,7 +100,7 @@ public class VTracaoActivity extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -179,13 +185,17 @@ public class VTracaoActivity extends AppCompatActivity
             linear_scroll = (LinearLayout) findViewById(R.id.linear_scroll_id);
             System.out.println(id);
             linear_scroll.removeAllViews();
+            scv = (ScrollView) findViewById(R.id.scrollView_vtracao_id);
+            scv.setBackground(null);
             switch (position) {
                 case 0: //escolha seção
                     linear_scroll.removeAllViews();
                     break;
                 case 1: //laminado W
+                    scv.setBackground(getResources().getDrawable(android.R.drawable.editbox_dropdown_light_frame));
                     ImageView image = new ImageView(VTracaoActivity.this);
                     image.setImageDrawable(ContextCompat.getDrawable(VTracaoActivity.this, R.drawable.laminado));
+                    image.setPadding(0,0,0,50);
                     linear_scroll.addView(image);
                     linear_scroll.setGravity(Gravity.CENTER);
 
@@ -194,21 +204,22 @@ public class VTracaoActivity extends AppCompatActivity
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinner_desig.setAdapter(adapter);
                     spinner_desig.setOnItemSelectedListener(new PerfilSpinnerClass());
-                    spinner_desig.setPadding(50,50,50,50);
+                    spinner_desig.setPadding(30,30,30,40);
                     linear_scroll.addView(spinner_desig);
+                    spinner_desig.setBackground(getResources().getDrawable(android.R.drawable.btn_dropdown));
 
                         //text1
                     TextView Ntsd = new TextView(VTracaoActivity.this);
                     Ntsd.setText(Html.fromHtml("N<sub><small>t,Sd</small></sub> (kN):"));
                     linear_scroll.addView(Ntsd);
                     Ntsd.setTextSize(17);
-                    Ntsd.setPadding(0,10,0,10);
+                    Ntsd.setPadding(0,100,0,10);
 
                     //box1
                     final EditText Ntsd_box = new EditText(VTracaoActivity.this);
                     Ntsd_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
                     linear_scroll.addView(Ntsd_box);
-                    Ntsd_box.setPadding(100,10,100,10);
+                    Ntsd_box.setPadding(100,10,100,20);
                     Ntsd_box.canScrollHorizontally(1);
                         //text2
                     TextView fy = new TextView(VTracaoActivity.this);
@@ -220,19 +231,19 @@ public class VTracaoActivity extends AppCompatActivity
                     final EditText fy_box = new EditText(VTracaoActivity.this);
                     fy_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
                     linear_scroll.addView(fy_box);
-                    fy_box.setPadding(100,10,100,10);
+                    fy_box.setPadding(100,10,100,20);
                     fy_box.canScrollHorizontally(1);
                         //text3
                     TextView Lx = new TextView(VTracaoActivity.this);
                     Lx.setText(Html.fromHtml("L<sub><small>x</small></sub> (cm):"));
                     linear_scroll.addView(Lx);
                     Lx.setTextSize(17);
-                    Lx.setPadding(0,10,0,10);
+                    Lx.setPadding(0,10,0,20);
                         //box3
                     final EditText Lx_box = new EditText(VTracaoActivity.this);
                     Lx_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
                     linear_scroll.addView(Lx_box);
-                    Lx_box.setPadding(100,10,100,10);
+                    Lx_box.setPadding(100,10,100,20);
                     Lx_box.canScrollHorizontally(1);
                         //text4
                     TextView Ly = new TextView(VTracaoActivity.this);
@@ -244,7 +255,7 @@ public class VTracaoActivity extends AppCompatActivity
                     final EditText Ly_box = new EditText(VTracaoActivity.this);
                     Ly_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
                     linear_scroll.addView(Ly_box);
-                    Ly_box.setPadding(100,10,100,10);
+                    Ly_box.setPadding(100,10,100,20);
                     Ly_box.canScrollHorizontally(1);
 
                     //terceira linha radio button tipo analise
@@ -275,7 +286,7 @@ public class VTracaoActivity extends AppCompatActivity
                     final EditText An_box = new EditText(VTracaoActivity.this);
                     An_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
 
-                    An_box.setPadding(100,10,100,10);
+                    An_box.setPadding(100,10,100,20);
                     An_box.canScrollHorizontally(1);
                     //text ct
                     final TextView Ct = new TextView(VTracaoActivity.this);
@@ -287,7 +298,7 @@ public class VTracaoActivity extends AppCompatActivity
                     final EditText Ct_box = new EditText(VTracaoActivity.this);
                     Ct_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
 
-                    Ct_box.setPadding(100,10,100,10);
+                    Ct_box.setPadding(100,10,100,20);
                     Ct_box.canScrollHorizontally(1);
                     //text fu
                     final TextView fu = new TextView(VTracaoActivity.this);
@@ -299,7 +310,7 @@ public class VTracaoActivity extends AppCompatActivity
                     final EditText fu_box = new EditText(VTracaoActivity.this);
                     fu_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
 
-                    fu_box.setPadding(100,10,100,10);
+                    fu_box.setPadding(100,10,100,20);
                     fu_box.canScrollHorizontally(1);
 
                     tipo_analise.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {

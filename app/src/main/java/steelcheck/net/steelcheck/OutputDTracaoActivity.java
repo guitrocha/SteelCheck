@@ -68,10 +68,12 @@ public class OutputDTracaoActivity extends AppCompatActivity {
                 flag = trac.Esbeltez_MenorIgual_300(esbeltez) && trac.NTRD_MaiorIgual_NTSD(NTRD,NTSD);
             }
             i--;
-            if(flag)
-                Show_Results_Escoamento(database.get_perfil(i), fy,
+            if(flag) {
+                String show_ordem = generate_string_ordem(ordem,database,i);
+                Show_Results_Escoamento(database.get_perfil(i), show_ordem, fy,
                         database.get_area(i), NTSD,
                         esbeltez_x, esbeltez_y, esbeltez, NTRD, coef_uti);
+            }
             else {
                 TextView ERRO = new TextView(OutputDTracaoActivity.this);
                 scroll_results = (LinearLayout) findViewById(R.id.scroll_results_id);
@@ -89,9 +91,31 @@ public class OutputDTracaoActivity extends AppCompatActivity {
         database.close();
     }
 
-
+    private String generate_string_ordem(String ordem, DatabaseAccess db, int i)
+    {
+        String show = "";
+        switch(ordem)
+        {
+            case "massa":
+                show = "Massa Linear = " + db.get_massa(i) + " kg/m";
+                break;
+            case "d":
+                show = "d = " + db.get_d(i) + " mm";
+                break;
+            case "bf":
+                show = "b<small><sub>f</sub></small> = " + db.get_bf(i) + " mm";
+                break;
+            case "tf":
+                show = "t<small><sub>f</sub></small> = " + db.get_tf(i) + " mm";
+                break;
+            case "tw":
+                show = "t<small><sub>w</sub></small> = " + db.get_tw(i) + " mm";
+                break;
+        }
+        return show;
+    }
     //CRIACAO LAYOUT
-    private void Show_Results_Escoamento(final String perfil, final double fy, final double ag, final double ntsd,
+    private void Show_Results_Escoamento(final String perfil, String ordem, final double fy, final double ag, final double ntsd,
                                          final double esbeltez_x, final double esbeltez_y, final double esbeltez,
                                          final double ntrd, final double coef)
     {   //getting linear layout scroll view
@@ -105,6 +129,12 @@ public class OutputDTracaoActivity extends AppCompatActivity {
         TV_perfil.setTextSize(tam_grande);
         TV_perfil.setTextColor(getResources().getColor(R.color.color_ok));
         scroll_results.addView(TV_perfil);
+
+        TextView TV_ordem = new TextView(OutputDTracaoActivity.this);
+        TV_ordem.setText(Html.fromHtml(ordem));
+        TV_ordem.setTextSize(tam_pequeno);
+        TV_ordem.setPadding(0,50,0,15);
+        scroll_results.addView(TV_ordem);
 
         TextView TV_elasticidade = new TextView(OutputDTracaoActivity.this);
         TV_elasticidade.setText(Html.fromHtml("E<small><sub>aco</sub></small> = 200 GPa"));
