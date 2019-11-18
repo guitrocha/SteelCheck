@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +33,7 @@ public class DCompressaoActivity extends AppCompatActivity
     private Spinner secao_comp;
     private LinearLayout linear_scroll;
     private String orderby_selected;
+    private ScrollView scv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -176,6 +178,8 @@ public class DCompressaoActivity extends AppCompatActivity
             linear_scroll.setGravity(Gravity.CENTER);
             System.out.println(id);
             linear_scroll.removeAllViews();
+            scv = (ScrollView) findViewById(R.id.scrollView_dcomp_id);
+            scv.setBackground(null);
 
             if(position == 0)
             {
@@ -183,14 +187,15 @@ public class DCompressaoActivity extends AppCompatActivity
                 linear_scroll.removeAllViews();
             }
             else
-            {
+            {   scv.setBackground(getResources().getDrawable(android.R.drawable.editbox_dropdown_light_frame));
                 if(position == 1)
                 {
                     //imagem
                     ImageView image = new ImageView(DCompressaoActivity.this);
-                    image.setImageDrawable(ContextCompat.getDrawable(DCompressaoActivity.this, R.drawable.laminado));
+                    image.setImageDrawable(ContextCompat.getDrawable(DCompressaoActivity.this, R.drawable.perfil_laminado));
                     linear_scroll.addView(image);
                     linear_scroll.setGravity(Gravity.CENTER);
+                    image.setPadding(0,0,0,50);
 
                 }
 
@@ -318,6 +323,7 @@ public class DCompressaoActivity extends AppCompatActivity
                 spin_orderby.setAdapter(adapter);
                 spin_orderby.setOnItemSelectedListener(new OrderBySpinnerClass());
                 spin_orderby.setLayoutParams(new LinearLayout.LayoutParams(800,130));
+                spin_orderby.setBackground(getResources().getDrawable(android.R.drawable.btn_dropdown));
                 linear_scroll.addView(spin_orderby);
 
                 //final botao

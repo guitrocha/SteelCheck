@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,6 +43,7 @@ public class DFlexaoActivity extends AppCompatActivity
     private TextView Vsdy;
     private EditText Vsdy_box;
     private int analise_selected_pos = 0;
+    private ScrollView scv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -187,6 +189,8 @@ public class DFlexaoActivity extends AppCompatActivity
             linear_scroll.setGravity(Gravity.CENTER);
             System.out.println(id);
             linear_scroll.removeAllViews();
+            scv = (ScrollView) findViewById(R.id.scrollView_dflex_id);
+            scv.setBackground(null);
 
             if(position == 0)
             {
@@ -194,14 +198,15 @@ public class DFlexaoActivity extends AppCompatActivity
                 linear_scroll.removeAllViews();
             }
             else
-            {
+            {   scv.setBackground(getResources().getDrawable(android.R.drawable.editbox_dropdown_light_frame));
                 if(position == 1)
                 {
                     //imagem
                     ImageView image = new ImageView(DFlexaoActivity.this);
-                    image.setImageDrawable(ContextCompat.getDrawable(DFlexaoActivity.this, R.drawable.laminado));
+                    image.setImageDrawable(ContextCompat.getDrawable(DFlexaoActivity.this, R.drawable.perfil_laminado));
                     linear_scroll.addView(image);
                     linear_scroll.setGravity(Gravity.CENTER);
+                    image.setPadding(0,0,0,50);
 
 
                 }
@@ -292,6 +297,7 @@ public class DFlexaoActivity extends AppCompatActivity
                 adapter_analise.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinner_analise.setAdapter(adapter_analise);
                 spinner_analise.setOnItemSelectedListener(new analiseSpinnerClass());
+                spinner_analise.setBackground(getResources().getDrawable(android.R.drawable.btn_dropdown));
                 //spinner_analise.setLayoutParams(new LinearLayout.LayoutParams(600,130));
                 linear_scroll.addView(spinner_analise);
 
@@ -358,6 +364,7 @@ public class DFlexaoActivity extends AppCompatActivity
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spin_orderby.setAdapter(adapter);
                 spin_orderby.setOnItemSelectedListener(new OrderBySpinnerClass());
+                spin_orderby.setBackground(getResources().getDrawable(android.R.drawable.btn_dropdown));
                 //spin_orderby.setLayoutParams(new LinearLayout.LayoutParams(800,130));
                 linear_scroll.addView(spin_orderby);
 

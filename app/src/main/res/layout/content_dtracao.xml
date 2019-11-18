@@ -29,19 +29,20 @@
         android:layout_height="wrap_content"
         android:id="@+id/secao_dtracao"
         android:spinnerMode="dropdown"
-        android:layout_marginRight="25dp"
-        android:layout_marginEnd="33dp"
-        android:layout_above="@+id/scrollView_vtracao_id"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignBottom="@+id/textView"
-        android:layout_alignTop="@+id/textView" />
+        android:layout_below="@+id/textView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp"
+        android:background="@android:drawable/btn_dropdown" />
 
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/scrollView_vtracao_id"
-        android:layout_marginTop="50dp">
+        android:id="@+id/scrollView_dtracao_id"
+        android:layout_alignTop="@+id/secao_dtracao"
+        android:fillViewport="false"
+        android:layout_marginTop="50dp"
+        android:elevation="15dp">
 
         <LinearLayout
             android:orientation="vertical"
@@ -49,7 +50,10 @@
             android:layout_height="wrap_content"
             android:id="@+id/linear_scroll_id"
             android:padding="30dp"
-            android:dividerPadding="60dp">
+            android:dividerPadding="60dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
 
         </LinearLayout>
     </ScrollView>

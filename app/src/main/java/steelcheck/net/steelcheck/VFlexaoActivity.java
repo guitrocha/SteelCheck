@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,6 +48,7 @@ public class VFlexaoActivity extends AppCompatActivity
     private EditText Vsdx_box;
     private TextView Vsdy;
     private EditText Vsdy_box;
+    private ScrollView scv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -192,6 +194,8 @@ public class VFlexaoActivity extends AppCompatActivity
             linear_scroll.setGravity(Gravity.CENTER);
             System.out.println(id);
             linear_scroll.removeAllViews();
+            scv = (ScrollView) findViewById(R.id.scrollView_vflexao_id);
+            scv.setBackground(null);
 
             if(position == 0)
             {
@@ -199,14 +203,15 @@ public class VFlexaoActivity extends AppCompatActivity
                 linear_scroll.removeAllViews();
             }
             else
-            {
+            {   scv.setBackground(getResources().getDrawable(android.R.drawable.editbox_dropdown_light_frame));
                 if(position == 1)
                 {
                     //imagem
                     ImageView image = new ImageView(VFlexaoActivity.this);
-                    image.setImageDrawable(ContextCompat.getDrawable(VFlexaoActivity.this, R.drawable.laminado));
+                    image.setImageDrawable(ContextCompat.getDrawable(VFlexaoActivity.this, R.drawable.perfil_laminado));
                     linear_scroll.addView(image);
                     linear_scroll.setGravity(Gravity.CENTER);
+                    image.setPadding(0,0,0,50);
 
                     //perfil spinner
                     Spinner spinner_perfil = new Spinner(VFlexaoActivity.this);
@@ -215,19 +220,25 @@ public class VFlexaoActivity extends AppCompatActivity
                     spinner_perfil.setAdapter(adapter);
                     spinner_perfil.setOnItemSelectedListener(new PerfilSpinnerClass());
                     spinner_perfil.setPadding(50,50,50,50);
+                    spinner_perfil.setBackground(getResources().getDrawable(android.R.drawable.btn_dropdown));
                     linear_scroll.addView(spinner_perfil);
 
                 }
                 else if(position == 2)
                 {
-
+                    //imagem
+                    ImageView image = new ImageView(VFlexaoActivity.this);
+                    image.setImageDrawable(ContextCompat.getDrawable(VFlexaoActivity.this, R.drawable.perfil_soldado));
+                    linear_scroll.addView(image);
+                    linear_scroll.setGravity(Gravity.CENTER);
+                    image.setPadding(0,0,0,50);
                     //d
                     LinearLayout d_layout = new LinearLayout(VFlexaoActivity.this);
                     d_layout.setOrientation(LinearLayout.HORIZONTAL);
                     d_layout.setGravity(Gravity.CENTER);
 
                     TextView d = new TextView(VFlexaoActivity.this);
-                    d.setText(Html.fromHtml("d  (mm):"));
+                    d.setText(Html.fromHtml("h (mm) :"));
                     d_layout.addView(d);
                     d.setTextSize(17);
                     d.setPadding(0,10,0,10);
@@ -239,6 +250,7 @@ public class VFlexaoActivity extends AppCompatActivity
                     spinner_d.setOnItemSelectedListener(new dSpinnerClass());
                     spinner_d.setLayoutParams(new LinearLayout.LayoutParams(300,130));
                     d_layout.addView(spinner_d);
+                    spinner_d.setBackground(getResources().getDrawable(android.R.drawable.btn_dropdown));
 
                     linear_scroll.addView(d_layout);
 
@@ -260,6 +272,7 @@ public class VFlexaoActivity extends AppCompatActivity
                     spinner_tw.setOnItemSelectedListener(new twSpinnerClass());
                     spinner_tw.setLayoutParams(new LinearLayout.LayoutParams(300,130));
                     tw_layout.addView(spinner_tw);
+                    spinner_tw.setBackground(getResources().getDrawable(android.R.drawable.btn_dropdown));
 
                     linear_scroll.addView(tw_layout);
 
@@ -281,6 +294,7 @@ public class VFlexaoActivity extends AppCompatActivity
                     spinner_bf.setOnItemSelectedListener(new bfSpinnerClass());
                     spinner_bf.setLayoutParams(new LinearLayout.LayoutParams(300,130));
                     bf_layout.addView(spinner_bf);
+                    spinner_bf.setBackground(getResources().getDrawable(android.R.drawable.btn_dropdown));
 
                     linear_scroll.addView(bf_layout);
 
@@ -302,7 +316,7 @@ public class VFlexaoActivity extends AppCompatActivity
                     spinner_tf.setOnItemSelectedListener(new tfSpinnerClass());
                     spinner_tf.setLayoutParams(new LinearLayout.LayoutParams(300,130));
                     tf_layout.addView(spinner_tf);
-
+                    spinner_tf.setBackground(getResources().getDrawable(android.R.drawable.btn_dropdown));
 
                     linear_scroll.addView(tf_layout);
                 }
@@ -393,6 +407,7 @@ public class VFlexaoActivity extends AppCompatActivity
                 spinner_analise.setAdapter(adapter_analise);
                 spinner_analise.setOnItemSelectedListener(new analiseSpinnerClass());
                 spinner_analise.setLayoutParams(new LinearLayout.LayoutParams(600,130));
+                spinner_analise.setBackground(getResources().getDrawable(android.R.drawable.btn_dropdown));
                 linear_scroll.addView(spinner_analise);
 
                 analise_auxiliar_layout = new LinearLayout(VFlexaoActivity.this);

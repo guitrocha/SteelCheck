@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.BitmapCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -29,8 +28,6 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.lang.reflect.Method;
 
 public class VTracaoActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemSelectedListener{
@@ -194,7 +191,7 @@ public class VTracaoActivity extends AppCompatActivity
                 case 1: //laminado W
                     scv.setBackground(getResources().getDrawable(android.R.drawable.editbox_dropdown_light_frame));
                     ImageView image = new ImageView(VTracaoActivity.this);
-                    image.setImageDrawable(ContextCompat.getDrawable(VTracaoActivity.this, R.drawable.laminado));
+                    image.setImageDrawable(ContextCompat.getDrawable(VTracaoActivity.this, R.drawable.perfil_laminado));
                     image.setPadding(0,0,0,50);
                     linear_scroll.addView(image);
                     linear_scroll.setGravity(Gravity.CENTER);
