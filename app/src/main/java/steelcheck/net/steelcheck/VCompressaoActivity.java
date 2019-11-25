@@ -237,7 +237,7 @@ public class VCompressaoActivity extends AppCompatActivity
                     adapter_d.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinner_d.setAdapter(adapter_d);
                     spinner_d.setOnItemSelectedListener(new dSpinnerClass());
-                    spinner_d.setLayoutParams(new LinearLayout.LayoutParams(300,130));
+                    spinner_d.setLayoutParams(new LinearLayout.LayoutParams(400,130));
                     d_layout.addView(spinner_d);
                     spinner_d.setBackground(getResources().getDrawable(android.R.drawable.btn_dropdown));
 
@@ -259,7 +259,7 @@ public class VCompressaoActivity extends AppCompatActivity
                     adapter_tw.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinner_tw.setAdapter(adapter_tw);
                     spinner_tw.setOnItemSelectedListener(new twSpinnerClass());
-                    spinner_tw.setLayoutParams(new LinearLayout.LayoutParams(300,130));
+                    spinner_tw.setLayoutParams(new LinearLayout.LayoutParams(400,130));
                     tw_layout.addView(spinner_tw);
                     spinner_tw.setBackground(getResources().getDrawable(android.R.drawable.btn_dropdown));
 
@@ -281,7 +281,7 @@ public class VCompressaoActivity extends AppCompatActivity
                     adapter_bf.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinner_bf.setAdapter(adapter_bf);
                     spinner_bf.setOnItemSelectedListener(new bfSpinnerClass());
-                    spinner_bf.setLayoutParams(new LinearLayout.LayoutParams(300,130));
+                    spinner_bf.setLayoutParams(new LinearLayout.LayoutParams(400,130));
                     bf_layout.addView(spinner_bf);
                     spinner_bf.setBackground(getResources().getDrawable(android.R.drawable.btn_dropdown));
 
@@ -293,7 +293,7 @@ public class VCompressaoActivity extends AppCompatActivity
                     tf_layout.setGravity(Gravity.CENTER);
 
                     TextView tf = new TextView(VCompressaoActivity.this);
-                    tf.setText(Html.fromHtml("t<sub><small>f</small></sub> (mm):"));
+                    tf.setText(Html.fromHtml("t<sub><small>f</small></sub> (mm) :"));
                     tf_layout.addView(tf);
                     tf.setTextSize(17);
                     tf.setPadding(0,10,0,10);
@@ -303,7 +303,7 @@ public class VCompressaoActivity extends AppCompatActivity
                     adapter_tf.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinner_tf.setAdapter(adapter_tf);
                     spinner_tf.setOnItemSelectedListener(new tfSpinnerClass());
-                    spinner_tf.setLayoutParams(new LinearLayout.LayoutParams(300,130));
+                    spinner_tf.setLayoutParams(new LinearLayout.LayoutParams(400,130));
                     tf_layout.addView(spinner_tf);
                     spinner_tf.setBackground(getResources().getDrawable(android.R.drawable.btn_dropdown));
 

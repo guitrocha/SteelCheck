@@ -63,7 +63,7 @@ public class VTracaoActivity extends AppCompatActivity
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         secao_perfil.setAdapter(adapter);
         secao_perfil.setOnItemSelectedListener(new SecaoSpinnerClass());
-        secao_perfil.setBackground(getResources().getDrawable(android.R.drawable.btn_dropdown));
+        secao_perfil.setBackgroundDrawable(getDrawable(android.R.drawable.btn_dropdown));
         secao_perfil.setPadding(30,30,30,40);
     }
 
@@ -183,13 +183,14 @@ public class VTracaoActivity extends AppCompatActivity
             System.out.println(id);
             linear_scroll.removeAllViews();
             scv = (ScrollView) findViewById(R.id.scrollView_vtracao_id);
-            scv.setBackground(null);
+            scv.setBackgroundDrawable(null);
             switch (position) {
                 case 0: //escolha seção
                     linear_scroll.removeAllViews();
                     break;
                 case 1: //laminado W
-                    scv.setBackground(getResources().getDrawable(android.R.drawable.editbox_dropdown_light_frame));
+                    //scv.setBackground(getResources().getDrawable(android.R.drawable.editbox_dropdown_light_frame));
+                    scv.setBackgroundDrawable(getDrawable(android.R.drawable.editbox_dropdown_light_frame));
                     ImageView image = new ImageView(VTracaoActivity.this);
                     image.setImageDrawable(ContextCompat.getDrawable(VTracaoActivity.this, R.drawable.perfil_laminado));
                     image.setPadding(0,0,0,50);
@@ -203,7 +204,7 @@ public class VTracaoActivity extends AppCompatActivity
                     spinner_desig.setOnItemSelectedListener(new PerfilSpinnerClass());
                     spinner_desig.setPadding(30,30,30,40);
                     linear_scroll.addView(spinner_desig);
-                    spinner_desig.setBackground(getResources().getDrawable(android.R.drawable.btn_dropdown));
+                    spinner_desig.setBackgroundDrawable(getDrawable(android.R.drawable.btn_dropdown));
 
                         //text1
                     TextView Ntsd = new TextView(VTracaoActivity.this);

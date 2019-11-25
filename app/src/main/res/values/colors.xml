@@ -7,6 +7,8 @@
     <color name="colorNotificationBar">#000000</color>
     <color name="colorBackgroundDefault">#E6E6E6</color>
     <color name="text_color_primary">#ffffff</color>
-    <color name="color_ok">#00cc00</color>
+    <color name="color_ok">#006600</color>
     <color name="color_Nok">#ff0000</color>
+    <color name="output_blue">#404d66</color>
+    <color name="output_infoback">#DAE7FF</color>
 </resources>
