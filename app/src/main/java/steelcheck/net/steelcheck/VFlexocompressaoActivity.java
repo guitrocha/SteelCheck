@@ -336,7 +336,7 @@ public class VFlexocompressaoActivity extends AppCompatActivity
                 final EditText Msdx_box = new EditText(VFlexocompressaoActivity.this);
                 Msdx_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
                 linear_scroll.addView(Msdx_box);
-                Msdx_box.setPadding(100,10,100,10);
+                Msdx_box.setPadding(100,10,100,20);
                 Msdx_box.canScrollHorizontally(1);
 
                 //text1
@@ -350,7 +350,7 @@ public class VFlexocompressaoActivity extends AppCompatActivity
                 final EditText Msdy_box = new EditText(VFlexocompressaoActivity.this);
                 Msdy_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
                 linear_scroll.addView(Msdy_box);
-                Msdy_box.setPadding(100,10,100,10);
+                Msdy_box.setPadding(100,10,100,20);
                 Msdy_box.canScrollHorizontally(1);
 
                 //text3
@@ -364,7 +364,7 @@ public class VFlexocompressaoActivity extends AppCompatActivity
                 final EditText lb_box = new EditText(VFlexocompressaoActivity.this);
                 lb_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
                 linear_scroll.addView(lb_box);
-                lb_box.setPadding(100,10,100,10);
+                lb_box.setPadding(100,10,100,20);
                 lb_box.canScrollHorizontally(1);
 
                 //text4
@@ -379,7 +379,7 @@ public class VFlexocompressaoActivity extends AppCompatActivity
                 final EditText cb_box = new EditText(VFlexocompressaoActivity.this);
                 cb_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
                 linear_scroll.addView(cb_box);
-                cb_box.setPadding(100,10,100,10);
+                cb_box.setPadding(100,10,100,20);
                 cb_box.canScrollHorizontally(1);
 
                 //coluna
@@ -401,7 +401,7 @@ public class VFlexocompressaoActivity extends AppCompatActivity
                 final EditText Ncsd_box = new EditText(VFlexocompressaoActivity.this);
                 Ncsd_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
                 linear_scroll.addView(Ncsd_box);
-                Ncsd_box.setPadding(100,10,100,10);
+                Ncsd_box.setPadding(100,10,100,20);
                 Ncsd_box.canScrollHorizontally(1);
 
                 //text2
@@ -415,7 +415,7 @@ public class VFlexocompressaoActivity extends AppCompatActivity
                 final EditText fy_box = new EditText(VFlexocompressaoActivity.this);
                 fy_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
                 linear_scroll.addView(fy_box);
-                fy_box.setPadding(100,10,100,10);
+                fy_box.setPadding(100,10,100,20);
                 fy_box.canScrollHorizontally(1);
 
                 //text3
@@ -429,7 +429,7 @@ public class VFlexocompressaoActivity extends AppCompatActivity
                 final EditText kx_box = new EditText(VFlexocompressaoActivity.this);
                 kx_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
                 linear_scroll.addView(kx_box);
-                kx_box.setPadding(100,10,100,10);
+                kx_box.setPadding(100,10,100,20);
                 kx_box.canScrollHorizontally(1);
 
                 //text4
@@ -443,7 +443,7 @@ public class VFlexocompressaoActivity extends AppCompatActivity
                 final EditText ky_box = new EditText(VFlexocompressaoActivity.this);
                 ky_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
                 linear_scroll.addView(ky_box);
-                ky_box.setPadding(100,10,100,10);
+                ky_box.setPadding(100,10,100,20);
                 ky_box.canScrollHorizontally(1);
 
                 //text5
@@ -457,7 +457,7 @@ public class VFlexocompressaoActivity extends AppCompatActivity
                 final EditText kz_box = new EditText(VFlexocompressaoActivity.this);
                 kz_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
                 linear_scroll.addView(kz_box);
-                kz_box.setPadding(100,10,100,10);
+                kz_box.setPadding(100,10,100,20);
                 kz_box.canScrollHorizontally(1);
 
                 //text6
@@ -471,7 +471,7 @@ public class VFlexocompressaoActivity extends AppCompatActivity
                 final EditText Lx_box = new EditText(VFlexocompressaoActivity.this);
                 Lx_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
                 linear_scroll.addView(Lx_box);
-                Lx_box.setPadding(100,10,100,10);
+                Lx_box.setPadding(100,10,100,20);
                 Lx_box.canScrollHorizontally(1);
 
                 //text7
@@ -485,7 +485,7 @@ public class VFlexocompressaoActivity extends AppCompatActivity
                 final EditText Ly_box = new EditText(VFlexocompressaoActivity.this);
                 Ly_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
                 linear_scroll.addView(Ly_box);
-                Ly_box.setPadding(100,10,100,10);
+                Ly_box.setPadding(100,10,100,20);
                 Ly_box.canScrollHorizontally(1);
 
                 //text8
@@ -499,7 +499,7 @@ public class VFlexocompressaoActivity extends AppCompatActivity
                 final EditText Lz_box = new EditText(VFlexocompressaoActivity.this);
                 Lz_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
                 linear_scroll.addView(Lz_box);
-                Lz_box.setPadding(100,10,100,10);
+                Lz_box.setPadding(100,10,100,20);
                 Lz_box.canScrollHorizontally(1);
 
                 //amplificacao
@@ -539,7 +539,7 @@ public class VFlexocompressaoActivity extends AppCompatActivity
                 //
                 final EditText cmx_box = new EditText(VFlexocompressaoActivity.this);
                 cmx_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
-                cmx_box.setPadding(100,10,100,10);
+                cmx_box.setPadding(100,10,100,20);
                 cmx_box.canScrollHorizontally(1);
 
                 //cmx
@@ -551,7 +551,7 @@ public class VFlexocompressaoActivity extends AppCompatActivity
                 //
                 final EditText cmy_box = new EditText(VFlexocompressaoActivity.this);
                 cmy_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
-                cmy_box.setPadding(100,10,100,10);
+                cmy_box.setPadding(100,10,100,20);
                 cmy_box.canScrollHorizontally(1);
 
                 amp.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

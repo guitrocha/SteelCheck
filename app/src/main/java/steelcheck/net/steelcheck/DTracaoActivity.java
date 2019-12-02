@@ -205,7 +205,7 @@ public class DTracaoActivity extends AppCompatActivity
                     final EditText Ntsd_box = new EditText(DTracaoActivity.this);
                     Ntsd_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
                     linear_scroll.addView(Ntsd_box);
-                    Ntsd_box.setPadding(100,10,100,10);
+                    Ntsd_box.setPadding(100,10,100,20);
                     Ntsd_box.canScrollHorizontally(1);
                         //text2
                     TextView fy = new TextView(DTracaoActivity.this);
@@ -217,7 +217,7 @@ public class DTracaoActivity extends AppCompatActivity
                     final EditText fy_box = new EditText(DTracaoActivity.this);
                     fy_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
                     linear_scroll.addView(fy_box);
-                    fy_box.setPadding(100,10,100,10);
+                    fy_box.setPadding(100,10,100,20);
                     fy_box.canScrollHorizontally(1);
                         //text3
                     TextView Lx = new TextView(DTracaoActivity.this);
@@ -229,7 +229,7 @@ public class DTracaoActivity extends AppCompatActivity
                     final EditText Lx_box = new EditText(DTracaoActivity.this);
                     Lx_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
                     linear_scroll.addView(Lx_box);
-                    Lx_box.setPadding(100,10,100,10);
+                    Lx_box.setPadding(100,10,100,20);
                     Lx_box.canScrollHorizontally(1);
                         //text4
                     TextView Ly = new TextView(DTracaoActivity.this);
@@ -241,7 +241,7 @@ public class DTracaoActivity extends AppCompatActivity
                     final EditText Ly_box = new EditText(DTracaoActivity.this);
                     Ly_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
                     linear_scroll.addView(Ly_box);
-                    Ly_box.setPadding(100,10,100,10);
+                    Ly_box.setPadding(100,10,100,20);
                     Ly_box.canScrollHorizontally(1);
 
                     TextView TV_ordenar = new TextView(DTracaoActivity.this);

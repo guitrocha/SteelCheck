@@ -12,13 +12,15 @@
 
     <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/scrollView3"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" >
+        android:layout_alignParentEnd="true"
+        android:background="@android:drawable/editbox_dropdown_light_frame"
+        android:elevation="15dp">
 
         <LinearLayout
             android:orientation="vertical"

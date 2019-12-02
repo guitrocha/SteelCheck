@@ -223,7 +223,7 @@ public class DFlexaoActivity extends AppCompatActivity
                 final EditText Msdx_box = new EditText(DFlexaoActivity.this);
                 Msdx_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
                 linear_scroll.addView(Msdx_box);
-                Msdx_box.setPadding(100,10,100,10);
+                Msdx_box.setPadding(100,10,100,20);
                 Msdx_box.canScrollHorizontally(1);
 
                 //text1
@@ -237,7 +237,7 @@ public class DFlexaoActivity extends AppCompatActivity
                 final EditText Msdy_box = new EditText(DFlexaoActivity.this);
                 Msdy_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
                 linear_scroll.addView(Msdy_box);
-                Msdy_box.setPadding(100,10,100,10);
+                Msdy_box.setPadding(100,10,100,20);
                 Msdy_box.canScrollHorizontally(1);
 
                 //text2
@@ -251,7 +251,7 @@ public class DFlexaoActivity extends AppCompatActivity
                 final EditText fy_box = new EditText(DFlexaoActivity.this);
                 fy_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
                 linear_scroll.addView(fy_box);
-                fy_box.setPadding(100,10,100,10);
+                fy_box.setPadding(100,10,100,20);
                 fy_box.canScrollHorizontally(1);
 
                 //text3
@@ -265,7 +265,7 @@ public class DFlexaoActivity extends AppCompatActivity
                 final EditText lb_box = new EditText(DFlexaoActivity.this);
                 lb_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
                 linear_scroll.addView(lb_box);
-                lb_box.setPadding(100,10,100,10);
+                lb_box.setPadding(100,10,100,20);
                 lb_box.canScrollHorizontally(1);
 
                 //text4
@@ -280,7 +280,7 @@ public class DFlexaoActivity extends AppCompatActivity
                 final EditText cb_box = new EditText(DFlexaoActivity.this);
                 cb_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
                 linear_scroll.addView(cb_box);
-                cb_box.setPadding(100,10,100,10);
+                cb_box.setPadding(100,10,100,20);
                 cb_box.canScrollHorizontally(1);
 
                 //tipo analise
@@ -314,7 +314,7 @@ public class DFlexaoActivity extends AppCompatActivity
                 //box
                 Vsdx_box = new EditText(DFlexaoActivity.this);
                 Vsdx_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
-                Vsdx_box.setPadding(100,10,100,10);
+                Vsdx_box.setPadding(100,10,100,20);
                 Vsdx_box.canScrollHorizontally(1);
 
                 //text
@@ -326,7 +326,7 @@ public class DFlexaoActivity extends AppCompatActivity
                 //box
                 Vsdy_box = new EditText(DFlexaoActivity.this);
                 Vsdy_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
-                Vsdy_box.setPadding(100,10,100,10);
+                Vsdy_box.setPadding(100,10,100,20);
                 Vsdy_box.canScrollHorizontally(1);
 
                 //text
@@ -338,7 +338,7 @@ public class DFlexaoActivity extends AppCompatActivity
                 //box
                 flechamax_box = new EditText(DFlexaoActivity.this);
                 flechamax_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
-                flechamax_box.setPadding(100,10,100,10);
+                flechamax_box.setPadding(100,10,100,20);
                 flechamax_box.canScrollHorizontally(1);
 
                 //text
@@ -350,7 +350,7 @@ public class DFlexaoActivity extends AppCompatActivity
                 //box
                 vao_box = new EditText(DFlexaoActivity.this);
                 vao_box.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
-                vao_box.setPadding(100,10,100,10);
+                vao_box.setPadding(100,10,100,20);
                 vao_box.canScrollHorizontally(1);
 
                 TextView TV_ordenar = new TextView(DFlexaoActivity.this);

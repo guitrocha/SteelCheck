@@ -1,6 +1,10 @@
 package steelcheck.net.steelcheck;
 
 public class DatabaseCustom {
+    public double d;
+    public double tw;
+    public double bf;
+    public double tf;
     public double h;
     public double mesa;
     public double aba;
@@ -16,6 +20,23 @@ public class DatabaseCustom {
     public double zy;
     public double j;
     public double cw;
+    public double rt;
+
+    public double getD() {
+        return d;
+    }
+
+    public double getTw() {
+        return tw;
+    }
+
+    public double getBf() {
+        return bf;
+    }
+
+    public double getTf() {
+        return tf;
+    }
 
     public double getAba() {
         return aba;
@@ -77,8 +98,16 @@ public class DatabaseCustom {
         return cw;
     }
 
+    public double getRt() {
+        return rt;
+    }
+
     public void calcularValores(double d, double tw, double bf, double tf)
     {
+        this.d  = d;
+        this.tw = tw;
+        this.bf = bf;
+        this.tf = tf;
         h       = d - 2*tf;
         mesa    = h/tw;
         aba     = 0.5*bf/tf;
@@ -94,6 +123,7 @@ public class DatabaseCustom {
         zy      = (h*Math.pow(tw,2)/4+tf*Math.pow(bf,2)/4+tf*Math.pow(bf,2)/4)/1000;
         j       = (bf*Math.pow(tf,3)/3+bf*Math.pow(tf,3)/3+(h+tf/2+tf/2)*Math.pow(tw,3)/3)/10000;
         cw      = Math.pow(d-tf,2)/12*(tf*Math.pow(bf,3)*tf*Math.pow(bf,3))/(tf*Math.pow(bf,3)+tf*Math.pow(bf,3))/1000000;
+        rt      = Math.sqrt(Math.sqrt(iy*cw)/wx);
     }
 
 }

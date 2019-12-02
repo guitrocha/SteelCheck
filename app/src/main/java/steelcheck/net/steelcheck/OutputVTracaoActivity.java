@@ -169,111 +169,111 @@ public class OutputVTracaoActivity extends AppCompatActivity {
         final LinearLayout col_2 = new LinearLayout(context);
         col_2.setOrientation(LinearLayout.VERTICAL);
         dimens_layout.addView(col_2);
-    dimens_layout.setGravity(Gravity.CENTER);
+        dimens_layout.setGravity(Gravity.CENTER);
 
-        final TextView bf = new TextView(OutputVTracaoActivity.this);
+        final TextView bf = new TextView(context);
         bf.setText(Html.fromHtml("b<small><sub>f</sub></small> = " + db.get_bf(pos) + " mm"));
         bf.setTextSize(tam_dimens);
         bf.setPadding(50,15,0,15);
         bf.setTextColor(Color.BLACK);
 
-        final TextView tf = new TextView(OutputVTracaoActivity.this);
+        final TextView tf = new TextView(context);
         tf.setText(Html.fromHtml("t<small><sub>f</sub></small> = " + db.get_tf(pos) + " mm"));
         tf.setTextSize(tam_dimens);
         tf.setPadding(50,15,0,15);
         tf.setTextColor(Color.BLACK);
 
-        final TextView h0 = new TextView(OutputVTracaoActivity.this);
+        final TextView h0 = new TextView(context);
         h0.setText(Html.fromHtml("h<small><sub>0</sub></small> = " + db.get_h(pos) + " mm"));
         h0.setTextSize(tam_dimens);
         h0.setPadding(50,15,0,15);
         h0.setTextColor(Color.BLACK);
 
-        final TextView hw = new TextView(OutputVTracaoActivity.this);
+        final TextView hw = new TextView(context);
         hw.setText(Html.fromHtml("h<small><sub>w</sub></small> = " + db.get_dlinha(pos) + " mm"));
         hw.setTextSize(tam_dimens);
         hw.setPadding(50,15,0,15);
         hw.setTextColor(Color.BLACK);
 
-        final TextView tw = new TextView(OutputVTracaoActivity.this);
+        final TextView tw = new TextView(context);
         tw.setText(Html.fromHtml("t<small><sub>w</sub></small> = " + db.get_tw(pos) + " mm"));
         tw.setTextSize(tam_dimens);
         tw.setPadding(50,15,0,15);
         tw.setTextColor(Color.BLACK);
 
-        final TextView ag = new TextView(OutputVTracaoActivity.this);
+        final TextView ag = new TextView(context);
         ag.setText(Html.fromHtml("A<small><sub>g</sub></small> = " + db.get_area(pos) + " cm²"));
         ag.setTextSize(tam_dimens);
         ag.setPadding(50,15,0,15);
         ag.setTextColor(Color.BLACK);
 
-        final TextView ix = new TextView(OutputVTracaoActivity.this);
+        final TextView ix = new TextView(context);
         ix.setText(Html.fromHtml("I<small><sub>x</sub></small> = " + db.get_ix(pos) + " cm<small><sup>4</sup></small>"));
         ix.setTextSize(tam_dimens);
         ix.setPadding(50,15,0,15);
         ix.setTextColor(Color.BLACK);
 
-        final TextView wx = new TextView(OutputVTracaoActivity.this);
+        final TextView wx = new TextView(context);
         wx.setText(Html.fromHtml("W<small><sub>x</sub></small> = " + db.get_wx(pos) + " cm<small><sup>3</sup></small>"));
         wx.setTextSize(tam_dimens);
         wx.setPadding(50,15,0,15);
         wx.setTextColor(Color.BLACK);
 
-        final TextView zx = new TextView(OutputVTracaoActivity.this);
+        final TextView zx = new TextView(context);
         zx.setText(Html.fromHtml("Z<small><sub>x</sub></small> = " + db.get_zx(pos) + " cm<small><sup>3</sup></small>"));
         zx.setTextSize(tam_dimens);
         zx.setPadding(50,15,0,50);
         zx.setTextColor(Color.BLACK);
 
-        final TextView rx = new TextView(OutputVTracaoActivity.this);
+        final TextView rx = new TextView(context);
         rx.setText(Html.fromHtml("r<small><sub>x</sub></small> = " + db.get_rx(pos) + " cm"));
         rx.setTextSize(tam_dimens);
         rx.setPadding(50,15,0,15);
         rx.setTextColor(Color.BLACK);
 
-        final TextView iy = new TextView(OutputVTracaoActivity.this);
+        final TextView iy = new TextView(context);
         iy.setText(Html.fromHtml("I<small><sub>y</sub></small> = " + db.get_iy(pos) + " cm<small><sup>4</sup></small>"));
         iy.setTextSize(tam_dimens);
         iy.setPadding(50,15,0,15);
         iy.setTextColor(Color.BLACK);
 
-        final TextView wy = new TextView(OutputVTracaoActivity.this);
+        final TextView wy = new TextView(context);
         wy.setText(Html.fromHtml("W<small><sub>y</sub></small> = " + db.get_wy(pos) + " cm<small><sup>3</sup></small>"));
         wy.setTextSize(tam_dimens);
         wy.setPadding(50,15,0,15);
         wy.setTextColor(Color.BLACK);
 
-        final TextView zy = new TextView(OutputVTracaoActivity.this);
+        final TextView zy = new TextView(context);
         zy.setText(Html.fromHtml("Z<small><sub>y</sub></small> = " + db.get_zy(pos) + " cm<small><sup>3</sup></small>"));
         zy.setTextSize(tam_dimens);
         zy.setPadding(50,15,0,15);
         zy.setTextColor(Color.BLACK);
 
-        final TextView ry = new TextView(OutputVTracaoActivity.this);
+        final TextView ry = new TextView(context);
         ry.setText(Html.fromHtml("r<small><sub>y</sub></small> = " + db.get_ry(pos) + " cm"));
         ry.setTextSize(tam_dimens);
         ry.setPadding(50,15,0,15);
         ry.setTextColor(Color.BLACK);
 
-        final TextView rt = new TextView(OutputVTracaoActivity.this);
+        final TextView rt = new TextView(context);
         rt.setText(Html.fromHtml("r<small><sub>t</sub></small> = " + db.get_rt(pos) + " cm"));
         rt.setTextSize(tam_dimens);
         rt.setPadding(50,15,0,15);
         rt.setTextColor(Color.BLACK);
 
-        final TextView it = new TextView(OutputVTracaoActivity.this);
+        final TextView it = new TextView(context);
         it.setText(Html.fromHtml("I<small><sub>t</sub></small> = " + db.get_j(pos) + " cm<small><sup>4</sup></small>"));
         it.setTextSize(tam_dimens);
         it.setPadding(50,15,0,15);
         it.setTextColor(Color.BLACK);
 
-        final TextView cw = new TextView(OutputVTracaoActivity.this);
+        final TextView cw = new TextView(context);
         cw.setText(Html.fromHtml("C<small><sub>w</sub></small> = " + db.get_cw(pos) + " cm<small><sup>6</sup></small>"));
         cw.setTextSize(tam_dimens);
         cw.setPadding(50,15,0,15);
         cw.setTextColor(Color.BLACK);
 
-        final TextView massa = new TextView(OutputVTracaoActivity.this);
+        final TextView massa = new TextView(context);
         massa.setText(Html.fromHtml("M. linear = " + db.get_massa(pos) + " kg/m"));
         massa.setTextSize(tam_dimens);
         massa.setPadding(50,15,0,50);
@@ -330,15 +330,6 @@ public class OutputVTracaoActivity extends AppCompatActivity {
         TV_perfil.setPadding(50,20,50,20);
 
         Show_Dimensoes_Database_Perfil(db,scroll_results,OutputVTracaoActivity.this,pos);
-
-
-        /*TextView TV_ag = new TextView(OutputVTracaoActivity.this);
-        TV_ag.setText(Html.fromHtml("A<small><sub>g</sub></small> = " + ag + " cm²"));
-        TV_ag.setTextSize(tam_pequeno);
-        TV_ag.setPadding(0,15,0,15);
-        scroll_results.addView(TV_ag);
-
-        */
 
         //2 - Parametros
         TextView TV_parametros = new TextView(OutputVTracaoActivity.this);
