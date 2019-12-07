@@ -10,5 +10,5 @@
     <color name="color_ok">#006600</color>
     <color name="color_Nok">#ff0000</color>
     <color name="output_blue">#404d66</color>
-    <color name="output_infoback">#DAE7FF</color>
+    <color name="output_infoback">#CFCFCF</color>
 </resources>

@@ -1333,31 +1333,43 @@ public class OutputVCompressaoActivity extends AppCompatActivity {
     private void Show_Kc_erro(double kc, double h, double tw)
     {
         scroll_results = (LinearLayout) findViewById(R.id.scroll_results_idcomp);
-
+        scroll_results.setBackgroundColor(getResources().getColor(R.color.output_infoback));
+        //1 - PERFIL
         TextView TV_perfil = new TextView(OutputVCompressaoActivity.this);
-        TV_perfil.setText("ERRO - PERFIL CUSTOMIZADO\n");
+        TV_perfil.setText("PERFIL CUSTOMIZADO");
         TV_perfil.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
         TV_perfil.setTextSize(tam_grande);
-        TV_perfil.setTextColor(getResources().getColor(R.color.color_Nok));
         scroll_results.addView(TV_perfil);
+        TV_perfil.setGravity(Gravity.CENTER);
+        TV_perfil.setTextColor(Color.WHITE);
+        TV_perfil.setBackgroundColor(getResources().getColor(R.color.output_blue));
+        TV_perfil.setPadding(50,20,50,20);
 
-        ImageView IV_warning = new ImageView(OutputVCompressaoActivity.this);
-        IV_warning.setImageResource(android.R.drawable.ic_delete);
-        scroll_results.addView(IV_warning);
+        TextView TV_perfil_dimen = new TextView(OutputVCompressaoActivity.this);
+        TV_perfil_dimen.setText("ERRO");
+        TV_perfil_dimen.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
+        TV_perfil_dimen.setTextSize(tam_grande);
+        scroll_results.addView(TV_perfil_dimen);
+        TV_perfil_dimen.setGravity(Gravity.CENTER);
+        TV_perfil_dimen.setTextColor(Color.WHITE);
+        TV_perfil_dimen.setBackgroundColor(getResources().getColor(R.color.color_Nok));
+        TV_perfil_dimen.setPadding(50,20,50,20);
 
         TextView TV_kc = new TextView(OutputVCompressaoActivity.this);
         TV_kc.setGravity(Gravity.CENTER);
         TV_kc.setText("\n\nKc = 4/( √(h/tw) ) \n= 4/( √(" + casasDecimais(h,2) + "/" + casasDecimais(tw,2) + ") ) \n= " + casasDecimais(kc,2));
-        TV_kc.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
         TV_kc.setTextSize(tam_pequeno);
         scroll_results.addView(TV_kc);
+        TV_kc.setPadding(50,15,50,50);
+        TV_kc.setTextColor(Color.BLACK);
 
         TextView TV_restricao = new TextView(OutputVCompressaoActivity.this);
         TV_restricao.setGravity(Gravity.CENTER);
         TV_restricao.setText("\nE Kc precisa atender a restrição :\n 0.35 ≤ Kc ≤ 0.76");
-        TV_restricao.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
         TV_restricao.setTextSize(tam_pequeno);
         scroll_results.addView(TV_restricao);
+        TV_restricao.setPadding(50,15,50,50);
+        TV_restricao.setTextColor(Color.BLACK);
 
 
     }

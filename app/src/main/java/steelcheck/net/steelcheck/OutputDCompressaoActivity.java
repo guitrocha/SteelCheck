@@ -91,10 +91,7 @@ public class OutputDCompressaoActivity extends AppCompatActivity {
                 show_ordem = generate_string_ordem(ordem,database,i);
             else
                 show_ordem = generate_string_ordem(ordem,database,-1);
-            Show_Results_LaminadoW(comp,database,i,flag, database.get_perfil(i),show_ordem, fy, database.get_zx(i),
-                        database.get_iy(i), database.get_j(i), database.get_cw(i),
-                        database.get_wx(i), database.get_mesa(i), database.get_aba(i),
-                        database.get_rx(i), database.get_ry(i), database.get_area(i),
+            Show_Results_LaminadoW(comp,database,i,flag, database.get_perfil(i),show_ordem, fy,
                         NCSD, kx, ky, kz, lx, ly, lz, qa, qs, q, esbx, esby, esb, nex, ney, nez, ne, esbzero, X, NCRD, coef);
 
             database.close();
@@ -178,8 +175,7 @@ public class OutputDCompressaoActivity extends AppCompatActivity {
 
     //CRIACAO LAYOUT
 
-    private void Show_Results_LaminadoW(OutputVCompressaoActivity comp, DatabaseAccess db, int pos,boolean flag, String perfil, String ordem, double fy, double zx, double iy, double j, double cw, double wx, double mesa, double aba,
-                                double rx, double ry, double ag, double ncsd, double kx, double ky, double kz, double lx, double ly, double lz,
+    private void Show_Results_LaminadoW(OutputVCompressaoActivity comp, DatabaseAccess db, int pos,boolean flag, String perfil, String ordem, double fy, double ncsd, double kx, double ky, double kz, double lx, double ly, double lz,
                                 double qa, double qs, double q, double esbx, double esby, double esb, double nex, double ney, double nez, double ne,
                                         double esbzero, double X, double ncrd, double coef )
     {

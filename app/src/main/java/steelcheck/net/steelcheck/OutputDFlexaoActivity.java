@@ -5,7 +5,9 @@ import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
+import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -16,7 +18,7 @@ import java.util.Locale;
 
 public class OutputDFlexaoActivity extends AppCompatActivity {
 
-    public final int tam_grande = 25, tam_pequeno = 18;
+    final int tam_grande = 20, tam_pequeno = 16, tam_dimens = 13;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -126,8 +128,9 @@ public class OutputDFlexaoActivity extends AppCompatActivity {
             String show_ordem = "";
             if(flag)
                 show_ordem = generate_string_ordem(ordem,database,i);
-            Show_Results_LaminadoW(flag,database.get_perfil(i), show_ordem,analise, fy, database.get_ry(i), database.get_zx(i), database.get_iy(i), database.get_j(i)
-                        , database.get_cw(i), database.get_wx(i), database.get_mesa(i), database.get_aba(i),
+            else
+                show_ordem = generate_string_ordem(ordem,database,-1);
+            Show_Results_LaminadoW(flex,database,i,flag,database.get_perfil(i), show_ordem,analise, fy,
                         msdx, msdy, cb, vsdx, vsdy, flecha, vao,
                         FLM, FLM_lambda_b, FLM_lambda_p, FLM_lambda_r, FLM_mnx, FLM_mny,
                         FLA, FLA_lambda_b, FLA_lambda_p, FLA_lambda_r, FLA_mn,
@@ -192,44 +195,88 @@ public class OutputDFlexaoActivity extends AppCompatActivity {
     private String generate_string_ordem(String ordem, DatabaseAccess db, int i)
     {
         String show = "";
-        switch(ordem)
+        if(i == -1)
         {
-            case "massa":
-                show = "Massa Linear = " + db.get_massa(i) + " kg/m";
-                break;
-            case "d":
-                show = "d = " + db.get_d(i) + " mm";
-                break;
-            case "bf":
-                show = "b<small><sub>f</sub></small> = " + db.get_bf(i) + " mm";
-                break;
-            case "tf":
-                show = "t<small><sub>f</sub></small> = " + db.get_tf(i) + " mm";
-                break;
-            case "tw":
-                show = "t<small><sub>w</sub></small> = " + db.get_tw(i) + " mm";
-                break;
-            case "area":
-                show = "A<small><sub>g</sub></small> = " + db.get_area(i) + " cm²";
-                break;
-            case "ix":
-                show = "I<small><sub>x</sub></small> = " + db.get_ix(i) + " cm<small><sup>4</sup></small>";
-                break;
-            case "iy":
-                show = "I<small><sub>y</sub></small> = " + db.get_iy(i) + " cm<small><sup>4</sup></small>";
-                break;
-            case "wx":
-                show = "W<small><sub>x</sub></small> = " + db.get_wx(i) + " cm<small><sup>3</sup></small>";
-                break;
-            case "wy":
-                show = "W<small><sub>y</sub></small> = " + db.get_wy(i) + " cm<small><sup>3</sup></small>";
-                break;
-            case "zx":
-                show = "Z<small><sub>x</sub></small> = " + db.get_zx(i) + " cm<small><sup>3</sup></small>";
-                break;
-            case "zy":
-                show = "Z<small><sub>y</sub></small> = " + db.get_zy(i) + " cm<small><sup>3</sup></small>";
-                break;
+            switch(ordem) {
+                case "massa":
+                    show = "Massa Linear";
+                    break;
+                case "d":
+                    show = "d";
+                    break;
+                case "bf":
+                    show = "b<small><sub>f</sub></small>";
+                    break;
+                case "tf":
+                    show = "t<small><sub>f</sub></small>";
+                    break;
+                case "tw":
+                    show = "t<small><sub>w</sub></small>";
+                    break;
+                case "area":
+                    show = "A<small><sub>g</sub></small>";
+                    break;
+                case "ix":
+                    show = "I<small><sub>x</sub></small>";
+                    break;
+                case "iy":
+                    show = "I<small><sub>y</sub></small>";
+                    break;
+                case "wx":
+                    show = "W<small><sub>x</sub></small>";
+                    break;
+                case "wy":
+                    show = "W<small><sub>y</sub></small>";
+                    break;
+                case "zx":
+                    show = "Z<small><sub>x</sub></small>";
+                    break;
+                case "zy":
+                    show = "Z<small><sub>y</sub></small>";
+                    break;
+            }
+        }
+        else
+        {
+            switch(ordem)
+            {
+                case "massa":
+                    show = "Massa Linear = " + db.get_massa(i) + " kg/m";
+                    break;
+                case "d":
+                    show = "d = " + db.get_d(i) + " mm";
+                    break;
+                case "bf":
+                    show = "b<small><sub>f</sub></small> = " + db.get_bf(i) + " mm";
+                    break;
+                case "tf":
+                    show = "t<small><sub>f</sub></small> = " + db.get_tf(i) + " mm";
+                    break;
+                case "tw":
+                    show = "t<small><sub>w</sub></small> = " + db.get_tw(i) + " mm";
+                    break;
+                case "area":
+                    show = "A<small><sub>g</sub></small> = " + db.get_area(i) + " cm²";
+                    break;
+                case "ix":
+                    show = "I<small><sub>x</sub></small> = " + db.get_ix(i) + " cm<small><sup>4</sup></small>";
+                    break;
+                case "iy":
+                    show = "I<small><sub>y</sub></small> = " + db.get_iy(i) + " cm<small><sup>4</sup></small>";
+                    break;
+                case "wx":
+                    show = "W<small><sub>x</sub></small> = " + db.get_wx(i) + " cm<small><sup>3</sup></small>";
+                    break;
+                case "wy":
+                    show = "W<small><sub>y</sub></small> = " + db.get_wy(i) + " cm<small><sup>3</sup></small>";
+                    break;
+                case "zx":
+                    show = "Z<small><sub>x</sub></small> = " + db.get_zx(i) + " cm<small><sup>3</sup></small>";
+                    break;
+                case "zy":
+                    show = "Z<small><sub>y</sub></small> = " + db.get_zy(i) + " cm<small><sup>3</sup></small>";
+                    break;
+            }
         }
         return show;
     }
@@ -241,121 +288,262 @@ public class OutputDFlexaoActivity extends AppCompatActivity {
         return valor;
     }
     //CRIACAO DE LAYOUT
-    private void Show_Results_LaminadoW(boolean flag, String perfil, String ordem,int analise, double fy, double ry, double zx, double iy, double j, double cw, double wx
-            , double mesa, double aba, double msdx, double msdy, double cb, double vsdx, double vsdy, double flecha, double vao
+    private void Show_Results_LaminadoW(OutputVFlexaoActivity flex, DatabaseAccess db, int pos, boolean flag, String perfil, String ordem,int analise, double fy, double msdx, double msdy, double cb, double vsdx, double vsdy, double flecha, double vao
             , String FLM, double FLM_lambda_b, double FLM_lambda_p, double FLM_lambda_r, double mnflmx, double mnflmy
             , String FLA, double FLA_lambda_b, double FLA_lambda_p, double FLA_lambda_r, double mnfla
             , String FLT, double lb, double FLT_lambda_b, double lp, double FLT_lambda_p, double lr, double FLT_lambda_r, double cb_mnflt
             , double mrdx, double mrdy, double vrdx, double vrdy, double flechaadm, double flechareal)
     {
         ScrollView sv = new ScrollView(OutputDFlexaoActivity.this);
+        sv.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        sv.setBackgroundDrawable(getResources().getDrawable(android.R.drawable.editbox_dropdown_light_frame));
 
         LinearLayout scroll_results = new LinearLayout(OutputDFlexaoActivity.this);
         scroll_results.setOrientation(LinearLayout.VERTICAL);
         sv.addView(scroll_results);
         RelativeLayout rl = (RelativeLayout) findViewById(R.id.rel);
         rl.addView(sv);
+        scroll_results.setBackgroundColor(getResources().getColor(R.color.output_infoback));
 
         if(!flag)
         {
-            TextView ERRO = new TextView(OutputDFlexaoActivity.this);
-            ERRO.setText("Nenhum perfil é adequado!");
-            scroll_results.addView(ERRO);
-            ERRO.setTextColor(getResources().getColor(R.color.color_Nok));
-            ERRO.setTextSize(tam_grande);
+            //1 - PERFIL
+            TextView TV_perfil = new TextView(OutputDFlexaoActivity.this);
+            TV_perfil.setText("PERFIL ADEQUADO");
+            TV_perfil.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
+            TV_perfil.setTextSize(tam_grande);
+            scroll_results.addView(TV_perfil);
+            TV_perfil.setGravity(Gravity.CENTER);
+            TV_perfil.setTextColor(Color.WHITE);
+            TV_perfil.setBackgroundColor(getResources().getColor(R.color.output_blue));
+            TV_perfil.setPadding(50,20,50,20);
+
+            TextView TV_perfil_dimen = new TextView(OutputDFlexaoActivity.this);
+            TV_perfil_dimen.setText("NÃO ENCONTRADO");
+            TV_perfil_dimen.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
+            TV_perfil_dimen.setTextSize(tam_grande);
+            scroll_results.addView(TV_perfil_dimen);
+            TV_perfil_dimen.setGravity(Gravity.CENTER);
+            TV_perfil_dimen.setTextColor(Color.WHITE);
+            TV_perfil_dimen.setBackgroundColor(getResources().getColor(R.color.color_Nok));
+            TV_perfil_dimen.setPadding(50,20,50,20);
+
+            TextView TV_param = new TextView(OutputDFlexaoActivity.this);
+            TV_param.setText(Html.fromHtml("Ordem: "+ ordem));
+            TV_param.setTextSize(tam_dimens);
+            TV_param.setPadding(50,15,0,50);
+            scroll_results.addView(TV_param);
+
+            TextView TV_nenhum = new TextView(OutputDFlexaoActivity.this);
+            TV_nenhum.setText(Html.fromHtml("Nenhum perfil atende às condições impostas."));
+            TV_nenhum.setTextSize(tam_pequeno);
+            TV_nenhum.setPadding(50,15,50,15);
+            scroll_results.addView(TV_nenhum);
+            TV_nenhum.setTextColor(Color.BLACK);
+
+            //2 - Parametros
+            TextView TV_parametros = new TextView(OutputDFlexaoActivity.this);
+            TV_parametros.setText("PARÂMETROS DO MATERIAL");
+            TV_parametros.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
+            TV_parametros.setTextSize(tam_grande);
+            scroll_results.addView(TV_parametros);
+            TV_parametros.setGravity(Gravity.CENTER);
+            TV_parametros.setTextColor(Color.WHITE);
+            TV_parametros.setBackgroundColor(getResources().getColor(R.color.output_blue));
+            TV_parametros.setPadding(50,20,50,20);
+
+            TextView TV_elasticidade = new TextView(OutputDFlexaoActivity.this);
+            TV_elasticidade.setText(Html.fromHtml("E<small><sub>aco</sub></small> = 200 GPa"));
+            TV_elasticidade.setTextSize(tam_pequeno);
+            TV_elasticidade.setPadding(50,15,0,15);
+            scroll_results.addView(TV_elasticidade);
+            TV_elasticidade.setTextColor(Color.BLACK);
+
+            TextView TV_fy = new TextView(OutputDFlexaoActivity.this);
+            TV_fy.setText(Html.fromHtml("f<small><sub>y</sub></small> = " + casasDecimais(fy,2) + " MPa"));
+            TV_fy.setTextSize(tam_pequeno);
+            TV_fy.setPadding(50,15,0,50);
+            scroll_results.addView(TV_fy);
+            TV_fy.setTextColor(Color.BLACK);
+
+            //3 - Solicitacoes e contorno
+            TextView TV_solic = new TextView(OutputDFlexaoActivity.this);
+            TV_solic.setText("SOLICITAÇÕES E CONDIÇÕES DE CONTORNO");
+            TV_solic.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
+            TV_solic.setTextSize(tam_grande);
+            scroll_results.addView(TV_solic);
+            TV_solic.setGravity(Gravity.CENTER);
+            TV_solic.setTextColor(Color.WHITE);
+            TV_solic.setBackgroundColor(getResources().getColor(R.color.output_blue));
+            TV_solic.setPadding(50,20,50,20);
+
+            LinearLayout contorno = new LinearLayout(OutputDFlexaoActivity.this);
+            contorno.setOrientation(LinearLayout.HORIZONTAL);
+            scroll_results.addView(contorno);
+
+            LinearLayout contorno_1 = new LinearLayout(OutputDFlexaoActivity.this);
+            contorno_1.setOrientation(LinearLayout.VERTICAL);
+            contorno.addView(contorno_1);
+
+            LinearLayout contorno_2 = new LinearLayout(OutputDFlexaoActivity.this);
+            contorno_2.setOrientation(LinearLayout.VERTICAL);
+            contorno.addView(contorno_2);
+
+
+            TextView TV_msdx = new TextView(OutputDFlexaoActivity.this);
+            TV_msdx.setText(Html.fromHtml("M<small><sub>Sd,x</sub></small> = " + casasDecimais(msdx,2) + " kNm"));
+            TV_msdx.setTextSize(tam_pequeno);
+            TV_msdx.setPadding(50,15,0,15);
+            contorno_1.addView(TV_msdx);
+            TV_msdx.setTextColor(Color.BLACK);
+
+            TextView TV_msdy = new TextView(OutputDFlexaoActivity.this);
+            TV_msdy.setText(Html.fromHtml("M<small><sub>Sd,y</sub></small> = " + casasDecimais(msdy,2) + " kNm"));
+            TV_msdy.setTextSize(tam_pequeno);
+            TV_msdy.setPadding(50,15,0,15);
+            contorno_1.addView(TV_msdy);
+            TV_msdy.setTextColor(Color.BLACK);
+
+            TextView TV_cb = new TextView(OutputDFlexaoActivity.this);
+            TV_cb.setText(Html.fromHtml("C<small><sub>b</sub></small> = " + casasDecimais(cb,3) ));
+            TV_cb.setTextSize(tam_pequeno);
+            TV_cb.setPadding(50,15,0,50);
+            contorno_1.addView(TV_cb);
+            TV_cb.setTextColor(Color.BLACK);
+
+            //**ATRIBUTOS ANALISE
+            if (analise == 1 || analise == 3)
+            {
+                TextView TV_vsdx = new TextView(OutputDFlexaoActivity.this);
+                TV_vsdx.setText(Html.fromHtml("V<small><sub>Sd,x</sub></small> = " + casasDecimais(vsdx,2) + " kN"));
+                TV_vsdx.setTextSize(tam_pequeno);
+                TV_vsdx.setPadding(50,15,0,15);
+                contorno_2.addView(TV_vsdx);
+                TV_vsdx.setTextColor(Color.BLACK);
+
+                TextView TV_vsdy = new TextView(OutputDFlexaoActivity.this);
+                TV_vsdy.setText(Html.fromHtml("V<small><sub>Sd,y</sub></small> = " + casasDecimais(vsdy,2) + " kN"));
+                TV_vsdy.setTextSize(tam_pequeno);
+                TV_vsdy.setPadding(50,15,0,15);
+                contorno_2.addView(TV_vsdy);
+                TV_vsdy.setTextColor(Color.BLACK);
+            }
+            if( analise == 2 || analise == 3)
+            {
+                TextView TV_flecha = new TextView(OutputDFlexaoActivity.this);
+                TV_flecha.setText(Html.fromHtml("δ<small><sub>max</sub></small> = " + casasDecimais(flecha,2) + " mm"));
+                TV_flecha.setTextSize(tam_pequeno);
+                TV_flecha.setPadding(50,15,0,15);
+                contorno_2.addView(TV_flecha);
+                TV_flecha.setTextColor(Color.BLACK);
+
+                TextView TV_vao = new TextView(OutputDFlexaoActivity.this);
+                TV_vao.setText(Html.fromHtml("Vão = " + casasDecimais(vao,2) + " m"));
+                TV_vao.setTextSize(tam_pequeno);
+                TV_vao.setPadding(50,15,0,50);
+                contorno_2.addView(TV_vao);
+                TV_vao.setTextColor(Color.BLACK);
+            }
             return;
         }
 
+        //1 - PERFIL
         TextView TV_perfil = new TextView(OutputDFlexaoActivity.this);
-        TV_perfil.setText("PERFIL " + perfil);
+        TV_perfil.setText("PERFIL ADEQUADO");
         TV_perfil.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
         TV_perfil.setTextSize(tam_grande);
-        TV_perfil.setTextColor(getResources().getColor(R.color.color_ok));
         scroll_results.addView(TV_perfil);
+        TV_perfil.setGravity(Gravity.CENTER);
+        TV_perfil.setTextColor(Color.WHITE);
+        TV_perfil.setBackgroundColor(getResources().getColor(R.color.output_blue));
+        TV_perfil.setPadding(50,20,50,20);
 
-        TextView TV_ordem = new TextView(OutputDFlexaoActivity.this);
-        TV_ordem.setText(Html.fromHtml(ordem));
-        TV_ordem.setTextSize(tam_pequeno);
-        TV_ordem.setPadding(0,50,0,15);
-        scroll_results.addView(TV_ordem);
+        TextView TV_perfil_dimen = new TextView(OutputDFlexaoActivity.this);
+        TV_perfil_dimen.setText(perfil);
+        TV_perfil_dimen.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
+        TV_perfil_dimen.setTextSize(tam_grande);
+        scroll_results.addView(TV_perfil_dimen);
+        TV_perfil_dimen.setGravity(Gravity.CENTER);
+        TV_perfil_dimen.setTextColor(Color.WHITE);
+        TV_perfil_dimen.setBackgroundColor(getResources().getColor(R.color.color_ok));
+        TV_perfil_dimen.setPadding(50,20,50,20);
+
+        TextView TV_param = new TextView(OutputDFlexaoActivity.this);
+        TV_param.setText(Html.fromHtml("Ordem: "+ ordem));
+        TV_param.setTextSize(tam_dimens);
+        TV_param.setPadding(50,15,0,50);
+        scroll_results.addView(TV_param);
+        flex.Show_Dimensoes_Database_Perfil(db,scroll_results,OutputDFlexaoActivity.this,pos);
+
+        //2 - Parametros
+        TextView TV_parametros = new TextView(OutputDFlexaoActivity.this);
+        TV_parametros.setText("PARÂMETROS DO MATERIAL");
+        TV_parametros.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
+        TV_parametros.setTextSize(tam_grande);
+        scroll_results.addView(TV_parametros);
+        TV_parametros.setGravity(Gravity.CENTER);
+        TV_parametros.setTextColor(Color.WHITE);
+        TV_parametros.setBackgroundColor(getResources().getColor(R.color.output_blue));
+        TV_parametros.setPadding(50,20,50,20);
 
         TextView TV_elasticidade = new TextView(OutputDFlexaoActivity.this);
-        TV_elasticidade.setText(Html.fromHtml("E<small><sub>aco</sub></small> = 200000 MPa"));
+        TV_elasticidade.setText(Html.fromHtml("E<small><sub>aco</sub></small> = 200 GPa"));
         TV_elasticidade.setTextSize(tam_pequeno);
-        TV_elasticidade.setPadding(0,50,0,15);
+        TV_elasticidade.setPadding(50,15,0,15);
         scroll_results.addView(TV_elasticidade);
+        TV_elasticidade.setTextColor(Color.BLACK);
 
         TextView TV_fy = new TextView(OutputDFlexaoActivity.this);
         TV_fy.setText(Html.fromHtml("f<small><sub>y</sub></small> = " + casasDecimais(fy,2) + " MPa"));
         TV_fy.setTextSize(tam_pequeno);
-        TV_fy.setPadding(0,15,0,60);
+        TV_fy.setPadding(50,15,0,50);
         scroll_results.addView(TV_fy);
+        TV_fy.setTextColor(Color.BLACK);
 
-        TextView TV_ry = new TextView(OutputDFlexaoActivity.this);
-        TV_ry.setText(Html.fromHtml("r<small><sub>y</sub></small> = " + casasDecimais(ry,2) + " cm"));
-        TV_ry.setTextSize(tam_pequeno);
-        TV_ry.setPadding(0,100,0,15);
-        scroll_results.addView(TV_ry);
+        //3 - Solicitacoes e contorno
+        TextView TV_solic = new TextView(OutputDFlexaoActivity.this);
+        TV_solic.setText("SOLICITAÇÕES E CONDIÇÕES DE CONTORNO");
+        TV_solic.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
+        TV_solic.setTextSize(tam_grande);
+        scroll_results.addView(TV_solic);
+        TV_solic.setGravity(Gravity.CENTER);
+        TV_solic.setTextColor(Color.WHITE);
+        TV_solic.setBackgroundColor(getResources().getColor(R.color.output_blue));
+        TV_solic.setPadding(50,20,50,20);
 
-        TextView TV_zx = new TextView(OutputDFlexaoActivity.this);
-        TV_zx.setText(Html.fromHtml("Z<small><sub>x</sub></small> = " + casasDecimais(zx,2) + " cm³"));
-        TV_zx.setTextSize(tam_pequeno);
-        TV_zx.setPadding(0,15,0,15);
-        scroll_results.addView(TV_zx);
+        LinearLayout contorno = new LinearLayout(OutputDFlexaoActivity.this);
+        contorno.setOrientation(LinearLayout.HORIZONTAL);
+        scroll_results.addView(contorno);
 
-        TextView TV_iy = new TextView(OutputDFlexaoActivity.this);
-        TV_iy.setText(Html.fromHtml("I<small><sub>y</sub></small> = " + casasDecimais(iy,2) + " cm<small><sup>4</sup></small>"));
-        TV_iy.setTextSize(tam_pequeno);
-        TV_iy.setPadding(0,15,0,15);
-        scroll_results.addView(TV_iy);
+        LinearLayout contorno_1 = new LinearLayout(OutputDFlexaoActivity.this);
+        contorno_1.setOrientation(LinearLayout.VERTICAL);
+        contorno.addView(contorno_1);
 
-        TextView TV_J = new TextView(OutputDFlexaoActivity.this);
-        TV_J.setText(Html.fromHtml("J = " + casasDecimais(j,2) + " cm<small><sup>4</sup></small>"));
-        TV_J.setTextSize(tam_pequeno);
-        TV_J.setPadding(0,15,0,15);
-        scroll_results.addView(TV_J);
+        LinearLayout contorno_2 = new LinearLayout(OutputDFlexaoActivity.this);
+        contorno_2.setOrientation(LinearLayout.VERTICAL);
+        contorno.addView(contorno_2);
 
-        TextView TV_cw = new TextView(OutputDFlexaoActivity.this);
-        TV_cw.setText(Html.fromHtml("C<small><sub>w</sub></small> = " + casasDecimais(cw,2) + " cm<small><sup>6</sup></small>"));
-        TV_cw.setTextSize(tam_pequeno);
-        TV_cw.setPadding(0,15,0,15);
-        scroll_results.addView(TV_cw);
-
-        TextView TV_wx = new TextView(OutputDFlexaoActivity.this);
-        TV_wx.setText(Html.fromHtml("W<small><sub>x</sub></small> = " + casasDecimais(wx,2) + " cm<small><sup>3</sup></small>"));
-        TV_wx.setTextSize(tam_pequeno);
-        TV_wx.setPadding(0,15,0,15);
-        scroll_results.addView(TV_wx);
-
-        TextView TV_mesa = new TextView(OutputDFlexaoActivity.this);
-        TV_mesa.setText(Html.fromHtml("h<small><sub>w</sub></small> / t<small><sub>w</sub></small> = " + casasDecimais(mesa,2) ));
-        TV_mesa.setTextSize(tam_pequeno);
-        TV_mesa.setPadding(0,15,0,15);
-        scroll_results.addView(TV_mesa);
-
-        TextView TV_aba = new TextView(OutputDFlexaoActivity.this);
-        TV_aba.setText(Html.fromHtml("0.5b<small><sub>f</sub></small> / t<small><sub>f</sub></small> = " + casasDecimais(aba,2) ));
-        TV_aba.setTextSize(tam_pequeno);
-        TV_aba.setPadding(0,15,0,60);
-        scroll_results.addView(TV_aba);
 
         TextView TV_msdx = new TextView(OutputDFlexaoActivity.this);
         TV_msdx.setText(Html.fromHtml("M<small><sub>Sd,x</sub></small> = " + casasDecimais(msdx,2) + " kNm"));
         TV_msdx.setTextSize(tam_pequeno);
-        TV_msdx.setPadding(0,15,0,15);
-        scroll_results.addView(TV_msdx);
+        TV_msdx.setPadding(50,15,0,15);
+        contorno_1.addView(TV_msdx);
+        TV_msdx.setTextColor(Color.BLACK);
 
         TextView TV_msdy = new TextView(OutputDFlexaoActivity.this);
         TV_msdy.setText(Html.fromHtml("M<small><sub>Sd,y</sub></small> = " + casasDecimais(msdy,2) + " kNm"));
         TV_msdy.setTextSize(tam_pequeno);
-        TV_msdy.setPadding(0,15,0,15);
-        scroll_results.addView(TV_msdy);
+        TV_msdy.setPadding(50,15,0,15);
+        contorno_1.addView(TV_msdy);
+        TV_msdy.setTextColor(Color.BLACK);
 
         TextView TV_cb = new TextView(OutputDFlexaoActivity.this);
         TV_cb.setText(Html.fromHtml("C<small><sub>b</sub></small> = " + casasDecimais(cb,3) ));
         TV_cb.setTextSize(tam_pequeno);
-        TV_cb.setPadding(0,15,0,15);
-        scroll_results.addView(TV_cb);
+        TV_cb.setPadding(50,15,0,50);
+        contorno_1.addView(TV_cb);
+        TV_cb.setTextColor(Color.BLACK);
 
         //**ATRIBUTOS ANALISE
         if (analise == 1 || analise == 3)
@@ -363,174 +551,290 @@ public class OutputDFlexaoActivity extends AppCompatActivity {
             TextView TV_vsdx = new TextView(OutputDFlexaoActivity.this);
             TV_vsdx.setText(Html.fromHtml("V<small><sub>Sd,x</sub></small> = " + casasDecimais(vsdx,2) + " kN"));
             TV_vsdx.setTextSize(tam_pequeno);
-            TV_vsdx.setPadding(0,15,0,15);
-            scroll_results.addView(TV_vsdx);
+            TV_vsdx.setPadding(50,15,0,15);
+            contorno_2.addView(TV_vsdx);
+            TV_vsdx.setTextColor(Color.BLACK);
 
             TextView TV_vsdy = new TextView(OutputDFlexaoActivity.this);
             TV_vsdy.setText(Html.fromHtml("V<small><sub>Sd,y</sub></small> = " + casasDecimais(vsdy,2) + " kN"));
             TV_vsdy.setTextSize(tam_pequeno);
-            TV_vsdy.setPadding(0,15,0,15);
-            scroll_results.addView(TV_vsdy);
+            TV_vsdy.setPadding(50,15,0,15);
+            contorno_2.addView(TV_vsdy);
+            TV_vsdy.setTextColor(Color.BLACK);
         }
         if( analise == 2 || analise == 3)
         {
             TextView TV_flecha = new TextView(OutputDFlexaoActivity.this);
             TV_flecha.setText(Html.fromHtml("δ<small><sub>max</sub></small> = " + casasDecimais(flecha,2) + " mm"));
             TV_flecha.setTextSize(tam_pequeno);
-            TV_flecha.setPadding(0,15,0,15);
-            scroll_results.addView(TV_flecha);
+            TV_flecha.setPadding(50,15,0,15);
+            contorno_2.addView(TV_flecha);
+            TV_flecha.setTextColor(Color.BLACK);
 
             TextView TV_vao = new TextView(OutputDFlexaoActivity.this);
             TV_vao.setText(Html.fromHtml("Vão = " + casasDecimais(vao,2) + " m"));
             TV_vao.setTextSize(tam_pequeno);
-            TV_vao.setPadding(0,15,0,15);
-            scroll_results.addView(TV_vao);
+            TV_vao.setPadding(50,15,0,50);
+            contorno_2.addView(TV_vao);
+            TV_vao.setTextColor(Color.BLACK);
         }
 
         //FLM
         TextView TV_FLM = new TextView(OutputDFlexaoActivity.this);
-        TV_FLM.setText("FLM - " + FLM);
-        TV_FLM.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
+        TV_FLM.setText("FLAMBAGEM LOCAL DA MESA");
+        TV_FLM.setTypeface(Typeface.MONOSPACE, Typeface.BOLD);
         TV_FLM.setTextSize(tam_grande);
-        TV_FLM.setPadding(0,100,0,0);
         scroll_results.addView(TV_FLM);
+        TV_FLM.setGravity(Gravity.CENTER);
+        TV_FLM.setTextColor(Color.WHITE);
+        TV_FLM.setBackgroundColor(getResources().getColor(R.color.output_blue));
+        TV_FLM.setPadding(50,20,50,20);
+
+        TextView TV_secaoflm = new TextView(OutputDFlexaoActivity.this);
+        TV_secaoflm.setText(FLM);
+        TV_secaoflm.setTextSize(tam_pequeno);
+        TV_secaoflm.setPadding(50,15,0,15);
+        scroll_results.addView(TV_secaoflm);
+        TV_secaoflm.setTextColor(Color.BLACK);
+
+        LinearLayout tab_flm = new LinearLayout(OutputDFlexaoActivity.this);
+        tab_flm.setOrientation(LinearLayout.HORIZONTAL);
+        scroll_results.addView(tab_flm);
+
+        LinearLayout col_1_flm = new LinearLayout(OutputDFlexaoActivity.this);
+        col_1_flm.setOrientation(LinearLayout.VERTICAL);
+        tab_flm.addView(col_1_flm);
+
+        LinearLayout col_2_flm = new LinearLayout(OutputDFlexaoActivity.this);
+        col_2_flm.setOrientation(LinearLayout.VERTICAL);
+        tab_flm.addView(col_2_flm);
 
         TextView TV_flm_b = new TextView(OutputDFlexaoActivity.this);
-        TV_flm_b.setText(Html.fromHtml("λ<small><sub>b</sub></small> = " + casasDecimais(FLM_lambda_b,2) ));
+        TV_flm_b.setText(Html.fromHtml("λ<small><sub>b</sub></small> = " + casasDecimais(FLM_lambda_b, 2)));
         TV_flm_b.setTextSize(tam_pequeno);
-        TV_flm_b.setPadding(0,15,0,15);
-        scroll_results.addView(TV_flm_b);
+        TV_flm_b.setPadding(50,15,0,15);
+        col_1_flm.addView(TV_flm_b);
+        TV_flm_b.setTextColor(Color.BLACK);
 
         TextView TV_flm_p = new TextView(OutputDFlexaoActivity.this);
-        TV_flm_p.setText(Html.fromHtml("λ<small><sub>p</sub></small> = " + casasDecimais(FLM_lambda_p,2) ));
+        TV_flm_p.setText(Html.fromHtml("λ<small><sub>p</sub></small> = " + casasDecimais(FLM_lambda_p, 2)));
         TV_flm_p.setTextSize(tam_pequeno);
-        TV_flm_p.setPadding(0,15,0,15);
-        scroll_results.addView(TV_flm_p);
+        TV_flm_p.setPadding(50,15,0,15);
+        col_1_flm.addView(TV_flm_p);
+        TV_flm_p.setTextColor(Color.BLACK);
 
         TextView TV_flm_r = new TextView(OutputDFlexaoActivity.this);
-        TV_flm_r.setText(Html.fromHtml("λ<small><sub>r</sub></small> = " + casasDecimais(FLM_lambda_r,2) ));
+        TV_flm_r.setText(Html.fromHtml("λ<small><sub>r</sub></small> = " + casasDecimais(FLM_lambda_r, 2)));
         TV_flm_r.setTextSize(tam_pequeno);
-        TV_flm_r.setPadding(0,15,0,15);
-        scroll_results.addView(TV_flm_r);
+        TV_flm_r.setPadding(50,15,0,50);
+        col_1_flm.addView(TV_flm_r);
+        TV_flm_r.setTextColor(Color.BLACK);
 
         TextView TV_flm_mnx = new TextView(OutputDFlexaoActivity.this);
-        TV_flm_mnx.setText(Html.fromHtml("M<small><sub>n,FLM,x</sub></small> = " + casasDecimais(mnflmx,2) + " kNm" ));
+        TV_flm_mnx.setText(Html.fromHtml("M<small><sub>n,FLM,x</sub></small> = " + casasDecimais(mnflmx, 2) + " kNm"));
         TV_flm_mnx.setTextSize(tam_pequeno);
-        TV_flm_mnx.setPadding(0,15,0,15);
-        scroll_results.addView(TV_flm_mnx);
+        TV_flm_mnx.setPadding(100,15,0,15);
+        col_2_flm.addView(TV_flm_mnx);
+        TV_flm_mnx.setTextColor(Color.BLACK);
 
         TextView TV_flm_mny = new TextView(OutputDFlexaoActivity.this);
-        TV_flm_mny.setText(Html.fromHtml("M<small><sub>n,FLM,y</sub></small> = " + casasDecimais(mnflmy,2)  + " kNm"));
+        TV_flm_mny.setText(Html.fromHtml("M<small><sub>n,FLM,y</sub></small> = " + casasDecimais(mnflmy, 2) + " kNm"));
         TV_flm_mny.setTextSize(tam_pequeno);
-        TV_flm_mny.setPadding(0,15,0,100);
-        scroll_results.addView(TV_flm_mny);
+        TV_flm_mny.setPadding(100,15,0,50);
+        col_2_flm.addView(TV_flm_mny);
+        TV_flm_mny.setTextColor(Color.BLACK);
 
         //FLA
         TextView TV_FLA = new TextView(OutputDFlexaoActivity.this);
-        TV_FLA.setText("FLA - " + FLA);
+        TV_FLA.setText("FLAMBAGEM LOCAL DA ALMA");
         TV_FLA.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
         TV_FLA.setTextSize(tam_grande);
         scroll_results.addView(TV_FLA);
+        TV_FLA.setGravity(Gravity.CENTER);
+        TV_FLA.setTextColor(Color.WHITE);
+        TV_FLA.setBackgroundColor(getResources().getColor(R.color.output_blue));
+        TV_FLA.setPadding(50,20,50,20);
+
+        TextView TV_secaofla = new TextView(OutputDFlexaoActivity.this);
+        TV_secaofla.setText(FLA);
+        TV_secaofla.setTextSize(tam_pequeno);
+        TV_secaofla.setPadding(50,15,0,15);
+        scroll_results.addView(TV_secaofla);
+        TV_secaofla.setTextColor(Color.BLACK);
+
+        LinearLayout tab_fla = new LinearLayout(OutputDFlexaoActivity.this);
+        tab_fla.setOrientation(LinearLayout.HORIZONTAL);
+        scroll_results.addView(tab_fla);
+
+        LinearLayout col_1_fla = new LinearLayout(OutputDFlexaoActivity.this);
+        col_1_fla.setOrientation(LinearLayout.VERTICAL);
+        tab_fla.addView(col_1_fla);
+
+        LinearLayout col_2_fla = new LinearLayout(OutputDFlexaoActivity.this);
+        col_2_fla.setOrientation(LinearLayout.VERTICAL);
+        tab_fla.addView(col_2_fla);
 
         TextView TV_fla_b = new TextView(OutputDFlexaoActivity.this);
         TV_fla_b.setText(Html.fromHtml("λ<small><sub>b</sub></small> = " + casasDecimais(FLA_lambda_b,2) ));
         TV_fla_b.setTextSize(tam_pequeno);
-        TV_fla_b.setPadding(0,15,0,15);
-        scroll_results.addView(TV_fla_b);
+        TV_fla_b.setPadding(50,15,0,15);
+        col_1_fla.addView(TV_fla_b);
+        TV_fla_b.setTextColor(Color.BLACK);
 
         TextView TV_fla_p = new TextView(OutputDFlexaoActivity.this);
         TV_fla_p.setText(Html.fromHtml("λ<small><sub>p</sub></small> = " + casasDecimais(FLA_lambda_p,2) ));
         TV_fla_p.setTextSize(tam_pequeno);
-        TV_fla_p.setPadding(0,15,0,15);
-        scroll_results.addView(TV_fla_p);
+        TV_fla_p.setPadding(50,15,0,15);
+        col_1_fla.addView(TV_fla_p);
+        TV_fla_p.setTextColor(Color.BLACK);
 
         TextView TV_fla_r = new TextView(OutputDFlexaoActivity.this);
         TV_fla_r.setText(Html.fromHtml("λ<small><sub>r</sub></small> = " + casasDecimais(FLA_lambda_r,2) ));
         TV_fla_r.setTextSize(tam_pequeno);
-        TV_fla_r.setPadding(0,15,0,15);
-        scroll_results.addView(TV_fla_r);
+        TV_fla_r.setPadding(50,15,0,50);
+        col_1_fla.addView(TV_fla_r);
+        TV_fla_r.setTextColor(Color.BLACK);
 
         TextView TV_fla_mn = new TextView(OutputDFlexaoActivity.this);
         TV_fla_mn.setText(Html.fromHtml("M<small><sub>n,FLA</sub></small> = " + casasDecimais(mnfla,2) + " kNm" ));
         TV_fla_mn.setTextSize(tam_pequeno);
-        TV_fla_mn.setPadding(0,15,0,100);
-        scroll_results.addView(TV_fla_mn);
+        TV_fla_mn.setPadding(100,15,0,15);
+        col_2_fla.addView(TV_fla_mn);
+        TV_fla_mn.setTextColor(Color.BLACK);
 
         //FLT
         TextView TV_FLT = new TextView(OutputDFlexaoActivity.this);
-        TV_FLT.setText("FLT - " + FLT);
+        TV_FLT.setText("FLAMBAGEM LATERAL COM TORÇÃO");
         TV_FLT.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
         TV_FLT.setTextSize(tam_grande);
         scroll_results.addView(TV_FLT);
+        TV_FLT.setGravity(Gravity.CENTER);
+        TV_FLT.setTextColor(Color.WHITE);
+        TV_FLT.setBackgroundColor(getResources().getColor(R.color.output_blue));
+        TV_FLT.setPadding(50,20,50,20);
+
+        TextView TV_secaoflt = new TextView(OutputDFlexaoActivity.this);
+        TV_secaoflt.setText(FLT);
+        TV_secaoflt.setTextSize(tam_pequeno);
+        TV_secaoflt.setPadding(50,15,0,15);
+        scroll_results.addView(TV_secaoflt);
+        TV_secaoflt.setTextColor(Color.BLACK);
+
+        LinearLayout tab_flt = new LinearLayout(OutputDFlexaoActivity.this);
+        tab_flt.setOrientation(LinearLayout.HORIZONTAL);
+        scroll_results.addView(tab_flt);
+
+        LinearLayout col_1_flt = new LinearLayout(OutputDFlexaoActivity.this);
+        col_1_flt.setOrientation(LinearLayout.VERTICAL);
+        tab_flt.addView(col_1_flt);
+
+        LinearLayout col_2_flt = new LinearLayout(OutputDFlexaoActivity.this);
+        col_2_flt.setOrientation(LinearLayout.VERTICAL);
+        tab_flt.addView(col_2_flt);
+
+        TextView TV_flt_lb = new TextView(OutputDFlexaoActivity.this);
+        TV_flt_lb.setText(Html.fromHtml("ℓ<small><sub>b</sub></small> = " + casasDecimais(lb,2) + " cm"));
+        TV_flt_lb.setTextSize(tam_pequeno);
+        TV_flt_lb.setPadding(50,15,0,15);
+        col_1_flt.addView(TV_flt_lb);
+        TV_flt_lb.setTextColor(Color.BLACK);
 
         TextView TV_flt_b = new TextView(OutputDFlexaoActivity.this);
-        TV_flt_b.setText(Html.fromHtml("ℓ<small><sub>b</sub></small> = " + casasDecimais(lb,2) +
-                " cm | λ<small><sub>b</sub></small> = " + casasDecimais(FLT_lambda_b,2)));
+        TV_flt_b.setText(Html.fromHtml("λ<small><sub>b</sub></small> = " + casasDecimais(FLT_lambda_b,2)));
         TV_flt_b.setTextSize(tam_pequeno);
-        TV_flt_b.setPadding(0,15,0,15);
-        scroll_results.addView(TV_flt_b);
+        TV_flt_b.setPadding(100,15,0,15);
+        col_2_flt.addView(TV_flt_b);
+        TV_flt_b.setTextColor(Color.BLACK);
+
+        TextView TV_flt_lp = new TextView(OutputDFlexaoActivity.this);
+        TV_flt_lp.setText(Html.fromHtml("ℓ<small><sub>p</sub></small> = " + casasDecimais(lp,2) + " cm"));
+        TV_flt_lp.setTextSize(tam_pequeno);
+        TV_flt_lp.setPadding(50,15,0,15);
+        col_1_flt.addView(TV_flt_lp);
+        TV_flt_lp.setTextColor(Color.BLACK);
 
         TextView TV_flt_p = new TextView(OutputDFlexaoActivity.this);
-        TV_flt_p.setText(Html.fromHtml("ℓ<small><sub>p</sub></small> = " + casasDecimais(lp,2) +
-                " cm | λ<small><sub>p</sub></small> = " + casasDecimais(FLT_lambda_p,2)));
+        TV_flt_p.setText(Html.fromHtml("λ<small><sub>p</sub></small> = " + casasDecimais(FLT_lambda_p,2)));
         TV_flt_p.setTextSize(tam_pequeno);
-        TV_flt_p.setPadding(0,15,0,15);
-        scroll_results.addView(TV_flt_p);
+        TV_flt_p.setPadding(100,15,0,15);
+        col_2_flt.addView(TV_flt_p);
+        TV_flt_p.setTextColor(Color.BLACK);
+
+        TextView TV_flt_lr = new TextView(OutputDFlexaoActivity.this);
+        TV_flt_lr.setText(Html.fromHtml("ℓ<small><sub>r</sub></small> = " + casasDecimais(lr,2) + " cm"));
+        TV_flt_lr.setTextSize(tam_pequeno);
+        TV_flt_lr.setPadding(50,15,0,100);
+        col_1_flt.addView(TV_flt_lr);
+        TV_flt_lr.setTextColor(Color.BLACK);
 
         TextView TV_flt_r = new TextView(OutputDFlexaoActivity.this);
-        TV_flt_r.setText(Html.fromHtml("ℓ<small><sub>r</sub></small> = " + casasDecimais(lr,2) +
-                " cm | λ<small><sub>r</sub></small> = " + casasDecimais(FLT_lambda_r,2)));
+        TV_flt_r.setText(Html.fromHtml("λ<small><sub>r</sub></small> = " + casasDecimais(FLT_lambda_r,2)));
         TV_flt_r.setTextSize(tam_pequeno);
-        TV_flt_r.setPadding(0,15,0,15);
-        scroll_results.addView(TV_flt_r);
+        TV_flt_r.setPadding(100,15,0,15);
+        col_2_flt.addView(TV_flt_r);
+        TV_flt_r.setTextColor(Color.BLACK);
 
         TextView TV_flt_cbmn = new TextView(OutputDFlexaoActivity.this);
         TV_flt_cbmn.setText(Html.fromHtml("C<small><sub>b</sub></small> . M<small><sub>n,FLT</sub></small> = " + casasDecimais(cb_mnflt,2) + " kNm"));
         TV_flt_cbmn.setTextSize(tam_pequeno);
-        TV_flt_cbmn.setPadding(0,15,0,100);
+        TV_flt_cbmn.setPadding(50,15,0,50);
         scroll_results.addView(TV_flt_cbmn);
+        TV_flt_cbmn.setTextColor(Color.BLACK);
 
         //ANALISE
-
-        //**momento
+        //**resis
         TextView TV_momento = new TextView(OutputDFlexaoActivity.this);
-        TV_momento.setText("MOMENTO RESISTENTE DE CÁLCULO");
-        TV_momento.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
+        TV_momento.setText("ESFORÇOS RESISTENTES DE CÁLCULO");
+        TV_momento.setTypeface(Typeface.MONOSPACE, Typeface.BOLD);
         TV_momento.setTextSize(tam_grande);
         scroll_results.addView(TV_momento);
+        TV_momento.setGravity(Gravity.CENTER);
+        TV_momento.setTextColor(Color.WHITE);
+        TV_momento.setBackgroundColor(getResources().getColor(R.color.output_blue));
+        TV_momento.setPadding(50,20,50,20);
+
+        LinearLayout tab_esf = new LinearLayout(OutputDFlexaoActivity.this);
+        tab_esf.setOrientation(LinearLayout.HORIZONTAL);
+        scroll_results.addView(tab_esf);
+
+        LinearLayout col_1_esf = new LinearLayout(OutputDFlexaoActivity.this);
+        col_1_esf.setOrientation(LinearLayout.VERTICAL);
+        tab_esf.addView(col_1_esf);
+
+        LinearLayout col_2_esf = new LinearLayout(OutputDFlexaoActivity.this);
+        col_2_esf.setOrientation(LinearLayout.VERTICAL);
+        tab_esf.addView(col_2_esf);
 
         TextView TV_mrdx = new TextView(OutputDFlexaoActivity.this);
-        TV_mrdx.setText(Html.fromHtml("M<small><sub>Rd,x</sub></small> = " + casasDecimais(mrdx,2) + " kNm"));
+        TV_mrdx.setText(Html.fromHtml("M<small><sub>Rd,x</sub></small> = " + casasDecimais(mrdx, 2) + " kNm"));
         TV_mrdx.setTextSize(tam_pequeno);
-        TV_mrdx.setPadding(0,15,0,15);
-        scroll_results.addView(TV_mrdx);
+        TV_mrdx.setPadding(50,15,0,15);
+        col_1_esf.addView(TV_mrdx);
+        TV_mrdx.setTextColor(Color.BLACK);
 
         TextView TV_mrdy = new TextView(OutputDFlexaoActivity.this);
-        TV_mrdy.setText(Html.fromHtml("M<small><sub>Rd,y</sub></small> = " + casasDecimais(mrdy,2) + " kNm"));
+        TV_mrdy.setText(Html.fromHtml("M<small><sub>Rd,y</sub></small> = " + casasDecimais(mrdy, 2) + " kNm"));
         TV_mrdy.setTextSize(tam_pequeno);
-        TV_mrdy.setPadding(0,15,0,100);
-        scroll_results.addView(TV_mrdy);
+        TV_mrdy.setPadding(50,15,0,50);
+        col_1_esf.addView(TV_mrdy);
+        TV_mrdy.setTextColor(Color.BLACK);
 
         //**cortante
         if(analise == 1 || analise == 3)
         {
-            TextView TV_cortante = new TextView(OutputDFlexaoActivity.this);
-            TV_cortante.setText("CORTANTE RESISTENTE DE CÁLCULO");
-            TV_cortante.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
-            TV_cortante.setTextSize(tam_grande);
-            scroll_results.addView(TV_cortante);
-
             TextView TV_vrdx = new TextView(OutputDFlexaoActivity.this);
             TV_vrdx.setText(Html.fromHtml("V<small><sub>Rd,x</sub></small> = " + casasDecimais(vrdx,2) + " kN"));
             TV_vrdx.setTextSize(tam_pequeno);
-            TV_vrdx.setPadding(0,15,0,15);
-            scroll_results.addView(TV_vrdx);
+            TV_vrdx.setPadding(50,15,0,15);
+            col_2_esf.addView(TV_vrdx);
+            TV_vrdx.setTextColor(Color.BLACK);
 
             TextView TV_vrdy = new TextView(OutputDFlexaoActivity.this);
             TV_vrdy.setText(Html.fromHtml("V<small><sub>Rd,y</sub></small> = " + casasDecimais(vrdy,2) + " kN"));
             TV_vrdy.setTextSize(tam_pequeno);
-            TV_vrdy.setPadding(0,15,0,100);
-            scroll_results.addView(TV_vrdy);
+            TV_vrdy.setPadding(50,15,0,50);
+            col_2_esf.addView(TV_vrdy);
+            TV_vrdy.setTextColor(Color.BLACK);
         }
 
         //**flecha
@@ -541,24 +845,17 @@ public class OutputDFlexaoActivity extends AppCompatActivity {
             TV_flechaadm.setTypeface(Typeface.MONOSPACE,Typeface.BOLD);
             TV_flechaadm.setTextSize(tam_grande);
             scroll_results.addView(TV_flechaadm);
+            TV_flechaadm.setGravity(Gravity.CENTER);
+            TV_flechaadm.setTextColor(Color.WHITE);
+            TV_flechaadm.setBackgroundColor(getResources().getColor(R.color.output_blue));
+            TV_flechaadm.setPadding(50,20,50,20);
 
             TextView TV_fadm = new TextView(OutputDFlexaoActivity.this);
             TV_fadm.setText(Html.fromHtml("δ<small><sub>adm</sub></small> = " + casasDecimais(flechaadm,2) + " mm"));
             TV_fadm.setTextSize(tam_pequeno);
-            TV_fadm.setPadding(0,15,0,100);
+            TV_fadm.setPadding(50,15,0,50);
             scroll_results.addView(TV_fadm);
-
-            TextView TV_flechareal = new TextView(OutputDFlexaoActivity.this);
-            TV_flechareal.setText("FLECHA ADMISSÍVEL");
-            TV_flechareal.setTypeface(Typeface.MONOSPACE, Typeface.BOLD);
-            TV_flechareal.setTextSize(tam_grande);
-            scroll_results.addView(TV_flechareal);
-
-            TextView TV_freal = new TextView(OutputDFlexaoActivity.this);
-            TV_freal.setText(Html.fromHtml("δ<small><sub>real</sub></small> = " + casasDecimais(flechareal,2) + " mm"));
-            TV_freal.setTextSize(tam_pequeno);
-            TV_freal.setPadding(0,15,0,100);
-            scroll_results.addView(TV_freal);
+            TV_fadm.setTextColor(Color.BLACK);
         }
 
     }
