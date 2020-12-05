@@ -1,5 +1,4 @@
 # SteelCheck
-University Project
 
 Projeto de iniciação científica pela UFOP com intuito de criar uma aplicação Android para verificação e dimensionamento de perfis metálicos para auxílio de profissionais e estudantes da área de Engenharia Civil.
 
